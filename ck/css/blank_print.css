@@ -1,0 +1,4 @@
+.noprint {display: none;}
+.break {page-break-after: always;}
+.big {font-size: 18px;}
+.large {font-size: 18px; font-weight: bold;}
