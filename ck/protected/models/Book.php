@@ -3,6 +3,7 @@
 class Book extends ActiveRecord
 {
 	protected $_name = null;
+	protected $_prevTitle = null;
 	public $isbnPart = '';
 
 	public static function model($className=__CLASS__)
@@ -159,6 +160,7 @@ class Book extends ActiveRecord
 			'reserve' => array(self::HAS_ONE, 'LibOrder', 'book_id', 'on'=>'reserve.user_id='.user()->id.' AND reserve.type=\''.LibOrder::RESERVE.'\''),
 			'reserves' => array(self::HAS_MANY, 'LibOrder', 'book_id', 'on'=>'reserve.type=\''.LibOrder::RESERVE.'\''),
 			'sum_reserves' => array(self::STAT, 'LibOrder', 'book_id', 'select'=>'SUM(count)', 'condition'=>'type=\''.LibOrder::RESERVE.'\''),
+			'book_titles' => array(self::HAS_MANY, 'BookTitle', 'book_id'),
 		);
 	}
 
@@ -242,6 +244,24 @@ class Book extends ActiveRecord
 	{
 		parent::afterFind();
 		$this->isbnPart = preg_replace('/^'.param('isbnPrefix').'/', '', $this->isbn);
+		$this->_prevTitle = $this->title;
+	}
+	
+	protected function afterSave()
+	{
+		parent::afterSave();
+		
+		if (!$this->isNewRecord)
+		{
+			if ($this->_prevTitle != $this->title)
+			{
+				$bt = new BookTitle;
+				$bt->user_id = user()->id;
+				$bt->book_id = $this->id;
+				$bt->title = $this->_prevTitle;
+				$bt->save(false);
+			}
+		}
 	}
 	
 	public function getName()

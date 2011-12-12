@@ -1,7 +1,7 @@
 <?
 class Menu
 {
-	public static $mainMenuItems = array('Organisation', 'Publisher', 'Library', 'Book', 'Voting', 'LibOrder', 'PubOrder', 'Stock');
+	public static $mainMenuItems = array('Organisation', 'Publisher', 'Library', 'Book', 'Voting', 'LibOrder', 'PubOrder', 'Stock', 'Stat');
 	
 	private $_items = array();
 	private $moduleId = '';
@@ -160,6 +160,12 @@ class Menu
 		$this->insertItem('StockActivity:PubActivity', 'stockActivity', '/stockActivity/pubActivity', 'Pub Orders');
 		$this->insertItem('StockActivity:LibActivity', 'stockActivity', '/stockActivity/libActivity', 'Lib Orders');
 		$this->insertItem('Stock:BillOfDelivery', 'stockActivity', '/stock/billOfDelivery', 'Bills of Delivery', array('target'=>'_blank'));
+		
+		$this->insertItem('Stat:Titles', 'stat', 'titles', 'Books');
+		$this->insertItem('Stat:TitlesNotDelivered', 'stat', 'titlesNotDelivered', 'Undelivered Titles');
+		$this->insertItem('Stat:Publishers', 'stat', 'publishers', 'Publishers');
+		$this->insertItem('Stat:Libraries', 'stat', 'libraries', 'Libraries');
+		$this->insertItem('Stat:TitleChanges', 'stat', 'titleChanges', 'Title Changes');		
 	}
 	
 	public function insertItems($items, $type = '_main')

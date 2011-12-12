@@ -346,4 +346,17 @@ return array(
 	// Document
 	'File Name'=>'Název souboru',
 	'MIME Type'=>'MIME typ',
+	
+	// Stats
+	'Stats'=>'Stat.',
+	'Statistics'=>'Statistiky',
+	'Manage Stats'=>'Statistiky',
+	'Title Changes'=>'Změny názvů titulů',
+	'Original Title'=>'Původní název',
+	'Undelivered Titles'=>'Nedoručené tituly',
+	'Delivered Titles Count'=>'Počet dod. titulů',
+	'Undelivered Titles Count'=>'Počet ned. titulů',
+	'Delivered Books Count'=>'Počet dod. svazků',
+	'Undelivered Books Count'=>'Počet ned. svazků',
+	'Total Price'=>'Celková částka',
 );
