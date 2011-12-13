@@ -87,6 +87,7 @@ Přílohy k žádosti:
 	'viewData'=>array(
 		'offerID'=>$offerID,
 		'barcode'=>$barcode,
+		'publisher'=>$publisher,
 	),
 ));
 ?>

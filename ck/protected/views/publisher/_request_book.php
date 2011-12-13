@@ -16,6 +16,7 @@ Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
 <strong><?echo t('Preamble')?>:</strong> <?echo $data->preamble?><br />
 <strong><?echo t('Epilogue')?>:</strong> <?echo $data->epilogue?><br />
 <strong><?echo t('Issue Year')?>:</strong> <?echo $data->issue_year?><br />
+<strong><?echo t('Publisher')?>:</strong> <?echo $publisher->name?><br />
 
 <br />
 
