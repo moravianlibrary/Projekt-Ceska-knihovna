@@ -127,12 +127,12 @@ return array(
 		'projectYear'=>2011, // rok projektu
 		'pubBookDate'=>'2011-11-25', // finální datum změn publikací
 		'pubFinalDate'=>'2011-12-09', // dodání objednaných knih i faktur (tisk Objednávky)
-		'selectedLimit'=>2, // celkový počet vybraných publikací
-		'pointsMinLimit'=>6, // počet bodů pro přijetí publikací bez hlasování
 		'councilDate'=>'2011-10-09', // datum zasedání literární rady (tisk vybraným/nevybraným nakladatelům)
 		'libBasicLimit'=>2000, // maximální cena základní objednávky
 		'libReserveLimit'=>5, // maximální počet svazků do rezervy
 		'isbnPrefix'=>'978-80', // prefix automaticky přidávaný před ISBN
 		'registerAs'=>(date('Y-m-d') < '2012-01-02' ? 'publisher' : (date('Y-m-d') > '2012-01-05' ? 'library' : '')),
+		// 'selectedLimit'=>2, // celkový počet vybraných publikací
+		// 'pointsMinLimit'=>6, // počet bodů pro přijetí publikací bez hlasování
 	),
 );
