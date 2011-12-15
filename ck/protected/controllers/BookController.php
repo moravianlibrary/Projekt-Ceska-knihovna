@@ -356,6 +356,10 @@ class BookController extends Controller
 		}
 		else
 		{
+			$selected = Book::model()->thisYear()->accepted()->selected()->findAll();
+			foreach ($selected as $selBook)
+				$publisher = Publisher::model()->updateByPk($selBook->publisher_id, array('selected'=>1));
+
 			$state['selected_generated'] = true;
 			$sp->save($state);
 		}
