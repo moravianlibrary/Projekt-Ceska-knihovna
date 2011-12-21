@@ -187,7 +187,7 @@ class StockController extends Controller
 		else 
 			$printAddress = true;
 			
-		$libraries = Library::model()->with(array('orders'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities.stock', 'orders.stock_activities.stock.book', 'orders.stock_activities.stock.book.publisher', 'orders.stock_activities.stock.book.publisher.organisation'=>array('alias'=>'pub_org'), 'organisation'=>array('alias'=>'lib_org')))->together()->findAll($criteria);
+		$libraries = Library::model()->with(array('contact_place', 'orders'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities.stock', 'orders.stock_activities.stock.book', 'orders.stock_activities.stock.book.publisher', 'orders.stock_activities.stock.book.publisher.organisation'=>array('alias'=>'pub_org'), 'organisation'=>array('alias'=>'lib_org'), 'contact_place.organisation'=>array('alias'=>'cont_org')))->together()->findAll($criteria);
 		
 		$this->render('billOfDelivery',array(
 			'libraries'=>$libraries,

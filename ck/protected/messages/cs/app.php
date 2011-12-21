@@ -358,5 +358,4 @@ return array(
 	'Undelivered Titles Count'=>'Počet ned. titulů',
 	'Delivered Books Count'=>'Počet dod. svazků',
 	'Undelivered Books Count'=>'Počet ned. svazků',
-	'Total Price'=>'Celková částka',
 );

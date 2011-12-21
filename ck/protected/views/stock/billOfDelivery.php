@@ -78,11 +78,29 @@ foreach ($libraries as $library)
 				<td width="33%" align="right" style="vertical-align: top;"><?echo t('Date of Issue').': '.DT::locToday();?></td>
 			</tr>
 		</table>
-		<br /><br />
+		
+		<br />
+		
+		<table width="100%">
+			<tr>
+				<th width="33%">Středisko</th>
+				<th width="33%">Evidenční číslo</th>
+				<th width="33%">Kontaktní místo</th>
+			</tr>
+			<tr>
+				<td align="center"><?echo $library->libraryName?></td>
+				<td align="center"><?echo $library->number?></td>
+				<td align="center"><?echo implode(', ', $library->contact_place->fullAddress)?></td>
+			<tr>
+		</table>
+		
+		<br />
+		
 		<table class="noborder">
 			<tr>
 				<th>#</th>
 				<th colspan="4" style="text-align:left"><?echo t('Name')?></th>
+				<th rowspan="2" style="text-align:center; vertical-align: middle;"><?echo t('Inc Number')?></th>
 			</tr>
 			<tr style='border-bottom: 1px solid black;'>
 				<th>&nbsp;</th>
@@ -97,8 +115,8 @@ foreach ($libraries as $library)
 			$totalCount = 0;
 			foreach ($bills as $id=>$bill)
 			{
-				echo '<tr><td>'.($j++).'</td><td colspan="4"><strong>'.$bill['author'].': '.$bill['title'].'</strong></td></tr>';
-				echo '<tr style="border-bottom: 1px dashed black;"><td>&nbsp;</td><td>'.$bill['date'].' ('.$bill['type'].')</td><td>'.currf($bill['price']).'</td><td>'.$bill['count'].' '.t('pcs').'</td><td>'.currf($bill['count']*$bill['price']).'</td></tr>';
+				echo '<tr><td>'.($j++).'</td><td colspan="4"><strong>'.$bill['author'].': '.$bill['title'].'</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
+				echo '<tr style="border-bottom: 1px dashed black;"><td>&nbsp;</td><td>'.$bill['date'].' ('.$bill['type'].')</td><td>'.currf($bill['price']).'</td><td>'.$bill['count'].' '.t('pcs').'</td><td>'.currf($bill['count']*$bill['price']).'</td><td>&nbsp;</td></tr>';
 				$totalPrice += $bill['count']*$bill['price'];
 				$totalCount += $bill['count'];
 			}
@@ -107,9 +125,20 @@ foreach ($libraries as $library)
 				<th colspan="3" style="text-align: right"><?echo t('Total')?></th>
 				<th style="text-align:left"><?echo $totalCount.' '.t('pcs')?></th>
 				<th style="text-align:left"><?echo currf($totalPrice)?></th>
+				<th style="text-align:left">&nbsp;</th>
 			</tr>
 		</table>
+		
 		<br />
+		Přijal:
+		<br /><br /><br /><br />
+
+			<table width="100%" class="nomargin">
+				<tr>
+					<td width="50%" style="text-align: center;">...............................................................<br />podpis</td>
+					<td width="50%" style="text-align: center;">...............................................................<br />razítko</td>
+				</tr>
+			</table>
 		<?
 		
 	}
