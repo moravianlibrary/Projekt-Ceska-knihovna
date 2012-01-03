@@ -26,7 +26,7 @@ class Organisation extends ActiveRecord
 			array('postal_code', 'length', 'is'=>5),
 			array('region', 'in', 'range'=>array_keys(DropDownItem::items('Organisation.region'))),
 			array('company_id_number', 'length', 'is'=>8),
-			array('vat_id_number', 'length', 'is'=>10),
+			array('vat_id_number', 'length', 'min'=>10, 'max'=>12),
 			array('www', 'url', 'defaultScheme'=>'http'),
 			array('revenue_authority', 'length', 'max'=>1024),
 			array('worker_email', 'email'),
