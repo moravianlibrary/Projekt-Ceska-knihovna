@@ -49,14 +49,6 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'vat_id_number'); ?>
 		<?php echo $form->textField($model,'vat_id_number',array('size'=>12,'maxlength'=>12)); ?>
-		<?php
-			/*$this->widget('CMaskedTextField',array(
-				'model'=>$model,
-				'attribute'=>'vat_id_number',
-				'mask'=>'CZ99999999',
-				'htmlOptions'=>array('size'=>12),
-			));*/
-		?>
 		<?php echo $form->error($model,'vat_id_number'); ?>
 	</div>
 

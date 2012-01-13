@@ -5,10 +5,10 @@
 	<meta name="language" content="<?echo app()->language?>" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<style type="text/css">
-		<?php readfile($_SERVER['DOCUMENT_ROOT'].'/css/blank.css'); ?>
+		<?php readfile(dirname($_SERVER['SCRIPT_FILENAME']).'/css/blank.css'); ?>
 	</style>
 	<style type="text/css" media="print">
-		<?php readfile($_SERVER['DOCUMENT_ROOT'].'/css/blank_print.css'); ?>
+		<?php readfile(dirname($_SERVER['SCRIPT_FILENAME']).'/css/blank_print.css'); ?>
 	</style>
 </head>
 
