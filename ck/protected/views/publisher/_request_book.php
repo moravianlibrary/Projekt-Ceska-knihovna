@@ -11,6 +11,7 @@ Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
 
 <strong><?echo t('Author')?>:</strong> <?echo $data->author?><br />
 <strong><?echo t('Title')?>:</strong> <?echo $data->title?><br />
+<strong><?echo t('ISBN')?>:</strong> <?echo $data->isbn?><br />
 <strong><?echo t('Editor')?>:</strong> <?echo $data->editor?><br />
 <strong><?echo t('Illustrator')?>:</strong> <?echo $data->illustrator?><br />
 <strong><?echo t('Preamble')?>:</strong> <?echo $data->preamble?><br />
