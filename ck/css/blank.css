@@ -5,9 +5,6 @@ th, thead td {text-align: center;}
 td {padding: 3px;}
 h1 {font-size: 16pt; margin: 10px 0px; text-align: center;}
 h2 {font-size: 14pt; margin: 10px 0px; padding: 0px; text-align: center;}
-hr {border: none; height: 2px; line-height: 2px; color: black; background-color: black;}
-hr.red {border: none; height: 2px; line-height: 2px; color: red; background-color: red;}
-
 
 .left {float: left !important;}
 .right {float: right !important;}

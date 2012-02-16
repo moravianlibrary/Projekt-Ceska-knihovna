@@ -233,6 +233,7 @@ return array(
 	'Unselect'=>'Zrušit výběr',
 	'Check Book'=>'Kontrola titulu',
 	'characters remaining.'=>'znaků zbývá.',
+	'Print Book List'=>'Seznam titulů',
 	
 	// Voting
 	'Voting'=>'Hlasování',

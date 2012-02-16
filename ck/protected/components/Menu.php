@@ -117,6 +117,8 @@ class Menu
 			}
 		}
 		
+		$this->insertItem('Book:PrintIndex', 'book_print', '/book/printIndex', 'Print Book List', array('target'=>'_blank'));
+		
 		if (user()->checkAccess('LibraryRole'))
 		{
 			$this->insertItem('LibOrder:PlaceOrder', 'libOrder', '/libOrder/placeOrder', 'Place Order', array(), array('order_placed'=>user()->library_order_placed));

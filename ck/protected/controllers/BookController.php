@@ -181,6 +181,8 @@ class BookController extends Controller
 		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'enablePagination'=>true,
+			'separator'=>'',
 		));
 	}
 
@@ -415,6 +417,31 @@ class BookController extends Controller
 			'book_id'=>$_GET['book_id'],
 		));		
 	}
+	
+	public function actionPrintIndex()
+	{
+		$this->layout = '//layouts/blank';
+
+		$criteria=new CDbCriteria;
+		$criteria->with = array('publisher','publisher.organisation');
+		
+		$dataProvider=new CActiveDataProvider(Book::model()->my(), array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'organisation.name ASC',
+				'attributes'=>array(
+					'*',
+					),
+				),
+		));
+		
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+			'enablePagination'=>false,
+			'separator'=>'<hr />',
+		));
+	}
+
 	
 	public function actionFindPublisher()
 	{
