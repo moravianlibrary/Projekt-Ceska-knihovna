@@ -9,6 +9,5 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Books');
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_item',
-	'enablePagination'=>$enablePagination,
 	'separator'=>$separator,
 )); ?>

@@ -181,7 +181,6 @@ class BookController extends Controller
 		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-			'enablePagination'=>true,
 			'separator'=>'',
 		));
 	}
@@ -433,11 +432,11 @@ class BookController extends Controller
 					'*',
 					),
 				),
+			'pagination'=>false,
 		));
 		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-			'enablePagination'=>false,
 			'separator'=>'<hr />',
 		));
 	}
