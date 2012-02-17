@@ -427,7 +427,7 @@ class BookController extends Controller
 		$dataProvider=new CActiveDataProvider(Book::model()->my(), array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name ASC',
+				'defaultOrder'=>'organisation.name ASC, t.title ASC',
 				'attributes'=>array(
 					'*',
 					),

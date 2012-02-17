@@ -84,4 +84,8 @@
 	<?php echo CHtml::encode($data->comment); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('council_comment')); ?>:</b>
+	<?php echo CHtml::encode($data->council_comment); ?>
+	<br />
+
 </div>
