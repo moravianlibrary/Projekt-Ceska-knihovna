@@ -68,7 +68,7 @@
 	
 		<div class="row">
 			<?php echo $form->labelEx($model,'contact_place_id'); ?>
-			<?echo $form->dropDownList($model, 'contact_place_id', CHtml::listData(Library::model()->contactPlaces()->with('organisation')->inRegion($model->organisation->region)->findAll(array('order'=>'name')), 'id', 'longName'), array('prompt'=>'&lt;'.t('contact places').'&gt;'));?>
+			<?echo $form->dropDownList($model, 'contact_place_id', CHtml::listData(Library::model()->contactPlaces()->with('organisation')->findAll(array('order'=>'name')), 'id', 'longName'), array('prompt'=>'&lt;'.t('contact places').'&gt;'));?>
 			<?php echo $form->error($model,'contact_place_id'); ?>
 		</div>
 		
