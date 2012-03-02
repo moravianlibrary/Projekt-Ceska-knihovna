@@ -162,6 +162,8 @@ class PublisherController extends Controller
 
 	public function actionAdmin()
 	{
+		$this->setGridViewParams();
+
 		$model=new Publisher('search');
 		$model->unsetAttributes();
 		if(isset($_GET['Publisher']))

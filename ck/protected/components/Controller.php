@@ -217,4 +217,49 @@ class Controller extends CController
 			$name[0]=strtolower($name[0]);
 			return $name;
 	}
+	
+	public function setGridViewParams()
+	{
+		$pageParam = ucfirst($this->id). '_page';
+		if (isset($_GET[$pageParam]))
+		{
+			$page = $_GET[$pageParam];
+			Yii::app()->user->setState($this->id.'-page', (int)$page);
+		}
+		else
+		{
+			if (isset($_GET['ajax']) && $_GET['ajax'] == $this->id . '-grid')
+			{
+				$page = 1;
+				Yii::app()->user->setState($this->id.'-page', (int)$page);
+			}
+			else
+			{
+				$page = Yii::app()->user->getState($this->id.'-page',1);
+				$_GET[$pageParam] = $page;
+			}
+		}
+
+		$sortParam = ucfirst($this->id). '_sort';
+		if (isset($_GET[$sortParam]))
+		{
+			$sort = $_GET[$sortParam];              
+			Yii::app()->user->setState($this->id.'-sort', $sort);     
+		}
+		else
+		{
+			$sort = Yii::app()->user->getState($this->id.'-sort', '');
+			$_GET[$sortParam] = $sort;
+		}
+		
+		if ((!isset($_GET['ajax']) || $_GET['ajax'] != $this->id . '-grid') && isset($_GET['clearParams']) && $_GET['clearParams'] == '1')
+		{
+			$page = 1;
+			Yii::app()->user->setState($this->id.'-page', (int)$page);
+			$_GET[$pageParam] = $page;
+			$sort = '';              
+			Yii::app()->user->setState($this->id.'-sort', $sort);     
+			$_GET[$sortParam] = $sort;
+		}
+	}
 }

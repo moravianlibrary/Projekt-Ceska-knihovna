@@ -164,6 +164,8 @@ class LibraryController extends Controller
 
 	public function actionAdmin()
 	{
+		$this->setGridViewParams();
+
 		$model=new Library('search');
 		$model->unsetAttributes();
 		if(isset($_GET['Library']))

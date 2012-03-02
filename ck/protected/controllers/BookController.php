@@ -187,6 +187,8 @@ class BookController extends Controller
 
 	public function actionAdmin()
 	{
+		$this->setGridViewParams();
+
 		$model=new Book('search');
 		$model->unsetAttributes();
 		if(isset($_GET['Book']))

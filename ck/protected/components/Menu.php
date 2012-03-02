@@ -78,6 +78,7 @@ class Menu
 		{
 			$this->insertItem('User', '_setting');
 			$this->insertItem('RBAC Manager', '_setting', '/rbam', 'Access permissions');
+			$this->insertItem('Administrator', '_setting', '//myadmin', 'Database', array('target'=>'_blank'));
 		}
 
 		if ($this->moduleId == 'rbam' && user()->checkAccess('RBAC Manager'))
@@ -172,7 +173,7 @@ class Menu
 	
 	public function insertItems($items, $type = '_main')
 	{
-		foreach ($items as $item) $this->insertItem($item, $type);		
+		foreach ($items as $item) $this->insertItem($item, $type, 'admin?clearParams=1');		
 	}
 	
 	public function insertItem($rights, $type = '_main', $action = 'admin', $title = '', $linkOptions = array(), $accessParams = array())
@@ -195,7 +196,17 @@ class Menu
 					}
 					else
 					{
-						$action = array('/'.$this->class2var($modelClass).'/'.$action);
+						$action = explode('?', $action);
+						$params = array_key_exists(1, $action) ? explode('&', $action[1]) : array();
+						$action = array('/'.$this->class2var($modelClass).'/'.$action[0]);
+						foreach ($params as $param)
+						{
+							if ($param != '')
+							{
+								$param = explode('=', $param);
+								$action[$param[0]] = $param[1];
+							}
+						}
 					}
 			}
 		}

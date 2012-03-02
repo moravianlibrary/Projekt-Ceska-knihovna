@@ -146,6 +146,8 @@ class OrganisationController extends Controller
 
 	public function actionAdmin()
 	{
+		$this->setGridViewParams();
+		
 		$model=new Organisation('search');
 		$model->unsetAttributes();
 		if(isset($_GET['Organisation']))
