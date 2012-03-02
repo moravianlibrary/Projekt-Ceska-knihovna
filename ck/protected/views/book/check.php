@@ -1,5 +1,6 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'book-grid',
+	'ajaxUpdate'=>true,
 	'dataProvider'=>$model->search(),
 	'columns'=>array(
 		'isbn',

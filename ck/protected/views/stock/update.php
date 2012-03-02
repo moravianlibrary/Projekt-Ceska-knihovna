@@ -14,6 +14,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Update Stock');
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'stock-activity-grid',
+	'ajaxUpdate'=>true,
 	'formatter'=>new Formatter,
 	'dataProvider'=>$stockActivityProvider,
 	'columns'=>array(

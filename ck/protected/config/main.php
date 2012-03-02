@@ -118,6 +118,13 @@ return array(
 		'file'=>array(
 			'class'=>'wsext.file.CFile',
 		),
+		'widgetFactory'=>array(
+            'widgets'=>array(
+                'CGridView'=>array(
+					'ajaxUpdate'=>false,
+                ),
+            ),
+        ),
 	),
 
 	// application-level parameters that can be accessed

@@ -251,8 +251,8 @@ class Controller extends CController
 			$sort = Yii::app()->user->getState($this->id.'-sort', '');
 			$_GET[$sortParam] = $sort;
 		}
-		
-		if ((!isset($_GET['ajax']) || $_GET['ajax'] != $this->id . '-grid') && isset($_GET['clearParams']) && $_GET['clearParams'] == '1')
+
+		if (isset($_GET['clearParams']) && $_GET['clearParams'] == '1')
 		{
 			$page = 1;
 			Yii::app()->user->setState($this->id.'-page', (int)$page);
@@ -260,6 +260,7 @@ class Controller extends CController
 			$sort = '';              
 			Yii::app()->user->setState($this->id.'-sort', $sort);     
 			$_GET[$sortParam] = $sort;
+			$_GET['clearParams'] = 0;
 		}
 	}
 }
