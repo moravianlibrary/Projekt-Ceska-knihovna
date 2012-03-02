@@ -235,6 +235,7 @@ class Book extends ActiveRecord
 						'desc'=>'organisation.name desc',
 						),
 					),
+				'multiSort'=>true,
 				),
 			'pagination'=>array('pageSize'=>20,),
 		));
