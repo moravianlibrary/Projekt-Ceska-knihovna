@@ -18,7 +18,7 @@ class Organisation extends ActiveRecord
 	{
 		$rules = array(
 			array('name, street, house_number, city, vat_id_number, representative, telephone, fax, bank_account_number, revenue_authority, worker_name, worker_telephone, worker_fax', 'filter', 'filter'=>'strip_tags'),		
-			array('name, street, house_number, postal_code, city, region', 'required'),
+			array('name, street, house_number, postal_code, city, region, representative, telephone', 'required'),
 			array('bank_account_number,  revenue_authority, telephone, company_id_number, vat_id_number, worker_name, worker_telephone, worker_email', 'required', 'on'=>'publisher'),
 			array('land_registry_number, postal_code, company_id_number', 'numerical', 'integerOnly'=>true),
 			array('name, street, city, representative, telephone, fax, www, bank_account_number, worker_name, worker_telephone, worker_fax, worker_email', 'length', 'max'=>255),

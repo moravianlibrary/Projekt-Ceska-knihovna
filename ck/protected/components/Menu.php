@@ -78,7 +78,6 @@ class Menu
 		{
 			$this->insertItem('User', '_setting');
 			$this->insertItem('RBAC Manager', '_setting', '/rbam', 'Access permissions');
-			$this->insertItem('Administrator', '_setting', '//myadmin', 'Database', array('target'=>'_blank'));
 		}
 
 		if ($this->moduleId == 'rbam' && user()->checkAccess('RBAC Manager'))
