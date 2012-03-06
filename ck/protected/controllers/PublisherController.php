@@ -312,9 +312,9 @@ class PublisherController extends Controller
 		}
 		
 		$scopes = Book::model()->scopesWoAlias();
-		$book = Book::model()->updateAll(array('offered'=>1), array('condition'=>$scopes['my']['condition']));
+		$book = Book::model()->updateAll(array('offered'=>1), array('condition'=>$scopes['my']['condition'].' AND '.$scopes['thisYear']['condition']));
 		
-		$bookProvider=new CActiveDataProvider(Book::model()->my(), array(
+		$bookProvider=new CActiveDataProvider(Book::model()->my()->thisYear(), array(
 			'sort'=>array(
 				'defaultOrder'=>'t.author, t.title',
 				),
