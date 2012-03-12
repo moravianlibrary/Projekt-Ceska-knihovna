@@ -256,6 +256,7 @@ return array(
 	'Withholding'=>'Zdržuji se',
 	'Withheld'=>'Zdrželi se',
 	'Not voted'=>'Nehlasováno',
+	'Rating Order'=>'Pořadí bodování',
 	
 	// Order
 	'Order'=>'Objednávka',

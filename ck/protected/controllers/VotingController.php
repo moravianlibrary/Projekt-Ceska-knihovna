@@ -192,6 +192,22 @@ class VotingController extends Controller
 			throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 	}
 	
+	public function actionRatingOrder()
+	{
+		$this->layout = '//layouts/blank';
+
+		$dataProvider=new CActiveDataProvider(Book::model()->thisYear()->accepted()->with(array('publisher', 'publisher.organisation', 'sum_ratings'))->together(), array(
+			'sort'=>array(
+				'defaultOrder'=>'t.points DESC, organisation.name, t.title',
+				),
+			'pagination'=>false,
+		));
+		
+		$this->render('rating_order',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}	
+	
 	public function actionRatingResults()
 	{
 		$this->layout = '//layouts/column1';

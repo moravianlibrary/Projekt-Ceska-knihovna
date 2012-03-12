@@ -141,6 +141,7 @@ class Menu
 				$this->insertItem('Publisher:LetterUnselected', 'publisher_print', '/publisher/letterUnselected', 'Dopisy nevybraným nakladatelům', array('target'=>'_blank'));
 			}
 		$this->insertItem('Voting:RatingResults', 'voting', 'ratingResults', 'Rating Results');
+		$this->insertItem('Voting:RatingOrder', 'voting', 'ratingOrder', 'Rating Order', array('target'=>'_blank'));
 		$this->insertItem('Book:Poll', 'voting', 'poll', 'Voting');
 		
 		$this->insertItem('LibOrder:GetReserves', 'libOrder', '/libOrder/getReserves', 'Reserves');
