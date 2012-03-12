@@ -136,7 +136,7 @@ class VotingController extends Controller
 						),
 					),
 				),
-			'pagination'=>array('pageSize'=>100,),
+			'pagination'=>false,
 		));
 		
 		$this->render('rating',array(
@@ -216,7 +216,7 @@ class VotingController extends Controller
 			'sort'=>array(
 				'defaultOrder'=>'t.points DESC, organisation.name, t.title',
 				),
-			'pagination'=>array('pageSize'=>1000,),
+			'pagination'=>false,
 		));
 		
 		$this->render('rating_results',array(
@@ -230,7 +230,7 @@ class VotingController extends Controller
 
 		$dataProvider=new CActiveDataProvider(Book::model()->thisYear()->accepted()->notSelected()->with(array('publisher', 'publisher.organisation', 'poll'))->together(), array(
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, t.title',
+				'defaultOrder'=>'t.points DESC, organisation.name, t.title',
 				'attributes'=>array(
 					'*',
 					'name'=>array(
@@ -239,7 +239,7 @@ class VotingController extends Controller
 						),
 					),
 				),
-			'pagination'=>array('pageSize'=>100,),
+			'pagination'=>false,
 		));
 		
 		$this->render('poll',array(
