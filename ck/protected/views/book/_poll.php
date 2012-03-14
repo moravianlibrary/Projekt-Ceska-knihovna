@@ -1,5 +1,11 @@
 <div class="view" id="book_<?echo $data->id?>">
 
+	<b>Poø. è.:</b>
+	<?php echo $index+1; ?>
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('points')); ?>:</b>
+	<?php echo $data->points; ?>
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('publisher_id')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->name), '#', array('onclick'=>CHtml::ajax(array('url'=>url('publisher/view',array('id'=>$data->publisher_id)), 'success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}')))); ?>
 	<br />

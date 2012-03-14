@@ -278,7 +278,7 @@ class BookController extends Controller
 		$dataProvider=new CActiveDataProvider('Book', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'t.points, organisation.name, t.title',
+				'defaultOrder'=>'t.points DESC, organisation.name, t.title',
 				'attributes'=>array(
 					'*',
 					'name'=>array(
