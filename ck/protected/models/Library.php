@@ -320,16 +320,28 @@ class Library extends ActiveRecord
 	{
 		return (user()->checkAccess('Library'));
 	}
-	
+		
+	public function getBasicCount()
+	{
+		$reserveCount = db()->createCommand("SELECT SUM({{lib_order}}.count) AS count FROM {{lib_order}} WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::BASIC."' GROUP BY {{lib_order}}.library_id")->queryScalar();
+		return ($reserveCount ? $reserveCount : 0);
+	}
+
 	public function getBasicPrice()
 	{
 		$basicPrice = db()->createCommand("SELECT SUM({{lib_order}}.count*{{book}}.project_price) AS price FROM {{lib_order}} LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::BASIC."' GROUP BY {{lib_order}}.library_id")->queryScalar();
 		return ($basicPrice ? $basicPrice : 0);
-	}
+	}	
 	
 	public function getReserveCount()
 	{
 		$reserveCount = db()->createCommand("SELECT SUM({{lib_order}}.count) AS count FROM {{lib_order}} WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::RESERVE."' GROUP BY {{lib_order}}.library_id")->queryScalar();
 		return ($reserveCount ? $reserveCount : 0);
+	}
+
+	public function getReservePrice()
+	{
+		$basicPrice = db()->createCommand("SELECT SUM({{lib_order}}.count*{{book}}.project_price) AS price FROM {{lib_order}} LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::RESERVE."' GROUP BY {{lib_order}}.library_id")->queryScalar();
+		return ($basicPrice ? $basicPrice : 0);
 	}
 }
