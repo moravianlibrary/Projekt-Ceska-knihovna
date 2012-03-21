@@ -176,10 +176,12 @@ class LibOrderController extends Controller
 				),
 			'pagination'=>array('pageSize'=>100,),
 		));
-		
+				
 		$this->render('sheet',array(
 			'dataProvider'=>$dataProvider,
 			'library'=>$library,
+			'basicPrice'=>$library->basicPrice,
+			'reserveCount'=>$library->reserveCount,
 		));
 	}
 
@@ -236,8 +238,10 @@ class LibOrderController extends Controller
 			
 			$model=Book::model()->thisYear()->selected()->with(array('publisher', 'publisher.organisation', 'basic', 'reserve'))->findByPk($_POST['LibOrder']['book_id']);
 			
+			$library = Library::model()->my()->find();
+			
 			$this->ajaxEditFormNoScript();
-			echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_sheet_item', array('data'=>$model), true, true), 'model'=>array(), 'msg'=>$msg));
+			echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_sheet_item', array('data'=>$model), true, true), 'model'=>array(), 'msg'=>$msg, 'total'=>$this->renderPartial('_order_total', array('basicPrice'=>$library->basicPrice, 'reserveCount'=>$library->reserveCount), true)));
 			Yii::app()->end();
 		}
 		else

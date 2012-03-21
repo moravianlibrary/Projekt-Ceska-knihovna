@@ -19,6 +19,8 @@ if (user()->library_order_placed)
 }
 ?>
 
+<?php $this->renderPartial('_order_total', array('basicPrice'=>$basicPrice, 'reserveCount'=>$reserveCount)); ?>
+
 <div class="form">
 
 <?php $this->widget('zii.widgets.CListView', array(
