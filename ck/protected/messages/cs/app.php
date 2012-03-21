@@ -83,6 +83,7 @@ return array(
 	'Records successfully saved.'=>'Záznamy byly úspěšně uloženy.',
 	'{attribute} must be checked.'=>'Pole {attribute} musí být zatržené.',
 	'here'=>'zde',
+	'{dependentAttribute} cannot be blank if the {attribute} is checked.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je zatrženo pole {attribute}.',
 	
 	// LoginForm
 	'Remember me next time'=>'Zapamatovat přihlášení',
@@ -184,6 +185,7 @@ return array(
 	'contact places'=>'kontaktní místa',
 	'Contact Place Organisation Address'=>'Adresa kontaktního místa',
 	'We confirm, that the entered informations are correct.'=>'Žadatel o dotaci potvrzuje správnost uvedených údajů.',
+	'Library Is Not a Subject of Law'=>'Knihovna nemá právní subjektivitu',
 
 	// Book
 	'Book'=>'Titul',

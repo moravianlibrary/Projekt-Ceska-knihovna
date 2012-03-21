@@ -1,4 +1,10 @@
-	<fieldset>
+	<div class="row">
+		<?php echo $form->labelEx($model,'notSubjectOfLaw'); ?>
+		<?php echo $form->checkBox($model,'notSubjectOfLaw', array('uncheckValue'=>'0')); ?>
+		<?php echo $form->error($model,'notSubjectOfLaw'); ?>
+	</div>
+
+	<fieldset id="notSubjectOfLaw" style="display: <?echo ($model->notSubjectOfLaw) ? 'block' : 'none'?>;">
 		<legend>Vyplňují pouze knihovny, které nemají právní subjektivitu</legend>
 		<div class="row">
 			<?php echo $form->labelEx($model,'libname'); ?>
@@ -91,3 +97,7 @@
 		<?php echo $form->checkBox($model,'confirmation'); ?>
 		<?php echo $form->error($model,'confirmation'); ?>
 	</div>
+
+<?
+cs()->registerScript('notSubjectOfLaw_click', '$("#Library_notSubjectOfLaw").click(function() {$("#notSubjectOfLaw").toggle(); $("#Library_libname").val("");});', CClientScript::POS_READY);
+?>

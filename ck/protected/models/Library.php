@@ -2,6 +2,8 @@
 
 class Library extends ActiveRecord
 {
+	public $notSubjectOfLaw = 0;
+	
 	private $_name = null;
 	private $_longName = null;
 	private $_libraryName = null;
@@ -47,7 +49,11 @@ class Library extends ActiveRecord
 			array('headcount, units_total, units_new', 'numerical', 'integerOnly'=>true),
 			array('budget, budget_czech', 'filter', 'filter'=>array($this, 'numerize')),
 			array('land_registry_number, postal_code', 'numerical', 'integerOnly'=>true),
-			array('budget, budget_czech', 'numerical'),
+			array('budget, budget_czech', 'numerical'),			
+			array('notSubjectOfLaw', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>1), 'dependentValidations'=>array(
+                'libname, street, city, house_number, postal_code'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is checked.')),),
+				),			
+			),
 			array('libname, street, city, type', 'length', 'max'=>255),
 			array('house_number', 'length', 'max'=>5),
 			array('postal_code', 'length', 'is'=>5),
@@ -141,6 +147,7 @@ class Library extends ActiveRecord
 			'libraryName' =>  Yii::t('app', 'Library Name'),
 			'name' =>  Yii::t('app', 'Name'),
 			'contactPlaceOrganisationAddress' => Yii::t('app', 'Contact Place Organisation Address'),
+			'notSubjectOfLaw' => Yii::t('app', 'Library Is Not a Subject of Law'),
 		);
 	}
 
@@ -175,6 +182,14 @@ class Library extends ActiveRecord
 		));
 	}
 	
+	protected function afterFind()
+	{
+		parent::afterFind();
+		
+		if ($this->libname != '')
+			$this->notSubjectOfLaw = 1;
+	}
+
 	protected function afterSave()
 	{
 		parent::afterSave();
