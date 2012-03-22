@@ -173,8 +173,9 @@ class LibOrderController extends Controller
 						'desc'=>'organisation.name desc',
 						),
 					),
+				'multiSort'=>true,
 				),
-			'pagination'=>array('pageSize'=>100,),
+			'pagination'=>array('pageSize'=>1,),
 		));
 				
 		$this->render('sheet',array(
