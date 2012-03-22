@@ -175,7 +175,7 @@ class LibOrderController extends Controller
 					),
 				'multiSort'=>true,
 				),
-			'pagination'=>array('pageSize'=>1,),
+			'pagination'=>array('pageSize'=>100,),
 		));
 				
 		$this->render('sheet',array(
