@@ -416,3 +416,8 @@ body
 {
 	background: #21bdc6;
 }
+
+.list-view .pager
+{
+	margin: 5px 0 !important;
+}

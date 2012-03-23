@@ -14,7 +14,7 @@ div.form ul
 	margin-bottom: 5px;
 }
 
-div.form input, div.form textarea, div.form select, div.form button
+div.form input, div.form textarea, div.form select, div.form button, div.form a.button
 {
 	border: 1px solid #999999;
 	margin: 5px 0px;
@@ -46,7 +46,7 @@ div.form input:focus, div.form textarea:focus, div.form select:focus
 	background: #eeeeee;
 }
 
-div.form input[type=button], div.form input[type=submit], div.form button
+div.form input[type=button], div.form input[type=submit], div.form button, div.form a.button
 {
 	height: 27px;
 	line-height: 25px;
@@ -58,9 +58,15 @@ div.form input[type=button], div.form input[type=submit], div.form button
     font-weight: normal;	
 }
 
-div.form input[type=button]:active, div.form input[type=submit]:active, div.form button:active
+div.form input[type=button]:active, div.form input[type=submit]:active, div.form button:active, div.form a.button:active
 {
 	background: url('/images/ui-bg_glass_75_dadada_1x400.png') repeat-x scroll 50% 50% #dadada;
+}
+
+div.form a.button
+{
+	display: inline-block;
+	text-decoration: none;
 }
 
 div.form label
