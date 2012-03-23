@@ -318,7 +318,7 @@ class BookController extends Controller
 		$book->scenario = 'update';
 		
 		$this->ajaxEditFormNoScript();
-		echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_poll', array('data'=>$book), true, true), 'model'=>array(), 'msg'=>$msg));
+		echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_poll', array('data'=>$book, 'index'=>(int)$_POST['index']), true, true), 'model'=>array(), 'msg'=>$msg));
 		Yii::app()->end();
 	}
 		
@@ -345,7 +345,7 @@ class BookController extends Controller
 		$book->scenario = 'update';
 		
 		$this->ajaxEditFormNoScript();
-		echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_poll', array('data'=>$book), true, true), 'model'=>array(), 'msg'=>$msg));
+		echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_poll', array('data'=>$book, 'index'=>(int)$_POST['index']), true, true), 'model'=>array(), 'msg'=>$msg));
 		Yii::app()->end();
 	}
 	
