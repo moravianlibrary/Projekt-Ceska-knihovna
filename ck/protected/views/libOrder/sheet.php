@@ -28,8 +28,9 @@ if (user()->library_order_placed)
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_sheet_item',
 	'sortableAttributes'=>array(
-        'title',
         'name',
+        'title',
+        'author',
     ),
 )); ?>
 
