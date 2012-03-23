@@ -202,6 +202,7 @@ class Book extends ActiveRecord
 			'votes_no' =>  Yii::t('app', 'Votes No'),
 			'votes_withheld' =>  Yii::t('app', 'Votes Withheld'),
 			'selected' =>  Yii::t('app', 'Selected'),
+			'selected_order' =>  Yii::t('app', 'Order nr.'),
 			'name' =>  Yii::t('app', 'Publisher'),
 		);
 	}

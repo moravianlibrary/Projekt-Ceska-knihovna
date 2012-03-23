@@ -230,6 +230,7 @@ return array(
 	'Votes No'=>'Počet hlasů proti přijetí publikace nesplňující limit bodů',
 	'Votes Withheld'=>'Zrdželo se hlasování',
 	'Selected'=>'Vybráno',
+	'Order nr.'=>'Poř.č.',
 	'Select'=>'Vybrat',
 	'Select without voting'=>'Vybrat bez hlasování',
 	'Unselect'=>'Zrušit výběr',

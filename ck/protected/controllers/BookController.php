@@ -405,6 +405,27 @@ class BookController extends Controller
 	}
 	*/
 	
+	public function actionGenerateSelectedOrder()
+	{
+		$sp = Yii::app()->getStatePersister();
+		$state = $sp->load();
+		if (@$state['selected_order_generated'])
+		{
+			user()->setFlash('error.generateselectedorder', t('Pořadová čísla vybraných titulů byla již dříve vygenerována.'));
+		}
+		else
+		{
+			$books = Book::model()->with('publisher', 'publisher.organisation')->thisYear()->accepted()->selected()->findAll(array('order'=>'organisation.name, author'));
+			$i = 1;
+			foreach ($books as $book)
+				$book->updateByPk($book->id, array('selected_order'=>$i++));
+			$state['selected_order_generated'] = true;
+			$sp->save($state);
+			user()->setFlash('success.generateselectedorder', t('Pořadová čísla vybraných titulů byla úspěšně vygenerována.'));
+		}
+		$this->redirect(array('admin'));
+	}
+	
 	public function actionCheckHistory()
 	{
 		$model=new Book('search');

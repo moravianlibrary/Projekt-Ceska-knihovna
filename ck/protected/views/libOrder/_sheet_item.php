@@ -1,5 +1,9 @@
 <div class="view" id="book_<?echo $data->id?>">
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('selected_order')); ?>:</b>
+	<span><?php echo CHtml::encode($data->selected_order); ?></span>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('publisher_id')); ?>:</b>
 	<span><?php echo CHtml::encode($data->name); ?></span>
 	<br />

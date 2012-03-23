@@ -140,6 +140,9 @@ class Menu
 				$this->insertItem('Publisher:LetterSelected', 'publisher_print', '/publisher/letterSelected', 'Dopisy vybraným nakladatelům', array('target'=>'_blank'));		
 				$this->insertItem('Publisher:LetterUnselected', 'publisher_print', '/publisher/letterUnselected', 'Dopisy nevybraným nakladatelům', array('target'=>'_blank'));
 			}
+		if (!@$state['selected_order_generated'])
+			$this->insertItem('Book:GenerateSelectedOrder', 'book', '/book/generateSelectedOrder', 'Generovat pořad. č. vybraných');
+
 		$this->insertItem('Voting:RatingResults', 'voting', 'ratingResults', 'Rating Results');
 		$this->insertItem('Voting:RatingOrder', 'voting', 'ratingOrder', 'Rating Order', array('target'=>'_blank'));
 		$this->insertItem('Book:Poll', 'voting', 'poll', 'Voting');
