@@ -27,6 +27,7 @@ if (user()->library_order_placed)
 	'id'=>'lib-order-list',
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_sheet_item',
+	'template'=>"{pager}\n{summary}\n{sorter}\n{items}\n{pager}",
 	'sortableAttributes'=>array(
         'name',
         'title',
