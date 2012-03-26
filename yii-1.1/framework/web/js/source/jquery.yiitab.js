@@ -18,10 +18,6 @@
 				if (pos>=0) {
 					id = id.substring(pos);
 				}
-				$.ajax({
-					url: '/index.php?r=ajax/setactivetab',
-					   data: {active_tab:id}
-				});			
 				var $tab=$(id);
 				var $container=$tab.parent();
 				$container.find('>ul a').removeClass('active');
