@@ -1,8 +1,8 @@
 <?php
-$this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Update Library');
+$this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Žádost o poskytnutí dotace z projektu Česká knihovna');
 ?>
 
-<h1><?php echo Yii::t('app', 'Update Library') . Yii::t('app', ' #') . $library->id; ?></h1>
+<h1><?php echo Yii::t('app', 'Žádost o poskytnutí dotace z projektu Česká knihovna'); ?></h1>
 
 <div class="form">
 

@@ -22,7 +22,7 @@ $this->renderPartial('/library/request', array('model'=>$model))
 
 <p>Vážení,</p>
 
-<p>v rámci projektu &quot;Česká knihovna <?echo param('projectYear')?>&quot; u vás objednáváme následující tituly:</p>
+<p>v rámci projektu Česká knihovna <?echo param('projectYear')?> objednáváme následující tituly:</p>
 
 <br />
 <strong>Základní objednávka:</strong>
@@ -34,12 +34,10 @@ $this->renderPartial('/library/request', array('model'=>$model))
 	'enableSorting'=>false,
 	'itemsCssClass'=>'blackborder',
 	'columns'=>array(
+		'book.selected_order',
 		'book.name',
 		'book.author',
-		array(
-			'header'=>t('Book'),
-			'name'=>'book.title',
-			),
+		'book.title',
 		'book.issue_year',
 		array(
 			'header'=>t('Price'),
@@ -68,12 +66,10 @@ $this->renderPartial('/library/request', array('model'=>$model))
 	'enableSorting'=>false,
 	'itemsCssClass'=>'blackborder',
 	'columns'=>array(
+		'book.selected_order',
 		'book.name',
 		'book.author',
-		array(
-			'header'=>t('Book'),
-			'name'=>'book.title',
-			),
+		'book.title',
 		'book.issue_year',
 		array(
 			'header'=>t('Price'),
@@ -88,7 +84,7 @@ $this->renderPartial('/library/request', array('model'=>$model))
 	)); ?>
 <strong>Celková cena rezervy: </strong><?echo currf($model->reservePrice);?>
 <br />
-<strong>Celkový počet svazků rezervy: </strong><?echo app()->format->formatPcs($model->reserveCount)?>
+<strong>Celkový počet svazků rezervy: </strong><?echo $model->reserveCount?>
 
 <br />
 <br />

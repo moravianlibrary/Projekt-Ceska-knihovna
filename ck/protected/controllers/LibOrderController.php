@@ -149,7 +149,7 @@ class LibOrderController extends Controller
 			$library = Library::model()->my()->find();
 			if ($library->organisation->city == '')
 			{
-				user()->setFlash('error.updateorg', t('Nejdříve prosím doplňte potřebné údaje ve Vaší žádosti.'));
+				user()->setFlash('error.updateorg', t('Nejdříve prosím vyplňte Žádost o poskytnutí dotace z projektu Česká knihovna.'));
 				$this->redirect(array('/library/clientUpdate'));
 			}
 		}

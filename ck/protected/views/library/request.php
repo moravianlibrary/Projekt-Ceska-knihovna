@@ -30,7 +30,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Request');
 <?
 if ($model->libname != null) 
 {
-	echo "<strong>4. Název a adresa  knihovny, která se přihlašuje do projektu Česká knihovna 2011:</strong><br />";
+	echo "<strong>4. Název a adresa  knihovny, která se přihlašuje do projektu Česká knihovna ".param('projectYear').":</strong><br />";
 	echo implode('<br />', $model->fullAddress);
 }
 ?>
