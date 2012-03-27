@@ -276,7 +276,7 @@ class LibOrderController extends Controller
 		$basicProvider=new CActiveDataProvider($b->my()->basic(), array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, book.title',
+				'defaultOrder'=>'book.selected_order',
 				),
 			'pagination'=>false,
 		));
@@ -285,7 +285,7 @@ class LibOrderController extends Controller
 		$reserveProvider=new CActiveDataProvider($r->my()->reserve(), array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, book.title',
+				'defaultOrder'=>'book.selected_order',
 				),
 			'pagination'=>false,
 		));
