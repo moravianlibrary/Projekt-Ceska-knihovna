@@ -121,7 +121,7 @@ class Menu
 		
 		if (user()->checkAccess('LibraryRole'))
 		{
-			$this->insertItem('LibOrder:PlaceOrder', 'libOrder', '/libOrder/placeOrder', 'Place Order', array(), array('order_placed'=>user()->library_order_placed));
+			$this->insertItem('LibOrder:PlaceOrder', 'libOrder', '/libOrder/placeOrder', 'Place Order', array('confirm'=>t('Po vygenerování objednávky již nebude možné provádět v objednávce bez asistence pracovníků MZK žádné úpravy. Přejete si pokračovat?')), array('order_placed'=>user()->library_order_placed));
 			$this->insertItem('LibOrder:PrintOrder', 'libOrder_print', '/libOrder/printOrder', 'Order', array('target'=>'_blank'), array('order_placed'=>user()->library_order_placed));
 		}
 		if (user()->checkAccess('PublisherRole'))
