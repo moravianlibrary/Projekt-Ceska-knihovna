@@ -50,9 +50,16 @@ class Library extends ActiveRecord
 			array('budget, budget_czech', 'filter', 'filter'=>array($this, 'numerize')),
 			array('land_registry_number, postal_code', 'numerical', 'integerOnly'=>true),
 			array('budget, budget_czech', 'numerical'),			
-			array('notSubjectOfLaw', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>1), 'dependentValidations'=>array(
-                'libname, street, city, house_number, postal_code'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is checked.')),),
-				),			
+			array('notSubjectOfLaw', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>1), 
+				'dependentValidations'=>array(
+					'libname, street, city, postal_code'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is checked.')),),
+					'house_number'=>array(array('YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>''),
+						'dependentValidations'=>array(
+							'land_registry_number'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is blank.')),),),),),
+					'land_registry_number'=>array(array('YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>''),
+						'dependentValidations'=>array(
+							'house_number'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is blank.')),),),),),
+				),
 			),
 			array('libname, street, city, type', 'length', 'max'=>255),
 			array('house_number', 'length', 'max'=>5),

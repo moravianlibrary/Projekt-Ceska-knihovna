@@ -84,6 +84,7 @@ return array(
 	'{attribute} must be checked.'=>'Pole {attribute} musí být zatržené.',
 	'here'=>'zde',
 	'{dependentAttribute} cannot be blank if the {attribute} is checked.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je zatrženo pole {attribute}.',
+	'{dependentAttribute} cannot be blank if the {attribute} is blank.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je prázdné pole {attribute}.',
 	
 	// LoginForm
 	'Remember me next time'=>'Zapamatovat přihlášení',

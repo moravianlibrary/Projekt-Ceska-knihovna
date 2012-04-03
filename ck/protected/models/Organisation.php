@@ -18,11 +18,19 @@ class Organisation extends ActiveRecord
 	{
 		$rules = array(
 			array('name, street, house_number, city, vat_id_number, representative, telephone, fax, bank_account_number, revenue_authority, worker_name, worker_telephone, worker_fax', 'filter', 'filter'=>'strip_tags'),		
-			array('name, street, house_number, postal_code, city, region, representative, telephone, worker_name, worker_telephone, worker_email', 'required'),
+			array('name, street, postal_code, city, region, representative, telephone, worker_name, worker_telephone, worker_email', 'required'),
 			array('bank_account_number,  revenue_authority, telephone, company_id_number, vat_id_number', 'required', 'on'=>'publisher'),
 			array('land_registry_number, postal_code, company_id_number', 'numerical', 'integerOnly'=>true),
 			array('name, street, city, representative, telephone, fax, www, bank_account_number, worker_name, worker_telephone, worker_fax, worker_email', 'length', 'max'=>255),
-			array('house_number', 'length', 'max'=>5),
+			array('house_number', 'length', 'max'=>5),		
+			array('house_number', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>''), 'dependentValidations'=>array(
+                'land_registry_number'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is blank.')),),
+				),			
+			),			
+			array('land_registry_number', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>''), 'dependentValidations'=>array(
+                'house_number'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is blank.')),),
+				),			
+			),
 			array('postal_code', 'length', 'is'=>5),
 			array('region', 'in', 'range'=>array_keys(DropDownItem::items('Organisation.region'))),
 			array('company_id_number', 'length', 'is'=>8),
