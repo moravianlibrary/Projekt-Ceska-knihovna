@@ -201,4 +201,9 @@ class LibOrder extends ActiveRecord
 	{
 		$this->_remaining = $value;
 	}
+	
+	public static function getSumOrders($type)
+	{
+		return db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name FROM (((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{lib_order}}.type='${type}' AND {{library}}.order_placed=1 GROUP BY book_id ORDER BY sum_count DESC")->queryAll();
+	}
 }

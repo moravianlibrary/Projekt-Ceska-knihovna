@@ -185,4 +185,28 @@ class PubOrder extends ActiveRecord
 	{
 		$this->_remaining = $value;
 	}
+	
+	public static function getTotalDelivered($type, $book_id = null)
+	{
+		$criteria = "";
+		if ($book_id !== null)
+			$criteria .= " AND book_id=${book_id}";
+		$result = db()->createCommand("SELECT SUM(delivered) AS sum_delivered FROM {{pub_order}} WHERE type='${type}' ${criteria}")->queryScalar();
+		if ($result)
+			return $result;
+		else
+			return 0;
+	}
+	
+	public static function getTotalRemaining($type, $book_id = null)
+	{
+		$criteria = "";
+		if ($book_id !== null)
+			$criteria .= " AND book_id=${book_id}";
+		$result = db()->createCommand("SELECT SUM(count-delivered) AS sum_remaining FROM {{pub_order}} WHERE type='${type}' ${criteria}")->queryScalar();
+		if ($result)
+			return $result;
+		else
+			return 0;
+	}
 }

@@ -297,21 +297,36 @@ class LibOrderController extends Controller
 		));
 	}
 	
-	public function actionGetReserves()
+	public function actionGetBasics()
 	{
-		$reserves = array();
-		foreach (db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name FROM (((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{lib_order}}.type='".LibOrder::RESERVE."' AND {{library}}.order_placed=1 GROUP BY book_id ORDER BY sum_count DESC")->queryAll() as $rs)
+		$items = LibOrder::getSumOrders(LibOrder::BASIC);
+		foreach ($items as $k=>$v)
 		{
-			if (db()->createCommand("SELECT SUM(delivered) AS sum_delivered FROM {{pub_order}} WHERE book_id={$rs["book_id"]}")->queryScalar()) $rs['delivered'] = '1'; else $rs['delivered'] = '0';
-			if (db()->createCommand("SELECT SUM({{pub_order}}.count-{{pub_order}}.delivered) AS sum_remaining FROM ({{pub_order}} LEFT JOIN {{book}} ON {{pub_order}}.book_id={{book}}.id) WHERE publisher_id={$rs["publisher_id"]}")->queryScalar()) $rs['remaining'] = '1'; else $rs['remaining'] = '0';
-			$reserves[] = $rs;
+			$items[$k]['delivered'] = PubOrder::getTotalDelivered(PubOrder::BASIC, $v["book_id"]);
+			$items[$k]['remaining'] = PubOrder::getTotalRemaining(PubOrder::BASIC, $v["book_id"]);
 		}
 
-		$this->render('getReserves',array(
-			'reserves'=>$reserves,
+		$this->render('getOrders',array(
+			'title'=>Yii::t('app', 'Basic Orders'),
+			'items'=>$items,
 		));
 	}
+	
+	public function actionGetReserves()
+	{
+		$items = LibOrder::getSumOrders(LibOrder::RESERVE);
+		foreach ($items as $k=>$v)
+		{
+			$items[$k]['delivered'] = PubOrder::getTotalDelivered(PubOrder::RESERVE, $v["book_id"]);
+			$items[$k]['remaining'] = PubOrder::getTotalRemaining(PubOrder::RESERVE, $v["book_id"]);
+		}
 
+		$this->render('getOrders',array(
+			'title'=>Yii::t('app', 'Reserves'),
+			'items'=>$items,
+		));
+	}
+	
 	public function actionFindBook()
 	{
 		$this->autoCompleteFind('Book', 'title');

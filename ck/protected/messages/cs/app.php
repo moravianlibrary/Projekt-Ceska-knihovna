@@ -291,8 +291,11 @@ return array(
 	'Order Placed'=>'Objednáno',
 	'Remaining'=>'Zbývá dodat',
 	'Actual Delivery'=>'Aktuální dodávka',
+	'Basic Orders'=>'Základní objednávky',
 	'Reserves'=>'Rezervy',
 	'Total Remaining'=>'Celkem zbývá dodat',
+	'Delivered by Publisher'=>'Dodáno nakladatelem',
+	'Remaining from Publisher'=>'Zbývá dodat nakladatelem',
 	
 	// Pub Order
 	'Pub Order'=>'Obj. nakladatelům',
