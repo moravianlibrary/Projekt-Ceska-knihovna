@@ -4,8 +4,8 @@ class LibraryController extends Controller
 {
 	protected function beforeAction($action)
 	{
-		$params = array('enable'=>true);	
-		
+		$params = array('enable'=>true);
+
 		switch ($action->id)
 		{
 			case 'registration':
@@ -30,7 +30,7 @@ class LibraryController extends Controller
 				}
 				break;
 		}
-		
+
 		if (parent::beforeAction($action, $params))
 			return true;
 		else
@@ -40,7 +40,7 @@ class LibraryController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		
+
 		if (req()->isAjaxRequest)
 		{
 			$this->renderPartial('_view', array('model'=>$model));
@@ -64,7 +64,7 @@ class LibraryController extends Controller
 				$model->selfContactPlace = $_POST['selfContactPlace'];
 			}
 		}
-		
+
 		if (req()->isAjaxRequest && !isset($_GET['ajax']))
 		{
 			$this->ajaxEditForm($model, array());
@@ -156,7 +156,7 @@ class LibraryController extends Controller
 					),
 				),
 		));
-		
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -206,13 +206,13 @@ class LibraryController extends Controller
 			$organisation->scenario = 'library';
 			user()->setState('organisation_id', $organisation->id);
 		}
-		
+
 		$library = Library::model()->my()->find();
 		if ($library === null)
 			$library=new Library;
 		else
 			user()->setState('publisher_id', $library->id);
-		
+
 		if(isset($_POST['Organisation'], $_POST['Library']))
 		{
 			$organisation->attributes=$_POST['Organisation'];
@@ -225,11 +225,11 @@ class LibraryController extends Controller
 			{
 				$organisation->user_id = user()->id;
 				$organisation->save(true, false);
-				
+
 				$library->user_id = user()->id;
 				$library->organisation_id = $organisation->id;
 				$library->save(true, false);
-				
+
 				user()->setState('organisation_id', $organisation->id);
 				user()->setState('library_id', $library->id);
 
@@ -241,7 +241,7 @@ class LibraryController extends Controller
 				$library->viewAttributes();
 			}
 		}
-		
+
 		$this->render('registration', array(
 			'organisation'=>$organisation,
 			'library'=>$library,
@@ -252,9 +252,9 @@ class LibraryController extends Controller
 	{
 		$organisation = Organisation::model()->my()->find();
 		$organisation->scenario = 'library';
-		
+
 		$library = Library::model()->my()->find();
-		
+
 		if(isset($_POST['Organisation'], $_POST['Library']))
 		{
 			$organisation->attributes=$_POST['Organisation'];
@@ -276,7 +276,7 @@ class LibraryController extends Controller
 				$library->viewAttributes();
 			}
 		}
-		
+
 		$this->render('clientUpdate', array(
 			'organisation'=>$organisation,
 			'library'=>$library,
@@ -288,12 +288,38 @@ class LibraryController extends Controller
 		$model=$this->loadModel($id);
 		$model->order_placed = 0;
 		$model->save();
-		
+
 		$this->redirect(array('admin'));
 	}
-	
+
 	public function actionFindOrganisation()
 	{
 		$this->autoCompleteFind('Organisation', 'name');
-	}	
+	}
+
+	public function actionOrder($id, $type)
+	{
+		$library = Library::model()->with(array('organisation'))->findByPk($id);
+
+		$criteria=new CDbCriteria;
+		$criteria->with = array('book', 'book.publisher', 'book.publisher.organisation');
+		$criteria->together = true;
+		$criteria->compare('t.library_id', $id);
+		$criteria->compare('t.type', $type);
+
+		$dataProvider=new CActiveDataProvider('LibOrder', array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'organisation.name, book.title',
+				),
+			'pagination'=>false,
+		));
+
+		$this->render('order',array(
+			'model'=>$library,
+			'dataProvider'=>$dataProvider,
+			'title'=>($type == LibOrder::BASIC ? Yii::t('app', 'Basic Order') : Yii::t('app', 'Reserve')),
+			'type'=>($type == LibOrder::BASIC ? 'basics' : 'reserves'),
+		));
+	}
 }

@@ -8,7 +8,7 @@ class LibOrder extends ActiveRecord
 	private $_book_title = null;
 	private $_library_name = null;
 	private $_remaining = null;
-	
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -41,7 +41,7 @@ class LibOrder extends ActiveRecord
 			array('type', 'in', 'range'=>array_keys(DropDownItem::items('LibOrder.type'))),
 			array('book_title, library_name, delivered, remaining', 'safe', 'on'=>'search'),
 		);
-		
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
@@ -49,11 +49,11 @@ class LibOrder extends ActiveRecord
 				array('library_id', 'required'),
 				array('library_id', 'numerical', 'integerOnly'=>true),
 			));
-		}		
+		}
 
 		return $rules;
 	}
-	
+
 	public function countValid($attribute, $params)
 	{
 		if ($this->id) $extraCrit = ' AND {{lib_order}}.id!='.$this->id;
@@ -138,7 +138,7 @@ class LibOrder extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	protected function afterSave()
 	{
 		IncNumber::model()->deleteAllByAttributes(array('liborder_id'=>$this->id));
@@ -147,21 +147,21 @@ class LibOrder extends ActiveRecord
 			$incNumber = new IncNumber;
 			$incNumber->user_id = user()->id;
 			$incNumber->liborder_id = $this->id;
-			$incNumber->save(false);				
+			$incNumber->save(false);
 		}
 	}
-	
+
 	protected function beforeDelete()
 	{
 		// mazani prirustkovych cisel reseno pres ON DELETE CASCADE
 		return true;
 	}
-	
+
 	public function getType_c()
 	{
 		return DropDownItem::item('LibOrder.type', $this->type);
 	}
-	
+
 	public function getBook_title()
 	{
 		if ($this->_book_title === null && $this->book !== null)
@@ -170,12 +170,12 @@ class LibOrder extends ActiveRecord
 		}
 		return $this->_book_title;
 	}
-	
+
 	public function setBook_title($value)
 	{
 		$this->_book_title = $value;
 	}
-	
+
 	public function getLibrary_name()
 	{
 		if ($this->_library_name === null && $this->library !== null && $this->library->organisation !== null)
@@ -184,24 +184,24 @@ class LibOrder extends ActiveRecord
 		}
 		return $this->_library_name;
 	}
-	
+
 	public function setLibrary_name($value)
 	{
 		$this->_library_name = $value;
 	}
-	
+
 	public function getRemaining()
 	{
 		if ($this->scenario != 'search' && $this->_remaining === null)
 			$this->_remaining = $this->count - $this->delivered;
 		return $this->_remaining;
 	}
-	
+
 	public function setRemaining($value)
 	{
 		$this->_remaining = $value;
 	}
-	
+
 	public static function getSumOrders($type)
 	{
 		return db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name FROM (((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{lib_order}}.type='${type}' AND {{library}}.order_placed=1 GROUP BY book_id ORDER BY sum_count DESC")->queryAll();

@@ -26,65 +26,15 @@ $this->renderPartial('/library/request', array('model'=>$model))
 
 <br />
 <strong>Základní objednávka:</strong>
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'basic-list',
-	'dataProvider'=>$basicProvider,
-	'template'=>'{items}',
-	'emptyText'=>'',
-	'enableSorting'=>false,
-	'itemsCssClass'=>'blackborder',
-	'columns'=>array(
-		'book.selected_order',
-		'book.name',
-		'book.author',
-		'book.title',
-		'book.issue_year',
-		array(
-			'header'=>t('Price'),
-			'name'=>'book.project_price',
-			'type'=>'czk',
-			'htmlOptions'=>array(
-				'align'=>'right',
-				),
-			),
-		'count',
-		),
-	)); ?>
-<strong>Celková cena základní objednávky: </strong><?echo currf($model->basicPrice);?>
-<br />
-<strong>Celkový počet svazků základní objednávky: </strong><?echo app()->format->formatPcs($model->basicCount)?>
+<?php $this->renderPartial('_order', array('dataProvider'=>$basicProvider)); ?>
+<?php $this->renderPartial('_total_basics', array('model'=>$model)); ?>
 
 <br />
 <br />
 
 <strong>Rezerva:</strong>
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'basic-list',
-	'dataProvider'=>$reserveProvider,
-	'template'=>'{items}',
-	'emptyText'=>'',
-	'enableSorting'=>false,
-	'itemsCssClass'=>'blackborder',
-	'columns'=>array(
-		'book.selected_order',
-		'book.name',
-		'book.author',
-		'book.title',
-		'book.issue_year',
-		array(
-			'header'=>t('Price'),
-			'name'=>'book.project_price',
-			'type'=>'czk',
-			'htmlOptions'=>array(
-				'align'=>'right',
-				),
-			),
-		'count',
-		),
-	)); ?>
-<strong>Celková cena rezervy: </strong><?echo currf($model->reservePrice);?>
-<br />
-<strong>Celkový počet svazků rezervy: </strong><?echo $model->reserveCount?>
+<?php $this->renderPartial('_order', array('dataProvider'=>$reserveProvider)); ?>
+<?php $this->renderPartial('_total_reserves', array('model'=>$model)); ?>
 
 <br />
 <br />
@@ -107,4 +57,3 @@ $this->renderPartial('/library/request', array('model'=>$model))
 		</td>
 	</tr>
 </table>
-	

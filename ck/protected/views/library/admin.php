@@ -14,9 +14,22 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Manage Libraries');
 		array(
 			'header'=>Yii::t('app', 'Actions'),
 			'class'=>'ButtonColumn',
+			'template'=>'{view} {update} {delete} {basic} {reserve}',
 			'buttons'=>array(
 				'delete'=>array(
 					'visible'=>'$data->canDelete',
+				),
+				'basic'=>array(
+					'label'=>t('Basic Order'),
+					'imageUrl'=>Yii::app()->request->baseUrl.'/images/basic.png',
+					'url'=>'Yii::app()->createUrl("library/order", array("id"=>$data->id, "type"=>"B"))',
+					'visible'=>'$data->order_placed',
+				),
+				'reserve'=>array(
+					'label'=>t('Reserve'),
+					'imageUrl'=>Yii::app()->request->baseUrl.'/images/reserve.png',
+					'url'=>'Yii::app()->createUrl("library/order", array("id"=>$data->id, "type"=>"R"))',
+					'visible'=>'$data->order_placed',
 				),
 			),
 		),

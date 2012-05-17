@@ -85,7 +85,7 @@ return array(
 	'here'=>'zde',
 	'{dependentAttribute} cannot be blank if the {attribute} is checked.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je zatrženo pole {attribute}.',
 	'{dependentAttribute} cannot be blank if the {attribute} is blank.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je prázdné pole {attribute}.',
-	
+
 	// LoginForm
 	'Remember me next time'=>'Zapamatovat přihlášení',
 	'Incorrect username or password.'=>'Nesprávné uživatelské jméno nebo heslo.',
@@ -97,11 +97,11 @@ return array(
 	'Users'=>'Uživatelé',
 	'users'=>'uživatelé',
 	'Manage Users'=>'Správa uživatelů',
-	'View Users'=>'Přehled uživatelů',	
+	'View Users'=>'Přehled uživatelů',
 	'Create User'=>'Nový uživatel',
 	'Update User'=>'Editace uživatele',
-	'View User'=>'Detail uživatele',	
-	'Delete User'=>'Odstranění uživatele',	
+	'View User'=>'Detail uživatele',
+	'Delete User'=>'Odstranění uživatele',
 	'Password Repeat'=>'Heslo (pro kontrolu)',
 	'Salt'=>'Sůl',
 	'Register As'=>'Registrovat se jako',
@@ -109,18 +109,18 @@ return array(
 	'Firstname'=>'Jméno',
 	'Lastname'=>'Příjmení',
 	'Title after Name'=>'Titul za jménem',
-		
+
 	// Organisation
 	'Organisation'=>'Organizace',
 	'organisation'=>'organizace',
-	'Organisations'=>'Org.',	
-	'organisations'=>'organizace',	
+	'Organisations'=>'Org.',
+	'organisations'=>'organizace',
 	'Manage Organisations'=>'Správa organizací',
 	'View Organisations'=>'Přehled organizací',
 	'Create Organisation'=>'Nová organizace',
 	'Update Organisation'=>'Editace organizace',
-	'View Organisation'=>'Detail organizace',	
-	'Delete Organisation'=>'Odstranění organizace',	
+	'View Organisation'=>'Detail organizace',
+	'Delete Organisation'=>'Odstranění organizace',
 	'Applicant Name'=>'Název žadatele',
 	'Street'=>'Ulice',
 	'Land Registry Number'=>'Číslo popisné',
@@ -140,17 +140,17 @@ return array(
 	'Worker Responsible for Project'=>'Pracovník odpovídající za projekt',
 	'Worker Name'=>'Jméno pracovníka, odpovídajícího za projekt',
 	'Salutation'=>'Oslovení (v dopise)',
-	
+
 	// Publisher
 	'Publisher'=>'Nakladatel',
 	'publisher'=>'nakladatel',
-	'Publishers'=>'Nakladatelé',	
-	'publishers'=>'nakladatelé',	
+	'Publishers'=>'Nakladatelé',
+	'publishers'=>'nakladatelé',
 	'Manage Publishers'=>'Správa nakladatelů',
 	'View Publishers'=>'Přehled nakladatelů',
 	'Create Publisher'=>'Nový nakladatel',
 	'Update Publisher'=>'Editace nakladatele',
-	'View Publisher'=>'Detail nakladatele',	
+	'View Publisher'=>'Detail nakladatele',
 	'Delete Publisher'=>'Odstranění nakladatele',
 	'Publisher Code'=>'Vydavatelský kód (identifikátor) ISBN',
 	'Request Delivery Date'=>'Datum doručení písemné žádosti',
@@ -158,17 +158,17 @@ return array(
 	'We confirm, that the entered informations are correct and we do not have liabilities to national budget.'=>'Žadatel o dotaci potvrzuje správnost uvedených údajů a prohlašuje, že nemá žádné nevyrovnané závazky vůči státnímu rozpočtu.',
 	'{n} non-commercial title|{n} non-commercial titles'=>'{n} nekomerční titul|{n} nekomerční tituly|{n} nekomerčních titulů',
 	'Print Request'=>'Tisk žádosti',
-	
+
 	// Library
 	'Library'=>'Knihovna',
 	'library'=>'knihovna',
-	'Libraries'=>'Knihovny',	
-	'libraries'=>'knihovny',	
+	'Libraries'=>'Knihovny',
+	'libraries'=>'knihovny',
 	'Manage Libraries'=>'Správa knihoven',
 	'View Libraries'=>'Přehled knihoven',
 	'Create Library'=>'Nová knihovna',
 	'Update Library'=>'Editace knihovny',
-	'View Library'=>'Detail knihovny',	
+	'View Library'=>'Detail knihovny',
 	'Delete Library'=>'Odstranění knihovny',
 	'Library Name'=>'Název knihovny',
 	'Internal Number'=>'Interní číslo',
@@ -191,13 +191,13 @@ return array(
 	// Book
 	'Book'=>'Titul',
 	'book'=>'titul',
-	'Books'=>'Tituly',	
-	'books'=>'tituly',	
+	'Books'=>'Tituly',
+	'books'=>'tituly',
 	'Manage Books'=>'Nabídka titulů',
 	'View Books'=>'Přehled titulů',
 	'Create Book'=>'Nový titul',
 	'Update Book'=>'Editace titulu',
-	'View Book'=>'Detail titulu',	
+	'View Book'=>'Detail titulu',
 	'Delete Book'=>'Odstranění titulu',
 	' of publisher '=>' nakladatele ',
 	'Project Year'=>'Ročník projektu',
@@ -238,17 +238,17 @@ return array(
 	'Check Book'=>'Kontrola titulu',
 	'characters remaining.'=>'znaků zbývá.',
 	'Print Book List'=>'Seznam titulů',
-	
+
 	// Voting
 	'Voting'=>'Hlasování',
 	'voting'=>'hlasování',
-	'Votings'=>'Hlasování',	
-	'votings'=>'hlasování',	
+	'Votings'=>'Hlasování',
+	'votings'=>'hlasování',
 	'Manage Votings'=>'Správa hlasování',
 	'View Votings'=>'Přehled hlasování',
 	'Create Voting'=>'Nové hlasování',
 	'Update Voting'=>'Editace hlasování',
-	'View Voting'=>'Detail hlasování',	
+	'View Voting'=>'Detail hlasování',
 	'Delete Voting'=>'Odstranění hlasování',
 	'Points'=>'Body',
 	'{n} point|{n} points'=>'{n} bod|{n} body|{n} bodů',
@@ -261,25 +261,25 @@ return array(
 	'Withheld'=>'Zdrželi se',
 	'Not voted'=>'Nehlasováno',
 	'Rating Order'=>'Pořadí bodování',
-	
+
 	// Order
 	'Order'=>'Objednávka',
 	'order'=>'objednávka',
-	'Orders'=>'Objednávky',	
-	'orders'=>'objednávky',	
+	'Orders'=>'Objednávky',
+	'orders'=>'objednávky',
 	'Place Order'=>'Vygenerovat objednávku',
 	'Place Orders'=>'Vygenerovat objednávky',
-	'Print Order'=>'Vytisknout objednávku',	
-	'Print Orders'=>'Vytisknout objednávky',	
-	
+	'Print Order'=>'Vytisknout objednávku',
+	'Print Orders'=>'Vytisknout objednávky',
+
 	// Lib Order
 	'Lib Order'=>'Obj. knihovny',
-	'Lib Orders'=>'Obj. knih.',	
+	'Lib Orders'=>'Obj. knih.',
 	'Manage Lib Orders'=>'Správa objednávek',
 	'View Lib Orders'=>'Přehled objednávek',
 	'Create Lib Order'=>'Nová objednávka',
 	'Update Lib Order'=>'Editace objednávky',
-	'View Lib Order'=>'Detail objednávky',	
+	'View Lib Order'=>'Detail objednávky',
 	'Delete Lib Order'=>'Odstranění objednávky',
 	'Delivered'=>'Dodáno',
 	'Basic Order Count'=>'Počet výtisků do základní objednávky',
@@ -291,20 +291,22 @@ return array(
 	'Order Placed'=>'Objednáno',
 	'Remaining'=>'Zbývá dodat',
 	'Actual Delivery'=>'Aktuální dodávka',
+	'Basic Order'=>'Základní objednávka',
 	'Basic Orders'=>'Základní objednávky',
+	'Reserve'=>'Rezerva',
 	'Reserves'=>'Rezervy',
 	'Total Remaining'=>'Celkem zbývá dodat',
 	'Delivered by Publisher'=>'Dodáno nakladatelem',
 	'Remaining from Publisher'=>'Zbývá dodat nakladatelem',
-	
+
 	// Pub Order
 	'Pub Order'=>'Obj. nakladatelům',
-	'Pub Orders'=>'Obj. nakl.',	
+	'Pub Orders'=>'Obj. nakl.',
 	'Manage Pub Orders'=>'Správa objednávek',
 	'View Pub Orders'=>'Přehled objednávek',
 	'Create Pub Order'=>'Nová objednávka',
 	'Update Pub Order'=>'Editace objednávky',
-	'View Pub Order'=>'Detail objednávky',	
+	'View Pub Order'=>'Detail objednávky',
 	'Delete Pub Order'=>'Odstranění objednávky',
 	'Delivered'=>'Dodáno',
 	'Remaining'=>'Zbývá dodat',
@@ -313,7 +315,7 @@ return array(
 	'Dun'=>'Upomínka',
 	'Create Dun'=>'Nová upomínka',
 	'Dun date'=>'Datum upomínky',
-	
+
 	// Stock
 	'Stock'=>'Sklad',
 	'stock'=>'sklad',
@@ -323,11 +325,11 @@ return array(
 	'View Stocks'=>'Přehled skladu',
 	'Create Stock'=>'Nová sklad. položka',
 	'Update Stock'=>'Editace sklad. položky',
-	'View Stock'=>'Detail sklad. položky',	
+	'View Stock'=>'Detail sklad. položky',
 	'Delete Stock'=>'Odstranění sklad. položky',
 	'Bill of Delivery'=>'Výdejka',
 	'Bills of Delivery'=>'Výdejky',
-	
+
 	// StockActivity
 	'Stock Activity'=>'Pohyb na skladě',
 	'stock activity'=>'pohyb na skladě',
@@ -337,9 +339,9 @@ return array(
 	'View Stock Activities'=>'Přehled pohybů na skladě',
 	'Create Stock Activity'=>'Nový pohyb na skladě',
 	'Update Stock Activity'=>'Editace pohybu na skladě',
-	'View Stock Activity'=>'Detail pohybu na skladě',	
+	'View Stock Activity'=>'Detail pohybu na skladě',
 	'Delete Stock Activity'=>'Odstranění pohybu na skladě',
-	
+
 	// IncNumber
 	'Inc Number'=>'Přírůstkové číslo',
 	'inc number'=>'přírůstkové číslo',
@@ -349,13 +351,13 @@ return array(
 	'Manage Inc Numbers'=>'Přehled přírůstkových čísel',
 	'Create Inc Number'=>'Nové přírůstkové číslo',
 	'Update Inc Number'=>'Editace přírůstkového čísla',
-	'View Inc Number'=>'Detail přírůstkového čísla',	
+	'View Inc Number'=>'Detail přírůstkového čísla',
 	'Delete Inc Number'=>'Odstranění přírůstkového čísla',
-	
+
 	// Document
 	'File Name'=>'Název souboru',
 	'MIME Type'=>'MIME typ',
-	
+
 	// Stats
 	'Stats'=>'Stat.',
 	'Statistics'=>'Statistiky',
