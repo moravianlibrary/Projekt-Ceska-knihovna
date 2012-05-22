@@ -1,5 +1,5 @@
 <tr>
-	<td><?php echo ($index + 1); ?></td>
+	<td><?php echo $data->book->selected_order; ?></td>
 	<td><?php echo CHtml::encode($data->book->author); ?></td>
 	<td><?php echo CHtml::encode($data->book->title); ?></td>
 	<td><?php echo CHtml::encode($data->count); ?></td>

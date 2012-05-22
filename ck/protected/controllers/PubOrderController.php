@@ -5,7 +5,7 @@ class PubOrderController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		
+
 		if (req()->isAjaxRequest)
 		{
 			$this->renderPartial('_view', array('model'=>$model));
@@ -121,7 +121,7 @@ class PubOrderController extends Controller
 			Yii::app()->end();
 		}
 	}
-	
+
 	public function actionPlaceOrder()
 	{
 		$sp = Yii::app()->getStatePersister();
@@ -151,9 +151,9 @@ class PubOrderController extends Controller
 			$state['puborder_generated'] = true;
 			$sp->save($state);
 		}
-		$this->redirect(array('admin'));		
+		$this->redirect(array('admin'));
 	}
-	
+
 	public function actionPrintOrder()
 	{
 		$this->layout = '//layouts/blank';
@@ -162,9 +162,9 @@ class PubOrderController extends Controller
 
 		if (isset($_GET['publisher_id']) && is_numeric($_GET['publisher_id']))
 			$attributes = array('id'=>$_GET['publisher_id']);
-		
+
 		$models = Publisher::model()->with(array('organisation'))->orderPlaced()->findAllByAttributes($attributes);
-		
+
 		foreach ($models as $publisher)
 		{
 			$publishers[$publisher->id] = $publisher;
@@ -175,35 +175,35 @@ class PubOrderController extends Controller
 			$criteria->compare('book.publisher_id', $publisher->id);
 			$criteria->with = array('book');
 			$criteria->together = true;
-			
+
 			$orderProviders[$publisher->id]=new CActiveDataProvider('PubOrder', array(
 				'criteria'=>$criteria,
 				'sort'=>array(
-					'defaultOrder'=>'book.author, book.title',
+					'defaultOrder'=>'book.selected_order',
 					),
 				'pagination'=>false,
 			));
-		}	
+		}
 
 		$this->render('order',array(
 			'publishers'=>$publishers,
 			'orderProviders'=>$orderProviders,
 			'useFilter'=>(!isset($_GET['puborder_id'])),
 		));
-	}	
-	
+	}
+
 	public function actionDun()
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('(pub_orders.count-pub_orders.delivered)', '>0');
-		
+
 		$publishers = Publisher::model()->with(array('organisation', 'books'=>array('joinType'=>'INNER JOIN'),'books.pub_orders'=>array('joinType'=>'INNER JOIN')))->findAll($criteria);
-		
+
 		$this->render('dun',array(
 			'publishers'=>$publishers,
 		));
 	}
-	
+
 	public function actionSaveDun($publisher_id)
 	{
 		if(Yii::app()->request->isAjaxRequest)
@@ -219,7 +219,7 @@ class PubOrderController extends Controller
 		else
 			throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 	}
-	
+
 	public function actionFindBook()
 	{
 		$this->autoCompleteFind('Book', 'title', 'title', array(), array('project_price'));

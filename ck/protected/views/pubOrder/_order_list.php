@@ -49,7 +49,7 @@ Objednáváme u vás:
 
 <table>
 	<tr>
-		<th><?echo t('Nr.')?></th>
+		<th><?echo t('Order nr.')?></th>
 		<th><?echo t('Author')?></th>
 		<th><?echo t('Book')?></th>
 		<th><?echo t('Count')?></th>
