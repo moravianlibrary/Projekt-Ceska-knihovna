@@ -135,13 +135,14 @@ class PubOrderController extends Controller
 			$books = Book::model()->thisYear()->selected()->findAll();
 			foreach ($books as $book)
 			{
-				if ($book->sum_basics > 0)
+				$basics = $book->sumLibBasics;
+				if ($basics > 0)
 				{
 					$pubOrder = new PubOrder();
 					$pubOrder->user_id = user()->id;
 					$pubOrder->book_id = $book->id;
 					$pubOrder->date = DT::locToday();
-					$pubOrder->count = $book->sum_basics;
+					$pubOrder->count = $basics;
 					$pubOrder->price = $book->project_price;
 					$pubOrder->type = PubOrder::BASIC;
 					$pubOrder->save();

@@ -39,7 +39,7 @@ class Book extends ActiveRecord
 			),
 		));
 	}
-	
+
 	public function rules()
 	{
 		$rules = array(
@@ -59,7 +59,7 @@ class Book extends ActiveRecord
 			array('annotation', 'length', 'max'=>2000),
 			array('comment', 'safe'),
 		);
-		
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
@@ -74,27 +74,27 @@ class Book extends ActiveRecord
 				array('name, project_year, offered, status', 'safe', 'on'=>'search'),
 			));
 		}
-	
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
 			array(
 				array('votes_yes, votes_no, votes_withheld, selected', 'required', 'on'=>'poll'),
 				array('votes_yes, votes_no, votes_withheld, selected', 'numerical', 'integerOnly'=>true, 'on'=>'poll'),
-				array('publisher_id, author, title, isbn, isbnPart, editor, illustrator, format_width, format_height, available, pages_printed, pages_other, issue_year, retail_price, offer_price, project_price, binding, preamble, epilogue, annotation, council_comment, comment, offered', 'unsafe', 'on'=>'poll'),			
+				array('publisher_id, author, title, isbn, isbnPart, editor, illustrator, format_width, format_height, available, pages_printed, pages_other, issue_year, retail_price, offer_price, project_price, binding, preamble, epilogue, annotation, council_comment, comment, offered', 'unsafe', 'on'=>'poll'),
 			));
 		}
-		
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
 			array(
 				array('selected', 'required', 'on'=>'poll_select'),
 				array('selected', 'numerical', 'integerOnly'=>true, 'on'=>'poll_select'),
-				array('publisher_id, author, title, isbn, isbnPart, editor, illustrator, format_width, format_height, available, pages_printed, pages_other, issue_year, retail_price, offer_price, project_price, binding, preamble, epilogue, annotation, council_comment, comment, offered, votes_yes, votes_no, votes_withheld', 'unsafe', 'on'=>'poll_select'),			
+				array('publisher_id, author, title, isbn, isbnPart, editor, illustrator, format_width, format_height, available, pages_printed, pages_other, issue_year, retail_price, offer_price, project_price, binding, preamble, epilogue, annotation, council_comment, comment, offered, votes_yes, votes_no, votes_withheld', 'unsafe', 'on'=>'poll_select'),
 			));
 		}
-		
+
 		if (user()->checkAccess('PublisherRole'))
 		{
 			$rules = array_merge($rules,
@@ -102,7 +102,7 @@ class Book extends ActiveRecord
 				array('status', 'safe', 'on'=>'search'),
 			));
 		}
-		
+
 		return $rules;
 	}
 
@@ -121,12 +121,12 @@ class Book extends ActiveRecord
 			else $this->addError($attribute, strtr(Yii::t('yii','The format of {attribute} is invalid.'),array('{attribute}'=>$this->getAttributeLabel($attribute))));
 		}
 	}
-	
+
 	public function isbnLength($attribute, $params)
 	{
 		if (mb_strlen(param('isbnPrefix').$this->isbnPart, 'UTF-8') > 32) $this->addError($attribute, strtr(Yii::t('yii','{attribute} is too long (maximum is {max} characters).'),array('{attribute}'=>$this->getAttributeLabel($attribute), '{max}'=>32)));
 	}
-	
+
 	public function createISBN($value)
 	{
 		if ($this->isbnPart != '')
@@ -151,15 +151,13 @@ class Book extends ActiveRecord
 			'ratings' => array(self::HAS_MANY, 'Voting', 'book_id', 'on'=>'rating.type=\''.Voting::RATING.'\''),
 			'sum_ratings' => array(self::STAT, 'Voting', 'book_id', 'select'=>'SUM(points)', 'condition'=>'type=\''.Voting::RATING.'\''),
 			'poll' => array(self::HAS_ONE, 'Voting', 'book_id', 'on'=>'poll.user_id='.user()->id.' AND poll.type=\''.Voting::POLL.'\''),
-			'polls' => array(self::HAS_MANY, 'Voting', 'book_id', 'on'=>'poll.type=\''.Voting::POLL.'\''),		
+			'polls' => array(self::HAS_MANY, 'Voting', 'book_id', 'on'=>'poll.type=\''.Voting::POLL.'\''),
 			'lib_orders' => array(self::HAS_MANY, 'LibOrder', 'book_id'),
 			'pub_orders' => array(self::HAS_MANY, 'PubOrder', 'book_id'),
 			'basic' => array(self::HAS_ONE, 'LibOrder', 'book_id', 'on'=>'basic.user_id='.user()->id.' AND basic.type=\''.LibOrder::BASIC.'\''),
 			'basics' => array(self::HAS_MANY, 'LibOrder', 'book_id', 'on'=>'basic.type=\''.LibOrder::BASIC.'\''),
-			'sum_basics' => array(self::STAT, 'LibOrder', 'book_id', 'select'=>'SUM(count)', 'condition'=>'type=\''.LibOrder::BASIC.'\''),
 			'reserve' => array(self::HAS_ONE, 'LibOrder', 'book_id', 'on'=>'reserve.user_id='.user()->id.' AND reserve.type=\''.LibOrder::RESERVE.'\''),
 			'reserves' => array(self::HAS_MANY, 'LibOrder', 'book_id', 'on'=>'reserve.type=\''.LibOrder::RESERVE.'\''),
-			'sum_reserves' => array(self::STAT, 'LibOrder', 'book_id', 'select'=>'SUM(count)', 'condition'=>'type=\''.LibOrder::RESERVE.'\''),
 			'book_titles' => array(self::HAS_MANY, 'BookTitle', 'book_id'),
 		);
 	}
@@ -210,10 +208,10 @@ class Book extends ActiveRecord
 	public function search()
 	{
 		$criteria=new CDbCriteria;
-		
+
 		if (user()->publisher_id)
 			$criteria->compare('t.project_year',param('projectYear'));
-		
+
 		$criteria->compare('t.isbn',$this->isbn,true);
 		$criteria->compare('t.author',$this->author,true);
 		$criteria->compare('t.title',$this->title,true);
@@ -224,7 +222,7 @@ class Book extends ActiveRecord
 		if ($this->status == -1) $criteria->addCondition('t.status IS NULL');
 		else $criteria->compare('t.status',$this->status);
 		$criteria->with = array('publisher','publisher.organisation');
-		
+
 		return new CActiveDataProvider($this->my(), array(
 			'criteria'=>$criteria,
 			'sort'=>array(
@@ -241,18 +239,18 @@ class Book extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	protected function afterFind()
 	{
 		parent::afterFind();
 		$this->isbnPart = preg_replace('/^'.param('isbnPrefix').'/', '', $this->isbn);
 		$this->_prevTitle = $this->title;
 	}
-	
+
 	protected function afterSave()
 	{
 		parent::afterSave();
-		
+
 		if (!$this->isNewRecord)
 		{
 			if ($this->_prevTitle != $this->title)
@@ -265,7 +263,7 @@ class Book extends ActiveRecord
 			}
 		}
 	}
-	
+
 	public function getName()
 	{
 		if ($this->_name === null && $this->publisher !== null && $this->publisher->organisation !== null)
@@ -274,29 +272,47 @@ class Book extends ActiveRecord
 		}
 		return $this->_name;
 	}
-	
+
 	public function setName($value)
 	{
 		$this->_name = $value;
 	}
-	
+
 	public function getStatus_c()
 	{
 		return DropDownItem::item('Book.status', $this->status);
 	}
-	
+
 	public function getCanView()
 	{
 		return true;
 	}
-	
+
 	public function getCanUpdate()
 	{
 		return (!user()->publisher_id || (!$this->offered && param('pubBookDate') >= DT::isoToday()));
 	}
-	
+
 	public function getCanDelete()
 	{
 		return (!user()->publisher_id || (!user()->publisher_offer_id && param('pubBookDate') >= DT::isoToday()));
+	}
+
+	public function getSumLibBasics()
+	{
+		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE book_id=".$this->id." AND type='".LibOrder::BASIC."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
+		if ($result)
+			return $result;
+		else
+			return 0;
+	}
+
+	public function getSumLibReserves()
+	{
+		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE book_id=".$this->id." AND type='".LibOrder::RESERVE."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
+		if ($result)
+			return $result;
+		else
+			return 0;
 	}
 }
