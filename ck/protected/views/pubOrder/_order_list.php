@@ -7,7 +7,7 @@
 
 <br /><br />
 
-<strong>Věc: Objednávka</strong>
+<strong>Věc: Objednávka č. <?echo $number.'/'.param('projectYear')?></strong>
 
 <br /><br />
 

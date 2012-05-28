@@ -161,10 +161,12 @@ class PubOrderController extends Controller
 
 		$orderProviders = $publishers = $attributes = array();
 
+		$criteria=new CDbCriteria;
 		if (isset($_GET['publisher_id']) && is_numeric($_GET['publisher_id']))
-			$attributes = array('id'=>$_GET['publisher_id']);
+			$criteria->compare('t.id', $_GET['publisher_id']);
+		$criteria->order = 'organisation.name';
 
-		$models = Publisher::model()->with(array('organisation'))->orderPlaced()->findAllByAttributes($attributes);
+		$models = Publisher::model()->with(array('organisation'))->orderPlaced()->findAll($criteria);
 
 		foreach ($models as $publisher)
 		{
@@ -189,7 +191,8 @@ class PubOrderController extends Controller
 		$this->render('order',array(
 			'publishers'=>$publishers,
 			'orderProviders'=>$orderProviders,
-			'useFilter'=>(!isset($_GET['puborder_id'])),
+			//'useFilter'=>(!isset($_GET['puborder_id'])),
+			'useFilter'=>false,
 		));
 	}
 
