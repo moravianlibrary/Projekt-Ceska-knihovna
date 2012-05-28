@@ -300,7 +300,7 @@ class Book extends ActiveRecord
 
 	public function getSumLibBasics()
 	{
-		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE book_id=".$this->id." AND type='".LibOrder::BASIC."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
+		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE {{lib_order}}.book_id=".$this->id." AND {{lib_order}}.type='".LibOrder::BASIC."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
 		if ($result)
 			return $result;
 		else
@@ -309,7 +309,7 @@ class Book extends ActiveRecord
 
 	public function getSumLibReserves()
 	{
-		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE book_id=".$this->id." AND type='".LibOrder::RESERVE."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
+		$result = db()->createCommand("SELECT SUM(count) AS cnt FROM {{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id WHERE {{lib_order}}.book_id=".$this->id." AND {{lib_order}}.type='".LibOrder::RESERVE."' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00'")->queryScalar();
 		if ($result)
 			return $result;
 		else
