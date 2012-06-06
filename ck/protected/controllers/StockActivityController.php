@@ -211,12 +211,18 @@ class StockActivityController extends Controller
 	{
 		$criteria=new CDbCriteria;
 
-		if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
-			$criteria->compare('library_id', $_GET['library_id']);
-		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
-			$criteria->compare('book_id', $_GET['book_id']);
-		if (isset($_GET['type']) && $_GET['type'] != '')
-			$criteria->compare('t.type', $_GET['type']);
+		if ((isset($_GET['library_id']) && is_numeric($_GET['library_id'])) || (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) || (isset($_GET['type']) && $_GET['type'] != ''))
+		{
+			if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
+				$criteria->compare('library_id', $_GET['library_id']);
+			if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
+				$criteria->compare('book_id', $_GET['book_id']);
+			if (isset($_GET['type']) && $_GET['type'] != '')
+				$criteria->compare('t.type', $_GET['type']);
+		}
+		else
+			$criteria->compare('t.id', '-');
+
 		$criteria->with = array('book', 'book.stock_basic', 'book.stock_reserve', 'library', 'library.organisation');
 		$criteria->together = true;
 
