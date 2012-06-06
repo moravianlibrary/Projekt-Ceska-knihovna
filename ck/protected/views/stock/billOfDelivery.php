@@ -55,6 +55,7 @@ foreach ($libraries as $library)
 	{
 		foreach ($order->stock_activities as $stockActivity)
 		{
+			$bills[$stockActivity->stock_id]['selected_order'] = $stockActivity->stock->book->selected_order;
 			$bills[$stockActivity->stock_id]['title'] = $stockActivity->stock->book->title;
 			$bills[$stockActivity->stock_id]['author'] = $stockActivity->stock->book->author;
 			$bills[$stockActivity->stock_id]['name'] = $stockActivity->stock->book->publisher->organisation->name;
@@ -62,7 +63,7 @@ foreach ($libraries as $library)
 			$bills[$stockActivity->stock_id]['count'] += $stockActivity->count;
 			$bills[$stockActivity->stock_id]['date'] = $stockActivity->date;
 			$bills[$stockActivity->stock_id]['type'] = $stockActivity->stock->type_c;
-		}	
+		}
 	}
 	for ($i = 1; $i <= $billCount; $i++)
 	{
@@ -78,9 +79,9 @@ foreach ($libraries as $library)
 				<td width="33%" align="right" style="vertical-align: top;"><?echo t('Date of Issue').': '.DT::locToday();?></td>
 			</tr>
 		</table>
-		
+
 		<br />
-		
+
 		<table width="100%">
 			<tr>
 				<th width="33%">Středisko</th>
@@ -93,9 +94,9 @@ foreach ($libraries as $library)
 				<td align="center"><?echo implode(', ', $library->contact_place->fullAddress)?></td>
 			<tr>
 		</table>
-		
+
 		<br />
-		
+
 		<table class="noborder">
 			<tr>
 				<th>#</th>
@@ -115,7 +116,7 @@ foreach ($libraries as $library)
 			$totalCount = 0;
 			foreach ($bills as $id=>$bill)
 			{
-				echo '<tr><td>'.($j++).'</td><td colspan="4"><strong>'.$bill['author'].': '.$bill['title'].'</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
+				echo '<tr><td>'.$bill['selected_order'].'</td><td colspan="4"><strong>'.$bill['author'].': '.$bill['title'].'</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
 				echo '<tr style="border-bottom: 1px dashed black;"><td>&nbsp;</td><td>'.$bill['date'].' ('.$bill['type'].')</td><td>'.currf($bill['price']).'</td><td>'.$bill['count'].' '.t('pcs').'</td><td>'.currf($bill['count']*$bill['price']).'</td><td>&nbsp;</td></tr>';
 				$totalPrice += $bill['count']*$bill['price'];
 				$totalCount += $bill['count'];
@@ -128,7 +129,7 @@ foreach ($libraries as $library)
 				<th style="text-align:left">&nbsp;</th>
 			</tr>
 		</table>
-		
+
 		<br />
 		Přijal:
 		<br /><br /><br /><br />
@@ -140,9 +141,9 @@ foreach ($libraries as $library)
 				</tr>
 			</table>
 		<?
-		
+
 	}
-	
+
 	if ($printAddress)
 	{
 		if ($printPageBreak) echo '<div class="break"></div>';

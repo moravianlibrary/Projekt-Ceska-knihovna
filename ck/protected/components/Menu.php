@@ -166,7 +166,7 @@ class Menu
 		$this->insertItem('Stock:Admin', 'stockActivity', '/stock/index', 'View Stocks');
 		$this->insertItem('StockActivity:PubActivity', 'stockActivity', '/stockActivity/pubActivity', 'Pub Orders');
 		$this->insertItem('StockActivity:LibActivity', 'stockActivity', '/stockActivity/libActivity', 'Lib Orders');
-		$this->insertItem('Stock:BillOfDelivery', 'stockActivity', '/stock/billOfDelivery', 'Bills of Delivery', array('target'=>'_blank'));
+		$this->insertItem('Stock:BillOfDelivery', 'stockActivity', '/stock/billOfDelivery', 'Print Bills of Delivery', array('target'=>'_blank'));
 
 		$this->insertItem('Stat:Titles', 'stat', 'titles', 'Books');
 		$this->insertItem('Stat:TitlesNotDelivered', 'stat', 'titlesNotDelivered', 'Undelivered Titles');

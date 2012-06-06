@@ -330,6 +330,7 @@ return array(
 	'Delete Stock'=>'Odstranění sklad. položky',
 	'Bill of Delivery'=>'Výdejka',
 	'Bills of Delivery'=>'Výdejky',
+	'Print Bills of Delivery'=>'Tisk výdejek',
 
 	// StockActivity
 	'Stock Activity'=>'Pohyb na skladě',
