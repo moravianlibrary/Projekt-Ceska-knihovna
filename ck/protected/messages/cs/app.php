@@ -85,6 +85,7 @@ return array(
 	'here'=>'zde',
 	'{dependentAttribute} cannot be blank if the {attribute} is checked.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je zatrženo pole {attribute}.',
 	'{dependentAttribute} cannot be blank if the {attribute} is blank.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je prázdné pole {attribute}.',
+	'Invoice Nr.'=>'Č. faktury',
 
 	// LoginForm
 	'Remember me next time'=>'Zapamatovat přihlášení',

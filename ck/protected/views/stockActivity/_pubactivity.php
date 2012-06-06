@@ -26,8 +26,20 @@
 
 	<?if ($data->remaining != 0) {?>
 		<form name='f_puborder_<?echo $data->id?>'>
-		<b><?php echo CHtml::encode(t('Actual Delivery')); ?>:</b>
-		<?echo CHtml::textField('StockActivity[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?>
+		<table class="nomargin">
+			<tr>
+				<td style="text-align:right"><b><?php echo CHtml::encode(t('Actual Delivery')); ?>:&nbsp;</b></td>
+				<td><?echo CHtml::textField('StockActivity[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?></td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><b><?php echo CHtml::encode(t('Invoice Nr.')); ?>:&nbsp;</b></td>
+				<td><?echo CHtml::textField('StockActivity[invoice]', '', array('size'=>'10')); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><b><?php echo CHtml::encode(t('Price')); ?>:&nbsp;</b></td>
+				<td><?echo CHtml::textField('StockActivity[price]', '', array('size'=>'10')); ?> <?echo t('CZK')?></td>
+			</tr>
+		</table>
 		<?php echo CHtml::ajaxSubmitButton(t('Save'), array('savePubActivity', 'puborder_id'=>$data->id), array('type'=>'POST', 'dataType'=>'json', 'success'=>'function(data) {if (data.status == "OK") {jQuery("#puborder_'.$data->id.'").replaceWith(data.val); if (data.msg != "") {jQuery("#flash-common-success div").html(data.msg); jQuery("#flash-common-success").dialog({show:"fade", hide:"puff", modal:true, title:"'.Yii::t('app', 'Information').'", autoOpen:true, width:400, minHeight:50, buttons:{"Ok":function(){$(this).dialog("close");}}});}} else {if (data.msg != "") {jQuery("#flash-common-error div").html(data.msg); jQuery("#flash-common-error").dialog({show:"fade", hide:"puff", modal:true, title:"'.Yii::t('app', 'Error').'", autoOpen:true, width:400, minHeight:50, buttons:{"Ok":function(){$(this).dialog("close");}}});}}}'), array('id'=>'submit_puborder_'.$data->id))?>
 		</form>
 	<?}?>

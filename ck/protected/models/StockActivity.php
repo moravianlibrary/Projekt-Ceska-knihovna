@@ -21,6 +21,9 @@ class StockActivity extends ActiveRecord
 			array('date', 'date', 'format'=>Yii::app()->locale->dateFormat),
 			array('count', 'numerical', 'integerOnly'=>true),
 			array('count', 'countValid'),
+			array('invoice', 'length', 'max'=>64),
+			array('price', 'filter', 'filter'=>array($this, 'numerize')),
+			array('price', 'numerical'),
 		);
 	}
 
@@ -36,7 +39,7 @@ class StockActivity extends ActiveRecord
 			$label = $this->getAttributeLabel($attribute);
 			$modif = -1;
 		}
-			
+
 		if ($this->pub_order_id !== null)
 		{
 			if ($this->count <= 0)
@@ -44,12 +47,12 @@ class StockActivity extends ActiveRecord
 				$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be greater than "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>0)));
 				return;
 			}
-			
+
 			$remaining = $this->pub_order->remaining;
 			if (!$this->isNewRecord)
 				$remaining += abs($this->_oldCount);
 
-			if (abs($this->count) > $remaining) $this->addError($attribute, strtr(Yii::t('yii','{attribute} must be less than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>$remaining)));			
+			if (abs($this->count) > $remaining) $this->addError($attribute, strtr(Yii::t('yii','{attribute} must be less than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>$remaining)));
 		}
 		if ($this->lib_order_id !== null)
 		{
@@ -58,7 +61,7 @@ class StockActivity extends ActiveRecord
 				$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be less than "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>0)));
 				return;
 			}
-			
+
 			$stock_count = $this->stock->count;
 			if (!$this->isNewRecord)
 				$stock_count += abs($this->_oldCount);
@@ -68,7 +71,7 @@ class StockActivity extends ActiveRecord
 				$this->addError($attribute, strtr(Yii::t('yii','Na skladě není dostatečné množství položek (maximální hodnota je {maxValue}).'), array('{maxValue}'=>$modif*$stock_count)));
 				return;
 			}
-			
+
 			$remaining = $this->lib_order->remaining;
 			if (!$this->isNewRecord)
 				$remaining += abs($this->_oldCount);
@@ -76,11 +79,16 @@ class StockActivity extends ActiveRecord
 			if (abs($this->count) > $remaining)
 			{
 				if ($this->scenario == 'stock')
-					$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be less than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>$remaining)));				
+					$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be less than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>$remaining)));
 				else
-					$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be greater than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>-$remaining)));		
+					$this->addError($attribute, strtr(Yii::t('yii','{attribute} must be greater than or equal to "{compareValue}".'),array('{attribute}'=>$label, '{compareValue}'=>-$remaining)));
 			}
 		}
+	}
+
+	public function numerize($value)
+	{
+		return str_replace(',', '.', $value);
 	}
 
 	public function relations()
@@ -121,7 +129,7 @@ class StockActivity extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	protected function afterFind()
 	{
 		parent::afterFind();
@@ -134,22 +142,22 @@ class StockActivity extends ActiveRecord
 		$stock = Stock::model()->findByPk($this->stock_id);
 		$stock->count = $stock->sum_activities;
 		$stock->save(false);
-		
+
 		if ($this->pub_order_id)
 		{
 			$puborder = PubOrder::model()->findByPk($this->pub_order_id);
 			$puborder->delivered = $puborder->sum_activities;
-			$puborder->save(false);			
+			$puborder->save(false);
 		}
-		
+
 		if ($this->lib_order_id)
 		{
 			$liborder = LibOrder::model()->findByPk($this->lib_order_id);
 			$liborder->delivered = abs($liborder->sum_activities);
-			$liborder->save(false);			
+			$liborder->save(false);
 		}
 	}
-	
+
 	protected function afterDelete()
 	{
 		parent::afterDelete();
@@ -161,14 +169,14 @@ class StockActivity extends ActiveRecord
 		{
 			$puborder = PubOrder::model()->findByPk($this->pub_order_id);
 			$puborder->delivered = $puborder->sum_activities;
-			$puborder->save(false);			
+			$puborder->save(false);
 		}
-		
+
 		if ($this->lib_order_id)
 		{
 			$liborder = LibOrder::model()->findByPk($this->lib_order_id);
 			$liborder->delivered = abs($liborder->sum_activities);
-			$liborder->save(false);			
+			$liborder->save(false);
 		}
 	}
 }

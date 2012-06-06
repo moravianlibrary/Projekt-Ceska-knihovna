@@ -6,7 +6,7 @@ class StockActivityController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		
+
 		if (req()->isAjaxRequest)
 		{
 			$this->renderPartial('_view', array('model'=>$model));
@@ -20,7 +20,7 @@ class StockActivityController extends Controller
 	public function actionCreate($stock_id)
 	{
 		$model=new StockActivity;
-		
+
 		if(isset($_POST['StockActivity']))
 		{
 			$model->stock_id = (int) $stock_id;
@@ -48,7 +48,7 @@ class StockActivityController extends Controller
 		}
 	}
 	*/
-	
+
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
@@ -133,11 +133,11 @@ class StockActivityController extends Controller
 			Yii::app()->end();
 		}
 	}
-		
+
 	public function actionPubActivity()
 	{
 		$criteria=new CDbCriteria;
-		
+
 		if (isset($_GET['publisher_id']) && is_numeric($_GET['publisher_id']))
 			$criteria->compare('book.publisher_id', $_GET['publisher_id']);
 		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
@@ -146,7 +146,7 @@ class StockActivityController extends Controller
 			$criteria->compare('t.type', $_GET['type']);
 		$criteria->with = array('book', 'book.publisher', 'book.publisher.organisation');
 		$criteria->together = true;
-		
+
 		$dataProvider=new CActiveDataProvider('PubOrder', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
@@ -157,31 +157,33 @@ class StockActivityController extends Controller
 
 		$this->render('pubactivity',array(
 			'dataProvider'=>$dataProvider,
-		));	
+		));
 	}
-	
+
 	public function actionSavePubActivity($puborder_id)
 	{
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$status = 'ERR'; $msg = t('Record cannot be saved.');
 			$puborder = PubOrder::model()->findByPk($puborder_id);
-		
+
 			if ($puborder !== null)
 			{
 				$stock = Stock::model()->findByAttributes(array('book_id'=>$puborder->book_id, 'type'=>$puborder->type));
-				
+
 				$stockActivity = new StockActivity('stock');
 				$stockActivity->user_id = user()->id;
 				$stockActivity->stock_id = $stock->id;
 				$stockActivity->pub_order_id = $puborder_id;
 				$stockActivity->date = DT::locToday();
 				$stockActivity->count = abs($_POST['StockActivity']['count']);
+				$stockActivity->invoice = $_POST['StockActivity']['invoice'];
+				$stockActivity->price = $_POST['StockActivity']['price'];
 
 				if ($stockActivity->save())
 				{
 					$status = 'OK';
-					$msg = '';					
+					$msg = '';
 				}
 				else
 				{
@@ -191,24 +193,24 @@ class StockActivityController extends Controller
 					foreach (user()->getFlashes() as $name=>$flash)
 						$msg .= '<br />'.$flash;
 				}
-				
+
 				$puborder=PubOrder::model()->with(array('book', 'book.publisher', 'book.publisher.organisation'))->findByPk($puborder_id);
-				
+
 				$this->ajaxEditFormNoScript();
 				echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_pubactivity', array('data'=>$puborder), true, true), 'model'=>array(), 'msg'=>$msg));
 				Yii::app()->end();
 			}
 			else
-				throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));			
+				throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 		}
 		else
 			throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 	}
-	
+
 	public function actionLibActivity()
 	{
 		$criteria=new CDbCriteria;
-		
+
 		if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
 			$criteria->compare('library_id', $_GET['library_id']);
 		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
@@ -217,7 +219,7 @@ class StockActivityController extends Controller
 			$criteria->compare('t.type', $_GET['type']);
 		$criteria->with = array('book', 'library', 'library.organisation');
 		$criteria->together = true;
-		
+
 		$dataProvider=new CActiveDataProvider('LibOrder', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
@@ -228,20 +230,20 @@ class StockActivityController extends Controller
 
 		$this->render('libactivity',array(
 			'dataProvider'=>$dataProvider,
-		));	
+		));
 	}
-	
+
 	public function actionSaveLibActivity($liborder_id)
 	{
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$status = 'ERR'; $msg = t('Record cannot be saved.');
 			$liborder = LibOrder::model()->findByPk($liborder_id);
-		
+
 			if ($liborder !== null)
 			{
 				$stock = Stock::model()->findByAttributes(array('book_id'=>$liborder->book_id, 'type'=>$liborder->type));
-				
+
 				$stockActivity = new StockActivity('stock');
 				$stockActivity->user_id = user()->id;
 				$stockActivity->stock_id = $stock->id;
@@ -252,7 +254,7 @@ class StockActivityController extends Controller
 				if ($stockActivity->save())
 				{
 					$status = 'OK';
-					$msg = '';					
+					$msg = '';
 				}
 				else
 				{
@@ -262,15 +264,15 @@ class StockActivityController extends Controller
 					foreach (user()->getFlashes() as $name=>$flash)
 						$msg .= '<br />'.$flash;
 				}
-				
+
 				$liborder=LibOrder::model()->with(array('book', 'library', 'library.organisation'))->findByPk($liborder_id);
-				
+
 				$this->ajaxEditFormNoScript();
 				echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_libactivity', array('data'=>$liborder), true, true), 'model'=>array(), 'msg'=>$msg));
 				Yii::app()->end();
 			}
 			else
-				throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));			
+				throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 		}
 		else
 			throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
