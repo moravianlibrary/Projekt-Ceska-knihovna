@@ -159,6 +159,8 @@ class Book extends ActiveRecord
 			'reserve' => array(self::HAS_ONE, 'LibOrder', 'book_id', 'on'=>'reserve.user_id='.user()->id.' AND reserve.type=\''.LibOrder::RESERVE.'\''),
 			'reserves' => array(self::HAS_MANY, 'LibOrder', 'book_id', 'on'=>'reserve.type=\''.LibOrder::RESERVE.'\''),
 			'book_titles' => array(self::HAS_MANY, 'BookTitle', 'book_id'),
+			'stock_basic' => array(self::HAS_ONE, 'Stock', 'book_id', 'on'=>'stock_basic.type=\''.Stock::BASIC.'\''),
+			'stock_reserve' => array(self::HAS_ONE, 'Stock', 'book_id', 'on'=>'stock_reserve.type=\''.Stock::RESERVE.'\''),
 		);
 	}
 

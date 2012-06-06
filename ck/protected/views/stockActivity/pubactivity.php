@@ -2,6 +2,8 @@
 $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Pub Orders');
 ?>
 
+<?php $this->insertDialog(); ?>
+
 <h1><?php echo Yii::t('app', 'Pub Orders');?></h1>
 
 <div class="noprint">

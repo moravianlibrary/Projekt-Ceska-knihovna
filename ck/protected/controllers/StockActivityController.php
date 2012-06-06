@@ -144,7 +144,7 @@ class StockActivityController extends Controller
 			$criteria->compare('book_id', $_GET['book_id']);
 		if (isset($_GET['type']) && $_GET['type'] != '')
 			$criteria->compare('t.type', $_GET['type']);
-		$criteria->with = array('book', 'book.publisher', 'book.publisher.organisation');
+		$criteria->with = array('book', 'book.stock_basic', 'book.stock_reserve', 'book.publisher', 'book.publisher.organisation');
 		$criteria->together = true;
 
 		$dataProvider=new CActiveDataProvider('PubOrder', array(
@@ -217,7 +217,7 @@ class StockActivityController extends Controller
 			$criteria->compare('book_id', $_GET['book_id']);
 		if (isset($_GET['type']) && $_GET['type'] != '')
 			$criteria->compare('t.type', $_GET['type']);
-		$criteria->with = array('book', 'library', 'library.organisation');
+		$criteria->with = array('book', 'book.stock_basic', 'book.stock_reserve', 'library', 'library.organisation');
 		$criteria->together = true;
 
 		$dataProvider=new CActiveDataProvider('LibOrder', array(
