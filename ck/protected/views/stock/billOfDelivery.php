@@ -7,7 +7,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Bills of Delivery');
 	<legend><?echo t('Filter')?></legend>
 	<?
 	echo CHtml::beginForm(url('stock/billOfDelivery'), 'get');
-	echo t('Library').': '.CHtml::dropDownList('library_id', @$_GET['library_id'], CHtml::listData(Library::model()->with('organisation')->orderPlaced()->findAll(array('order'=>'organisation.name')), 'id', 'name'), array('prompt'=>'&lt;'.t('libraries').'&gt;'));
+	echo t('Library').': '.CHtml::dropDownList('library_id', @$_GET['library_id'], CHtml::listData(Library::model()->with('organisation')->orderPlaced()->findAll(array('order'=>'organisation.name')), 'id', 'cityAndName'), array('prompt'=>'&lt;'.t('libraries').'&gt;'));
 	echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
 	echo t('Contact Place').': '.CHtml::dropDownList('contact_place_id', @$_GET['contact_place_id'], CHtml::listData(Library::model()->with('organisation')->contactPlaces()->findAll(array('order'=>'organisation.name')), 'id', 'name'), array('prompt'=>'&lt;'.t('contact places').'&gt;'));
 	echo '&nbsp;&nbsp;|&nbsp;&nbsp;';

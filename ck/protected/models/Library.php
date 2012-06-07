@@ -3,7 +3,7 @@
 class Library extends ActiveRecord
 {
 	public $notSubjectOfLaw = 0;
-	
+
 	private $_name = null;
 	private $_longName = null;
 	private $_libraryName = null;
@@ -37,7 +37,7 @@ class Library extends ActiveRecord
 			'condition'=>'region=:region',
 			'params'=>array(':region'=>$region),
 		));
-		return $this;		
+		return $this;
 	}
 
 	public function rules()
@@ -49,8 +49,8 @@ class Library extends ActiveRecord
 			array('headcount, units_total, units_new', 'numerical', 'integerOnly'=>true),
 			array('budget, budget_czech', 'filter', 'filter'=>array($this, 'numerize')),
 			array('land_registry_number, postal_code', 'numerical', 'integerOnly'=>true),
-			array('budget, budget_czech', 'numerical'),			
-			array('notSubjectOfLaw', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>1), 
+			array('budget, budget_czech', 'numerical'),
+			array('notSubjectOfLaw', 'YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>1),
 				'dependentValidations'=>array(
 					'libname, street, city, postal_code'=>array(array('required', 'message'=>Yii::t('app','{dependentAttribute} cannot be blank if the {attribute} is checked.')),),
 					'house_number'=>array(array('YiiConditionalValidator', 'validation'=>array('compare', 'compareValue'=>''),
@@ -67,7 +67,7 @@ class Library extends ActiveRecord
 			array('private_data, confirmation', 'confirmsValid'),
 			array('name, libraryName', 'safe', 'on'=>'search'),
 		);
-		
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
@@ -78,23 +78,23 @@ class Library extends ActiveRecord
 				array('internal_number', 'length', 'max'=>16),
 				array('order_date', 'date', 'format'=>Yii::app()->locale->dateFormat, 'allowEmpty'=>true),
 			));
-		}		
+		}
 
 		return $rules;
 	}
-	
+
 	public function numerize($value)
 	{
 		return str_replace(',', '.', $value);
 	}
-	
+
 	public function contactPlaceValid($attribute, $params)
 	{
 		if ($this->selfContactPlace == '0' && $this->contact_place_id == '')
 		{
 			$this->addError($attribute, strtr(Yii::t('yii','{attribute} cannot be blank.'),array('{attribute}'=>$this->getAttributeLabel($attribute))));
 		}
-	}	
+	}
 
 	public function confirmsValid($attribute, $params)
 	{
@@ -164,7 +164,7 @@ class Library extends ActiveRecord
 
 		$criteria->compare('t.internal_number',$this->internal_number);
 		$criteria->compare('t.number',$this->number,true);
-		$criteria->compare('t.order_date',DT::toIso($this->order_date));		
+		$criteria->compare('t.order_date',DT::toIso($this->order_date));
 		$criteria->compare('t.type',$this->type,true);
 		if ($this->libraryName != '')
 		{
@@ -188,11 +188,11 @@ class Library extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	protected function afterFind()
 	{
 		parent::afterFind();
-		
+
 		if ($this->libname != '')
 			$this->notSubjectOfLaw = 1;
 	}
@@ -200,7 +200,7 @@ class Library extends ActiveRecord
 	protected function afterSave()
 	{
 		parent::afterSave();
-		
+
 		if ($this->isNewRecord)
 		{
 			if (!am()->checkAccess('LibraryRole', $this->user_id))
@@ -209,7 +209,7 @@ class Library extends ActiveRecord
 				am()->save();
 			}
 		}
-		
+
 		if ($this->selfContactPlace == '1')
 		{
 			$this->contact_place_id = $this->id;
@@ -217,7 +217,7 @@ class Library extends ActiveRecord
 			$this->saveAttributes(array('contact_place_id'));
 		}
 	}
-	
+
 	public function getName()
 	{
 		if ($this->_name === null && $this->organisation !== null)
@@ -226,12 +226,12 @@ class Library extends ActiveRecord
 		}
 		return $this->_name;
 	}
-	
+
 	public function setName($value)
 	{
 		$this->_name = $value;
 	}
-	
+
 	public function getLongName()
 	{
 		if ($this->_longName === null && $this->organisation !== null)
@@ -240,7 +240,7 @@ class Library extends ActiveRecord
 		}
 		return $this->_longName;
 	}
-	
+
 	public function getSelfContactPlace()
 	{
 		if ($this->_selfContactPlace === null)
@@ -250,17 +250,17 @@ class Library extends ActiveRecord
 		}
 		return $this->_selfContactPlace;
 	}
-	
+
 	public function setSelfContactPlace($value)
 	{
 		$this->_selfContactPlace = $value;
 	}
-	
+
 	public function getContactPlaceOrganisationAddress()
 	{
 		return $this->contact_place->organisation->address;
 	}
-		
+
 	public function getFullStreet()
 	{
 		$ret = '';
@@ -279,7 +279,7 @@ class Library extends ActiveRecord
 		}
 		return $ret;
 	}
-	
+
 	public function getFullCity()
 	{
 		$ret = '';
@@ -290,7 +290,7 @@ class Library extends ActiveRecord
 		}
 		return $ret;
 	}
-	
+
 	public function getFullAddress()
 	{
 		if ($this->libname != '')
@@ -305,7 +305,7 @@ class Library extends ActiveRecord
 		else
 			return $this->organisation->fullAddress;
 	}
-	
+
 	public function getLibraryName()
 	{
 		if ($this->_libraryName === null)
@@ -317,17 +317,22 @@ class Library extends ActiveRecord
 		}
 		return $this->_libraryName;
 	}
-	
+
 	public function setLibraryName($value)
 	{
 		$this->_libraryName = $value;
 	}
-	
+
+	public function getCityAndName()
+	{
+		return $this->city.' - '.$this->libraryName;
+	}
+
 	public function getCanDelete()
 	{
 		return (user()->checkAccess('Library'));
 	}
-		
+
 	public function getBasicCount()
 	{
 		$reserveCount = db()->createCommand("SELECT SUM({{lib_order}}.count) AS count FROM {{lib_order}} WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::BASIC."' GROUP BY {{lib_order}}.library_id")->queryScalar();
@@ -338,8 +343,8 @@ class Library extends ActiveRecord
 	{
 		$basicPrice = db()->createCommand("SELECT SUM({{lib_order}}.count*{{book}}.project_price) AS price FROM {{lib_order}} LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::BASIC."' GROUP BY {{lib_order}}.library_id")->queryScalar();
 		return ($basicPrice ? $basicPrice : 0);
-	}	
-	
+	}
+
 	public function getReserveCount()
 	{
 		$reserveCount = db()->createCommand("SELECT SUM({{lib_order}}.count) AS count FROM {{lib_order}} WHERE {{lib_order}}.library_id=".$this->id." AND {{lib_order}}.type='".LibOrder::RESERVE."' GROUP BY {{lib_order}}.library_id")->queryScalar();
