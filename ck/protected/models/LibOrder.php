@@ -192,7 +192,7 @@ class LibOrder extends ActiveRecord
 
 	public function getRemaining()
 	{
-		if ($this->scenario != 'search' && $this->_remaining === null)
+		if ($this->scenario != 'search')
 			$this->_remaining = $this->count - $this->delivered;
 		return $this->_remaining;
 	}

@@ -20,10 +20,10 @@ class StockActivity extends ActiveRecord
 			array('count, date', 'required'),
 			array('date', 'date', 'format'=>Yii::app()->locale->dateFormat),
 			array('count', 'numerical', 'integerOnly'=>true),
-			array('count', 'countValid'),
-			array('invoice', 'length', 'max'=>64),
+			array('count', 'countValid', 'on'=>'insert, update, stock'),
+			array('invoice', 'length', 'max'=>64, 'allowEmpty'=>true),
 			array('price', 'filter', 'filter'=>array($this, 'numerize')),
-			array('price', 'numerical'),
+			array('price', 'numerical', 'allowEmpty'=>true),
 		);
 	}
 

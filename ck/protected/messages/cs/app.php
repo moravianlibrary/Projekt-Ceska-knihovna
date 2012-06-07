@@ -343,6 +343,11 @@ return array(
 	'Update Stock Activity'=>'Editace pohybu na skladě',
 	'View Stock Activity'=>'Detail pohybu na skladě',
 	'Delete Stock Activity'=>'Odstranění pohybu na skladě',
+	'Divide'=>'Rozdělit',
+	'Divide delivery according to filter above'=>'Rozdělit dodávku dle výše zadaného filtru',
+	'Delivery was successfully divided.'=>'Dodávka byla úspěšně rozdělena.',
+	' {n} copy remaining for later delivery.| {n} copies remaining for later delivery.'=>' Zbývá dodat {n} výtisk.| Zbývá dodat {n} výtisky.| Zbývá dodat {n} výtisků.',
+	'Delivery was divided, but it contained {n} copy more than was required.| Delivery was divided, but it contained {n} copies more than was required.'=>'Dodávka byla rozdělena, ale obsahovala o {n} výtisk více, než bylo požadováno.|Dodávka byla rozdělena, ale obsahovala o {n} výtisky více, než bylo požadováno.|Dodávka byla rozdělena, ale obsahovala o {n} výtisků více, než bylo požadováno.',
 
 	// IncNumber
 	'Inc Number'=>'Přírůstkové číslo',

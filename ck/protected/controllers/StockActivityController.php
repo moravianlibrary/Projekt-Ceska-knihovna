@@ -214,9 +214,9 @@ class StockActivityController extends Controller
 		if ((isset($_GET['library_id']) && is_numeric($_GET['library_id'])) || (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) || (isset($_GET['type']) && $_GET['type'] != ''))
 		{
 			if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
-				$criteria->compare('library_id', $_GET['library_id']);
+				$criteria->compare('t.library_id', $_GET['library_id']);
 			if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
-				$criteria->compare('book_id', $_GET['book_id']);
+				$criteria->compare('t.book_id', $_GET['book_id']);
 			if (isset($_GET['type']) && $_GET['type'] != '')
 				$criteria->compare('t.type', $_GET['type']);
 		}
@@ -282,5 +282,78 @@ class StockActivityController extends Controller
 		}
 		else
 			throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+	}
+
+	public function actionLibDelivery()
+	{
+		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']) && $_GET['book_id']>0 && isset($_GET['type']) && $_GET['type']!='' && isset($_GET['count']) && is_numeric($_GET['count']) && $_GET['count']>0)
+		{
+			$criteria=new CDbCriteria;
+			$criteria->compare('t.book_id', $_GET['book_id']);
+			$criteria->compare('t.type', $_GET['type']);
+			$criteria->compare('(t.count-t.delivered)', '>0');
+			$criteria->compare('library.order_placed', 1);
+			$criteria->compare('library.order_date', ">'0000-00-00'");
+			$criteria->order = 'library.order_date';
+
+			$msq = '';
+			$count = $_GET['count'];
+			$remaining = 0;
+			$libOrders = LibOrder::model()->with('library')->findAll($criteria);
+			if ($libOrders !== null)
+			{
+				$stock = Stock::model()->findByAttributes(array('book_id'=>$_GET['book_id'], 'type'=>$_GET['type']));
+
+				foreach ($libOrders as $libOrder)
+				{
+					$send = 0;
+					if ($count > $libOrder->remaining)
+					{
+						$count -= $libOrder->remaining;
+						$send = -$libOrder->remaining;
+					}
+					else
+					{
+						$send = -$count;
+						$remaining += $libOrder->remaining - $count;
+						$count = 0;
+					}
+
+					$stockActivity = new StockActivity('delivery');
+					$stockActivity->user_id = user()->id;
+					$stockActivity->stock_id = $stock->id;
+					$stockActivity->lib_order_id = $libOrder->id;
+					$stockActivity->date = DT::locToday();
+					$stockActivity->count = $send;
+
+					if (!$stockActivity->save())
+					{
+						$msg = t('Record cannot be saved.');
+						foreach ($stockActivity->getErrors() as $attr=>$errs)
+							foreach ($errs as $err)
+								$msg .= '<br />'.$err;
+						foreach (user()->getFlashes() as $name=>$flash)
+							$msg .= '<br />'.$flash;
+					}
+				}
+			}
+			if ($msg == '')
+			{
+				$msg = t('Delivery was successfully divided.');
+				if ($remaining)
+					$msg .= t(' {n} copy remaining for later delivery.| {n} copies remaining for later delivery.', 'app', $remaining);
+				if ($count)
+					$msg = t('Delivery was divided, but it contained {n} copy more than was required.| Delivery was divided, but it contained {n} copies more than was required.', 'app', $count);
+				Yii::app()->getUser()->setFlash('success.libdelivery', $msg);
+			}
+			else
+			{
+				Yii::app()->getUser()->setFlash('error.libdelivery', $msg);
+			}
+		}
+		else
+			Yii::app()->getUser()->setFlash('error.libdelivery', 'Nesprávně zadané parametry.');
+
+		$this->redirect(array('stockActivity/libActivity', 'library_id'=>$_GET['library_id'], 'book_id'=>$_GET['book_id'], 'type'=>$_GET['type']));
 	}
 }
