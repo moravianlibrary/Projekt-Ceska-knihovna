@@ -141,6 +141,7 @@ class LibOrder extends ActiveRecord
 
 	protected function afterSave()
 	{
+		parent::afterSave();
 		IncNumber::model()->deleteAllByAttributes(array('liborder_id'=>$this->id));
 		for ($i = 0; $i < $this->count; $i++)
 		{
@@ -153,8 +154,12 @@ class LibOrder extends ActiveRecord
 
 	protected function beforeDelete()
 	{
-		// mazani prirustkovych cisel reseno pres ON DELETE CASCADE
-		return true;
+		if (parent::beforeDelete())
+		{
+			// mazani prirustkovych cisel reseno pres ON DELETE CASCADE
+			return true;
+		}
+		else return false;
 	}
 
 	public function getType_c()
