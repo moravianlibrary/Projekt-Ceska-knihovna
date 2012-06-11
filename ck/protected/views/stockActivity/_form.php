@@ -44,6 +44,18 @@
 		<?php echo $form->error($model,'count'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'invoice'); ?>
+		<?php echo $form->textField($model,'invoice'); ?>
+		<?php echo $form->error($model,'invoice'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'price'); ?>
+		<?php echo $form->textField($model,'price'); ?> <?echo t('CZK')?>
+		<?php echo $form->error($model,'price'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')); ?>
 	</div>
