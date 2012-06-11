@@ -288,54 +288,66 @@ class StockActivityController extends Controller
 	{
 		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']) && $_GET['book_id']>0 && isset($_GET['type']) && $_GET['type']!='' && isset($_GET['count']) && is_numeric($_GET['count']) && $_GET['count']>0)
 		{
-			$criteria=new CDbCriteria;
-			$criteria->compare('t.book_id', $_GET['book_id']);
-			$criteria->compare('t.type', $_GET['type']);
-			$criteria->compare('(t.count-t.delivered)', '>0');
-			$criteria->compare('library.order_placed', 1);
-			$criteria->compare('library.order_date', ">'0000-00-00'");
-			$criteria->order = 'library.order_date';
+			$stock = Stock::model()->findByAttributes(array('book_id'=>$_GET['book_id'], 'type'=>$_GET['type']));
 
-			$msq = '';
-			$count = $_GET['count'];
-			$remaining = 0;
-			$libOrders = LibOrder::model()->with('library')->findAll($criteria);
-			if ($libOrders !== null)
+			if ($stock->count >= $_GET['count'])
 			{
-				$stock = Stock::model()->findByAttributes(array('book_id'=>$_GET['book_id'], 'type'=>$_GET['type']));
+				$criteria=new CDbCriteria;
+				$criteria->compare('t.book_id', $_GET['book_id']);
+				$criteria->compare('t.type', $_GET['type']);
+				$criteria->compare('(t.count-t.delivered)', '>0');
+				$criteria->compare('library.order_placed', 1);
+				$criteria->compare('library.order_date', ">'0000-00-00'");
+				$criteria->order = 'library.order_date';
 
-				foreach ($libOrders as $libOrder)
+				$msq = '';
+				$count = $_GET['count'];
+				$remaining = 0;
+
+				$libOrders = LibOrder::model()->with('library')->findAll($criteria);
+				if ($libOrders !== null)
 				{
-					$send = 0;
-					if ($count > $libOrder->remaining)
-					{
-						$count -= $libOrder->remaining;
-						$send = -$libOrder->remaining;
-					}
-					else
-					{
-						$send = -$count;
-						$remaining += $libOrder->remaining - $count;
-						$count = 0;
-					}
 
-					$stockActivity = new StockActivity('delivery');
-					$stockActivity->user_id = user()->id;
-					$stockActivity->stock_id = $stock->id;
-					$stockActivity->lib_order_id = $libOrder->id;
-					$stockActivity->date = DT::locToday();
-					$stockActivity->count = $send;
-
-					if (!$stockActivity->save())
+					foreach ($libOrders as $libOrder)
 					{
-						$msg = t('Record cannot be saved.');
-						foreach ($stockActivity->getErrors() as $attr=>$errs)
-							foreach ($errs as $err)
-								$msg .= '<br />'.$err;
-						foreach (user()->getFlashes() as $name=>$flash)
-							$msg .= '<br />'.$flash;
+						$send = 0;
+						if ($count > $libOrder->remaining)
+						{
+							$count -= $libOrder->remaining;
+							$send = -$libOrder->remaining;
+						}
+						else
+						{
+							$send = -$count;
+							$remaining += $libOrder->remaining - $count;
+							$count = 0;
+						}
+
+						if ($send)
+						{
+							$stockActivity = new StockActivity('delivery');
+							$stockActivity->user_id = user()->id;
+							$stockActivity->stock_id = $stock->id;
+							$stockActivity->lib_order_id = $libOrder->id;
+							$stockActivity->date = DT::locToday();
+							$stockActivity->count = $send;
+
+							if (!$stockActivity->save())
+							{
+								$msg = t('Record cannot be saved.');
+								foreach ($stockActivity->getErrors() as $attr=>$errs)
+									foreach ($errs as $err)
+										$msg .= '<br />'.$err;
+								foreach (user()->getFlashes() as $name=>$flash)
+									$msg .= '<br />'.$flash;
+							}
+						}
 					}
 				}
+			}
+			else
+			{
+				$msg = 'Na skladě není dostatečné množství položek (maximální hodnota je '.$stock->count.').';
 			}
 			if ($msg == '')
 			{
