@@ -1,7 +1,10 @@
 <div class="view" id="liborder_<?echo $data->id?>">
 
 	<b><?php echo CHtml::encode(t('Library')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->library->name), '#', array('onclick'=>CHtml::ajax(array('url'=>url('library/view',array('id'=>$data->library_id)), 'success'=>'function(data){$("#library-juidialog-content").html(data);$("#library-juidialog").dialog("option", "modal", false).dialog("open");return false;}')))); ?>
+	<?php
+		echo CHtml::link(CHtml::encode($data->library->name), url('stock/billOfDelivery',array('library_id'=>$data->library_id)));
+		//echo CHtml::link(CHtml::encode($data->library->name), '#', array('onclick'=>CHtml::ajax(array('url'=>url('library/view',array('id'=>$data->library_id)), 'success'=>'function(data){$("#library-juidialog-content").html(data);$("#library-juidialog").dialog("option", "modal", false).dialog("open");return false;}'))));
+	?>
 	<br />
 
 	<b><?php echo CHtml::encode(t('Title')); ?>:</b>
