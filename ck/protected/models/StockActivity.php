@@ -114,6 +114,8 @@ class StockActivity extends ActiveRecord
 			'library_id' =>  Yii::t('app', 'Library'),
 			'date' =>  Yii::t('app', 'Date'),
 			'count' =>  Yii::t('app', 'Count'),
+			'invoice' =>  Yii::t('app', 'Invoice Nr.'),
+			'price' =>  Yii::t('app', 'Price'),
 		);
 	}
 

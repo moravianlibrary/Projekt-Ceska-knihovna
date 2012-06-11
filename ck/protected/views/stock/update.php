@@ -40,5 +40,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Update Stock');
 			'value'=>'CHtml::link(CHtml::encode($data->pub_order->book->publisher->name), \'#\', array(\'onclick\'=>CHtml::ajax(array(\'url\'=>url(\'publisher/view\',array(\'id\'=>$data->pub_order->book->publisher_id)), \'success\'=>\'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}\'))));',
 			'type'=>'raw',
 		),
+		'invoice',
+		'price:czk',
 	),
 )); ?>
