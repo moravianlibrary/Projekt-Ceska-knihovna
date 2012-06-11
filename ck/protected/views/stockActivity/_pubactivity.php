@@ -1,5 +1,9 @@
 <div class="view" id="puborder_<?echo $data->id?>">
 
+	<b><?php echo CHtml::encode(t('Order nr.')); ?>:</b>
+	<?php echo CHtml::encode($data->book->selected_order); ?>
+	<br />
+
 	<b><?php echo CHtml::encode(t('Publisher')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->book->name), '#', array('onclick'=>CHtml::ajax(array('url'=>url('publisher/view',array('id'=>$data->book->publisher_id)), 'success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}')))); ?>
 	<br />

@@ -1,5 +1,9 @@
 <div class="view" id="liborder_<?echo $data->id?>">
 
+	<b><?php echo CHtml::encode(t('Order nr.')); ?>:</b>
+	<?php echo CHtml::encode($data->book->selected_order); ?>
+	<br />
+
 	<b><?php echo CHtml::encode(t('Library')); ?>:</b>
 	<?php
 		echo CHtml::link(CHtml::encode($data->library->name), url('stock/billOfDelivery',array('library_id'=>$data->library_id)));
