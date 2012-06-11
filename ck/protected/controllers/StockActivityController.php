@@ -141,7 +141,7 @@ class StockActivityController extends Controller
 		if (isset($_GET['publisher_id']) && is_numeric($_GET['publisher_id']))
 			$criteria->compare('book.publisher_id', $_GET['publisher_id']);
 		if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
-			$criteria->compare('book_id', $_GET['book_id']);
+			$criteria->compare('t.book_id', $_GET['book_id']);
 		if (isset($_GET['type']) && $_GET['type'] != '')
 			$criteria->compare('t.type', $_GET['type']);
 		$criteria->with = array('book', 'book.stock_basic', 'book.stock_reserve', 'book.publisher', 'book.publisher.organisation');
