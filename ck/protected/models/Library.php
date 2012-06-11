@@ -323,9 +323,9 @@ class Library extends ActiveRecord
 		$this->_libraryName = $value;
 	}
 
-	public function getCityAndName()
+	public function getCityAndIntNum()
 	{
-		return $this->city.' - '.$this->libraryName;
+		return $this->organisation->city.' - '.$this->internal_number;
 	}
 
 	public function getCanDelete()
