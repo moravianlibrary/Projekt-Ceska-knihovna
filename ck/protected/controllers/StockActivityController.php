@@ -150,7 +150,7 @@ class StockActivityController extends Controller
 		$dataProvider=new CActiveDataProvider('PubOrder', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, book.author, book.title',
+				'defaultOrder'=>'book.selected_order',
 				),
 			'pagination'=>false,
 		));
@@ -229,7 +229,7 @@ class StockActivityController extends Controller
 		$dataProvider=new CActiveDataProvider('LibOrder', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, book.author, book.title',
+				'defaultOrder'=>'book.selected_order',
 				),
 			'pagination'=>false,
 		));
