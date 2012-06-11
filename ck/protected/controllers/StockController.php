@@ -5,7 +5,7 @@ class StockController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		
+
 		if (req()->isAjaxRequest)
 		{
 			$this->renderPartial('_view', array('model'=>$model));
@@ -60,11 +60,11 @@ class StockController extends Controller
 				else
 					$model->viewAttributes();
 			}
-			
+
 			$criteria = new CDbCriteria;
 			$criteria->compare('stock_id', $id);
 			$criteria->with = array('lib_order', 'lib_order.library', 'lib_order.library.organisation'=>array('alias'=>'lib_org'), 'pub_order', 'pub_order.book', 'pub_order.book.publisher', 'pub_order.book.publisher.organisation'=>array('alias'=>'pub_org'));
-						
+
 			$stockActivityProvider = new CActiveDataProvider('StockActivity', array(
 				'criteria'=>$criteria,
 				'sort'=>array(
@@ -113,7 +113,12 @@ class StockController extends Controller
 
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Stock');
+		$criteria=new CDbCriteria;
+		$criteria->compare('t.count','>0');
+
+		$dataProvider=new CActiveDataProvider('Stock', array(
+			'criteria'=>$criteria,
+		));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -147,7 +152,7 @@ class StockController extends Controller
 			Yii::app()->end();
 		}
 	}
-	
+
 	public function actionBillOfDelivery()
 	{
 		$this->layout = '//layouts/blank';
@@ -159,36 +164,36 @@ class StockController extends Controller
 			$criteria->compare('orders.library_id', $_GET['library_id']);
 		else
 			$criteria->compare('orders.library_id', '>0');
-		
+
 		if (isset($_GET['contact_place_id']) && is_numeric($_GET['contact_place_id']))
 			$criteria->compare('t.contact_place_id', $_GET['contact_place_id']);
-		
+
 		if (!isset($_GET['date_from']) || !DT::testIso(DT::toIso($_GET['date_from'])))
 			$dateFrom = DT::isoToday();
 		else
 			$dateFrom = DT::toIso($_GET['date_from']);
-			
+
 		if (!isset($_GET['date_to']) || !DT::testIso(DT::toIso($_GET['date_to'])))
 			$dateTo = DT::isoToday();
 		else
 			$dateTo = DT::toIso($_GET['date_to']);
 		$criteria->compare('stock_activities.date', '>='.$dateFrom);
 		$criteria->compare('stock_activities.date', '<='.$dateTo);
-		
+
 		$criteria->order = 'lib_org.name, book.title, pub_org.name';
-		
+
 		if (!isset($_GET['bill_count']) || !is_numeric($_GET['bill_count']))
 			$billCount = 3;
-		else 
+		else
 			$billCount = $_GET['bill_count'];
-			
+
 		if (isset($_GET['print_address']) && $_GET['print_address'] != '1')
 			$printAddress = false;
-		else 
+		else
 			$printAddress = true;
-			
+
 		$libraries = Library::model()->with(array('contact_place', 'orders'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities.stock', 'orders.stock_activities.stock.book', 'orders.stock_activities.stock.book.publisher', 'orders.stock_activities.stock.book.publisher.organisation'=>array('alias'=>'pub_org'), 'organisation'=>array('alias'=>'lib_org'), 'contact_place.organisation'=>array('alias'=>'cont_org')))->together()->findAll($criteria);
-		
+
 		$this->render('billOfDelivery',array(
 			'libraries'=>$libraries,
 			'dateFrom'=>$dateFrom,
@@ -197,14 +202,14 @@ class StockController extends Controller
 			'printAddress'=>$printAddress,
 		));
 	}
-	
+
 	public function actionSaveDun()
 	{
-		
+
 	}
-	
+
 	public function actionFindBook()
 	{
 		$this->autoCompleteFind('Book', 'title');
-	}	
+	}
 }
