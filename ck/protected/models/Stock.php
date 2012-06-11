@@ -6,6 +6,7 @@ class Stock extends ActiveRecord
 	const RESERVE = 'R';
 
 	private $_book_title = null;
+	private $_book_selected_order = null;
 
 	public static function model($className=__CLASS__)
 	{
@@ -35,7 +36,7 @@ class Stock extends ActiveRecord
 			array('book_id, type', 'required'),
 			array('book_id', 'numerical', 'integerOnly'=>true),
 			array('type', 'in', 'range'=>array_keys(DropDownItem::items('Stock.type'))),
-			array('book_title, count', 'safe', 'on'=>'search'),
+			array('book_selected_order, book_title, count', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +62,7 @@ class Stock extends ActiveRecord
 			'type' =>  Yii::t('app', 'Type'),
 			'type_c' =>  Yii::t('app', 'Type'),
 			'book_title' =>  Yii::t('app', 'Book'),
+			'book_selected_order' =>  Yii::t('app', 'Order nr.'),
 		);
 	}
 
@@ -68,17 +70,22 @@ class Stock extends ActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('book.selected_order',$this->book_selected_order);
 		$criteria->compare('book.title',$this->book_title,true);
 		$criteria->compare('t.count',$this->count);
 		$criteria->compare('t.type',$this->type);
 		$criteria->with = array('book');
-		
+
 		return new CActiveDataProvider($this->my(), array(
 			'criteria'=>$criteria,
 			'sort'=>array(
 				'defaultOrder'=>'t.id DESC',
 				'attributes'=>array(
 					'*',
+					'book_selected_order'=>array(
+						'asc'=>'book.selected_order',
+						'desc'=>'book.selected_order DESC',
+						),
 					'book_title'=>array(
 						'asc'=>'book.title',
 						'desc'=>'book.title DESC',
@@ -88,12 +95,12 @@ class Stock extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	public function getType_c()
 	{
 		return DropDownItem::item('Stock.type', $this->type);
 	}
-	
+
 	public function getBook_title()
 	{
 		if ($this->_book_title === null && $this->book)
@@ -102,9 +109,23 @@ class Stock extends ActiveRecord
 		}
 		return $this->_book_title;
 	}
-	
+
 	public function setBook_title($value)
 	{
 		$this->_book_title = $value;
+	}
+
+	public function getBook_selected_order()
+	{
+		if ($this->_book_selected_order === null && $this->book)
+		{
+			$this->_book_selected_order = $this->book->selected_order;
+		}
+		return $this->_book_selected_order;
+	}
+
+	public function setBook_selected_order($value)
+	{
+		$this->_book_selected_order = $value;
 	}
 }
