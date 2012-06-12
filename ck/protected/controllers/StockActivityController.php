@@ -218,7 +218,22 @@ class StockActivityController extends Controller
 			if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
 				$criteria->compare('t.book_id', $_GET['book_id']);
 			if (isset($_GET['type']) && $_GET['type'] != '')
+			{
 				$criteria->compare('t.type', $_GET['type']);
+				switch ($_GET['type'])
+				{
+					case LibOrder::BASIC:
+						$criteria->compare('stock_basic.count', '>0');
+						break;
+					case LibOrder::RESERVE:
+						$criteria->compare('stock_reserve.count', '>0');
+						break;
+				}
+			}
+			else
+			{
+				$criteria->addCondition("((t.type='".LibOrder::BASIC."' AND stock_basic.count>0) OR (t.type='".LibOrder::RESERVE."' AND stock_reserve.count>0))");
+			}
 		}
 		else
 			$criteria->compare('t.id', '-');
