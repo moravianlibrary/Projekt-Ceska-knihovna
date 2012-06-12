@@ -115,6 +115,8 @@ class StockController extends Controller
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('t.count','>0');
+		$criteria->with = array('book');
+		$criteria->order = 'book.selected_order';
 
 		$dataProvider=new CActiveDataProvider('Stock', array(
 			'criteria'=>$criteria,
