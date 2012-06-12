@@ -182,7 +182,7 @@ class StockController extends Controller
 		$criteria->compare('stock_activities.date', '>='.$dateFrom);
 		$criteria->compare('stock_activities.date', '<='.$dateTo);
 
-		$criteria->order = 'lib_org.name, book.title, pub_org.name';
+		$criteria->order = 'book.selected_order';
 
 		if (!isset($_GET['bill_count']) || !is_numeric($_GET['bill_count']))
 			$billCount = 3;
