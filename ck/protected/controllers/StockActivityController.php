@@ -213,6 +213,7 @@ class StockActivityController extends Controller
 
 		if ((isset($_GET['library_id']) && is_numeric($_GET['library_id'])) || (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) || (isset($_GET['type']) && $_GET['type'] != ''))
 		{
+			$criteria->compare('(t.count-t.delivered)', '>0');
 			if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
 				$criteria->compare('t.library_id', $_GET['library_id']);
 			if (isset($_GET['book_id']) && is_numeric($_GET['book_id']))
