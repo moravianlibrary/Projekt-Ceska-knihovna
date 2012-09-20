@@ -38,7 +38,7 @@ class Publisher extends ActiveRecord
 			array('private_data, confirmation', 'confirmsValid'),
 			array('name', 'safe', 'on'=>'search'),
 		);
-		
+
 		if (user()->checkAccess('BackOffice'))
 		{
 			$rules = array_merge($rules,
@@ -47,7 +47,7 @@ class Publisher extends ActiveRecord
 				array('organisation_id', 'numerical', 'integerOnly'=>true),
 				array('request_date', 'date', 'format'=>Yii::app()->locale->dateFormat, 'allowEmpty'=>true),
 			));
-		}		
+		}
 
 		return $rules;
 	}
@@ -100,7 +100,7 @@ class Publisher extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('organisation.name',$this->name, true);
-		$criteria->compare('t.request_date',DT::toIso($this->request_date));		
+		$criteria->compare('t.request_date',DT::toIso($this->request_date));
 		$criteria->compare('t.code',$this->code,true);
 		$criteria->with = array('organisation');
 
@@ -119,11 +119,11 @@ class Publisher extends ActiveRecord
 			'pagination'=>array('pageSize'=>20,),
 		));
 	}
-	
+
 	protected function afterSave()
 	{
 		parent::afterSave();
-		
+
 		if ($this->isNewRecord)
 		{
 			if (!am()->checkAccess('PublisherRole', $this->user_id))
@@ -133,7 +133,7 @@ class Publisher extends ActiveRecord
 			}
 		}
 	}
-	
+
 	public function getName()
 	{
 		if ($this->_name === null && $this->organisation !== null)
@@ -142,12 +142,12 @@ class Publisher extends ActiveRecord
 		}
 		return $this->_name;
 	}
-	
+
 	public function setName($value)
 	{
 		$this->_name = $value;
 	}
-	
+
 	public function getCanDelete()
 	{
 		return (user()->checkAccess('Publisher'));

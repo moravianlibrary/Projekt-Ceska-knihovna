@@ -7,7 +7,7 @@
 
 <br /><br />
 
-<strong>Věc: Objednávka č. <?echo $number.'/'.param('projectYear')?></strong>
+<strong>Věc: Objednávka č. <input class="nomargin b" size="50" value="<?echo $number.'/'.param('projectYear'); if ($type == 'R') echo "-REZERVA"?>" /></strong>
 
 <br /><br />
 

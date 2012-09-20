@@ -14,6 +14,7 @@ foreach ($publishers as $publisher_id=>$publisher)
 
 	$this->renderPartial('_order_letter',array(
 		'publisher'=>$publisher,
+		'type'=>$type,
 	));
 
 	$this->renderPartial('_page_break');
@@ -21,7 +22,8 @@ foreach ($publishers as $publisher_id=>$publisher)
 	$this->renderPartial('_order_list',array(
 		'publisher'=>$publisher,
 		'orderProvider'=>$orderProviders[$publisher_id],
-		'number'=>$number++,
+		'number'=>(($type == 'R') ? '' : $number++),
+		'type'=>$type,
 	));
 }
 ?>

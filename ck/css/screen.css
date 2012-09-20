@@ -254,3 +254,4 @@ legend
 table.blackborder {border-collapse: collapse;}
 .blackborder, .blackborder tr, .blackborder td, .blackborder th {border: 1px solid black;}
 .nomargin, .nomargin tr, .nomargin td, .nomargin th {border: 0px; margin: 0px; padding: 0px;}
+.b {font-weight: bold;}

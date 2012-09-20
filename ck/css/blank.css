@@ -1,4 +1,4 @@
-body, p, div, td, th {font: 10pt Arial, Helvetica, sans-serif; color: black;}
+body, p, div, td, th, input {font: 10pt Arial, Helvetica, sans-serif; color: black;}
 table, tr, td, th, thead td {border-collapse: collapse; border: 1px solid black;}
 th, thead td, td.h {background: #dddddd; padding: 3px; font-weight: bold;}
 th, thead td {text-align: center;}
@@ -37,4 +37,4 @@ table.ui-datepicker-calendar, table.ui-datepicker-calendar tr, table.ui-datepick
 	border: 0px;
 }
 
-
+input.nomargin {border: 1px solid black; margin: 0px; padding: 2px;}

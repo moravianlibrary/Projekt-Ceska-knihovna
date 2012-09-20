@@ -2,3 +2,5 @@
 .break {page-break-after: always;}
 .big {font-size: 18px;}
 .large {font-size: 18px; font-weight: bold;}
+input.nomargin {border: 0px; margin: 0px; padding: 0px;}
+

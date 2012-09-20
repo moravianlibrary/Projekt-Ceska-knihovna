@@ -11,7 +11,7 @@
 
 <p><?echo ($publisher->organisation->salutation != null) ? $publisher->organisation->salutation : 'Vážení'?>,</p>
 
-<p>v příloze Vám zasíláme objednávku titulů Vašeho nakladatelství, kterou jsme sestavili na základě výběru veřejných knihoven ČR přihlášených do projektu &quot;Česká knihovna <?echo param('projectYear')?>&quot;. Uvádíme v ní vedle pořadového čísla z nabídkového seznamu autora, název publikace, požadovaný počet výtisků a cenu. Tato cena byla uvedena na Vaší přihlášce do výběrového řízení, a proto ji považujeme za závaznou a není možné ji zvýšit.</p>
+<p>v příloze Vám zasíláme objednávku <?if ($type == 'R') echo '(rezerva)'?> titulů Vašeho nakladatelství, kterou jsme sestavili na základě výběru veřejných knihoven ČR přihlášených do projektu &quot;Česká knihovna <?echo param('projectYear')?>&quot;. Uvádíme v ní vedle pořadového čísla z nabídkového seznamu autora, název publikace, požadovaný počet výtisků a cenu. Tato cena byla uvedena na Vaší přihlášce do výběrového řízení, a proto ji považujeme za závaznou a není možné ji zvýšit.</p>
 
 <p>Tituly již vydané dodejte prosím co nejdříve <strong>do Technického ústředí knihoven v Brně</strong> (<strong>Pozor změna adresy:</strong> Moravská zemská knihovna Brno, TÚK, <strong>Kounicova 65a</strong> - křižovatka ulic Kounicovy a Hrnčířské).</p>
 
@@ -40,6 +40,6 @@
 
 <br /><br />
 
-Příloha: objednávka publikací   
+Příloha: objednávka publikací
 
 

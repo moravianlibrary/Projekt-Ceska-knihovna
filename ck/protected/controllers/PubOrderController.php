@@ -193,6 +193,7 @@ class PubOrderController extends Controller
 			'orderProviders'=>$orderProviders,
 			//'useFilter'=>(!isset($_GET['puborder_id'])),
 			'useFilter'=>false,
+			'type'=>@$_GET["puborder_type"],
 		));
 	}
 
