@@ -170,29 +170,35 @@ class PubOrderController extends Controller
 
 		foreach ($models as $publisher)
 		{
-			$publishers[$publisher->id] = $publisher;
-
 			$criteria=new CDbCriteria;
 			if (isset($_GET['puborder_id']))
 				$criteria->compare('t.id', $_GET['puborder_id']);
+			if (isset($_GET['puborder_type']))
+				$criteria->compare('t.type', $_GET['puborder_type']);
 			$criteria->compare('book.publisher_id', $publisher->id);
 			$criteria->with = array('book');
 			$criteria->together = true;
 
-			$orderProviders[$publisher->id]=new CActiveDataProvider('PubOrder', array(
+			$pubOrders = new CActiveDataProvider('PubOrder', array(
 				'criteria'=>$criteria,
 				'sort'=>array(
 					'defaultOrder'=>'book.selected_order',
 					),
 				'pagination'=>false,
 			));
+
+			if ($pubOrders->totalItemCount)
+			{
+				$publishers[$publisher->id] = $publisher;
+				$orderProviders[$publisher->id] = $pubOrders;
+			}
 		}
 
 		$this->render('order',array(
 			'publishers'=>$publishers,
 			'orderProviders'=>$orderProviders,
 			//'useFilter'=>(!isset($_GET['puborder_id'])),
-			'useFilter'=>false,
+			'useFilter'=>true,
 			'type'=>@$_GET["puborder_type"],
 		));
 	}
