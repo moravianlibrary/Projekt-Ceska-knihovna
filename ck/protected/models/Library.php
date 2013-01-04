@@ -47,6 +47,7 @@ class Library extends ActiveRecord
 			array('number, type, headcount, units_total, units_new, budget, budget_czech', 'required'),
 			array('number', 'match', 'pattern'=>'/^[0-9]{4,5}\/[0-9]{4}$/'),
 			array('headcount, units_total, units_new', 'numerical', 'integerOnly'=>true),
+			array('budget, budget_czech', 'noPointInNumber'),
 			array('budget, budget_czech', 'filter', 'filter'=>array($this, 'numerize')),
 			array('land_registry_number, postal_code', 'numerical', 'integerOnly'=>true),
 			array('budget, budget_czech', 'numerical'),
@@ -82,6 +83,12 @@ class Library extends ActiveRecord
 
 		return $rules;
 	}
+
+	public function noPointInNumber($attribute,$params)
+    {
+		if (strpos($this->$attribute, '.') !== false)
+			$this->addError($attribute, strtr(Yii::t('app','{attribute} must not contain point. Separate decimals by comma.'),array('{attribute}'=>$this->getAttributeLabel($attribute))));
+    }
 
 	public function numerize($value)
 	{

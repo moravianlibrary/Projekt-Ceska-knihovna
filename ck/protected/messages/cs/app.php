@@ -82,6 +82,7 @@ return array(
 	'Record not found.'=>'Nenalezen žádný záznam.',
 	'Records successfully saved.'=>'Záznamy byly úspěšně uloženy.',
 	'{attribute} must be checked.'=>'Pole {attribute} musí být zatržené.',
+	'{attribute} must not contain point. Separate decimals by comma.'=>'Pole {attribute} nesmí obsahovat tečku. Případnou desetinnou část oddělte čárkou.',
 	'here'=>'zde',
 	'{dependentAttribute} cannot be blank if the {attribute} is checked.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je zatrženo pole {attribute}.',
 	'{dependentAttribute} cannot be blank if the {attribute} is blank.'=>'Pole {dependentAttribute} nesmí být prázdné pokud je prázdné pole {attribute}.',
