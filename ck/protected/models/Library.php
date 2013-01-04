@@ -46,6 +46,7 @@ class Library extends ActiveRecord
 			array('libname, street, house_number, city, type', 'filter', 'filter'=>'strip_tags'),
 			array('number, type, headcount, units_total, units_new, budget, budget_czech', 'required'),
 			array('number', 'match', 'pattern'=>'/^[0-9]{4,5}\/[0-9]{4}$/'),
+			array('number', 'unique', 'attributeName'=>'number'),
 			array('headcount, units_total, units_new', 'numerical', 'integerOnly'=>true),
 			array('budget, budget_czech', 'noPointInNumber'),
 			array('budget, budget_czech', 'filter', 'filter'=>array($this, 'numerize')),
