@@ -43,7 +43,7 @@ class Book extends ActiveRecord
 	public function rules()
 	{
 		$rules = array(
-			array('author, title, editor, illustrator, isbn, isbnPart, preamble, epilogue, binding, annotation, comment', 'filter', 'filter'=>'strip_tags'),
+			array('author, title, editor, redactors, reviewer, illustrator, isbn, isbnPart, preamble, epilogue, binding, annotation, comment', 'filter', 'filter'=>'strip_tags'),
 			array('author, title', 'required'),
 			array('isbnPart', 'isbnValid'),
 			array('isbnPart', 'isbnLength'),
@@ -55,7 +55,7 @@ class Book extends ActiveRecord
 			array('retail_price, offer_price', 'filter', 'filter'=>array($this, 'numerize')),
 			array('retail_price, offer_price', 'numerical', 'integerOnly'=>true),
 			array('offer_price', 'compare', 'compareAttribute'=>'retail_price', 'operator'=>'<'),
-			array('author, title, editor, illustrator, preamble, epilogue, binding', 'length', 'max'=>255),
+			array('author, title, editor, redactors, reviewer, illustrator, preamble, epilogue, binding', 'length', 'max'=>255),
 			array('annotation', 'length', 'max'=>2000),
 			array('comment', 'safe'),
 		);
@@ -177,6 +177,8 @@ class Book extends ActiveRecord
 			'author' =>  Yii::t('app', 'Author'),
 			'title' =>  Yii::t('app', 'Title'),
 			'editor' =>  Yii::t('app', 'Editor'),
+			'redactors' =>  Yii::t('app', 'Redactors'),
+			'reviewer' =>  Yii::t('app', 'Reviewer'),
 			'illustrator' =>  Yii::t('app', 'Illustrator'),
 			'preamble' =>  Yii::t('app', 'Preamble'),
 			'epilogue' =>  Yii::t('app', 'Epilogue'),

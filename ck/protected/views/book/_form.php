@@ -36,6 +36,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'redactors'); ?>
+		<?php echo $form->textField($model,'redactors',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'redactors'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'reviewer'); ?>
+		<?php echo $form->textField($model,'reviewer',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'reviewer'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'illustrator'); ?>
 		<?php echo $form->textField($model,'illustrator',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'illustrator'); ?>

@@ -206,6 +206,8 @@ return array(
 	'Author'=>'Autor',
 	'Title'=>'Název',
 	'Editor'=>'Editor (u antologií, almanachů, výborů)',
+	'Redactors'=>'Redaktoři',
+	'Reviewer'=>'Recenzent',
 	'Illustrator'=>'Ilustrátor',
 	'Preamble'=>'Úvod',
 	'Epilogue'=>'Doslov',

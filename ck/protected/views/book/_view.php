@@ -11,6 +11,8 @@
 		'author',
 		'title',
 		'editor',
+		'redactors',
+		'reviewer',
 		'illustrator',
 		'preamble',
 		'epilogue',

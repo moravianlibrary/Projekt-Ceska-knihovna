@@ -24,6 +24,14 @@
 	<?php echo CHtml::encode($data->editor); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('redactors')); ?>:</b>
+	<?php echo CHtml::encode($data->redactors); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('reviewer')); ?>:</b>
+	<?php echo CHtml::encode($data->reviewer); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('illustrator')); ?>:</b>
 	<?php echo CHtml::encode($data->illustrator); ?>
 	<br />
