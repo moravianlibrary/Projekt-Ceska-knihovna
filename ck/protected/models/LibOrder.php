@@ -35,7 +35,8 @@ class LibOrder extends ActiveRecord
 	{
 		$rules = array(
 			array('book_id, date, count, type', 'required'),
-			array('book_id, count', 'numerical', 'integerOnly'=>true),
+			array('book_id', 'numerical', 'integerOnly'=>true),
+			array('count', 'numerical', 'integerOnly'=>true, 'min'=>1),
 			array('date', 'date', 'format'=>Yii::app()->locale->dateFormat),
 			array('count', 'countValid'),
 			array('type', 'in', 'range'=>array_keys(DropDownItem::items('LibOrder.type'))),
