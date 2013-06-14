@@ -379,4 +379,20 @@ return array(
 	'Undelivered Titles Count'=>'Počet ned. titulů',
 	'Delivered Books Count'=>'Počet dod. svazků',
 	'Undelivered Books Count'=>'Počet ned. svazků',
+
+	// Despatch
+	'Despatch'=>'Výdejka',
+	'despatch'=>'výdejka',
+	'Despatches'=>'Výdejky',
+	'despatches'=>'výdejky',
+	'Manage Despatches'=>'Správa výdejek',
+	'View Despatches'=>'Přehled výdejek',
+	'Create Despatch'=>'Nová výdejka',
+	'Update Despatch'=>'Editace výdejky',
+	'View Despatch'=>'Detail výdejky',
+	'Delete Despatch'=>'Odstranění výdejky',
+	'Bill Count'=>'Počet výdejek na knihovnu',
+	'Print Address'=>'Tisknout adresu',
+	'Generate Despatch'=>'Vygenerovat výdejku',
+
 );

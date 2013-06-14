@@ -1,7 +1,8 @@
 <?php
 $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Bills of Delivery');
-?>
 
+if ($despatch === null)
+{?>
 <div class="noprint">
 <fieldset>
 	<legend><?echo t('Filter')?></legend>
@@ -37,14 +38,16 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Bills of Delivery');
 		),
 	));
 	echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
-	echo t('Počet výdejek na knihovnu').': '.CHtml::textField('bill_count', $billCount, array('size'=>1));
+	echo t('Bill Count').': '.CHtml::textField('bill_count', $billCount, array('size'=>1));
 	echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
-	echo t('Tisknout adresu').': '.CHtml::checkBox('print_address', $printAddress, array('uncheckValue'=>0));
+	echo t('Print Address').': '.CHtml::checkBox('print_address', $printAddress, array('uncheckValue'=>0));
 	echo "&nbsp;&nbsp;&nbsp;".CHtml::submitButton(t('Apply'));
+	echo "&nbsp;&nbsp;&nbsp;".CHtml::submitButton(t('Generate Despatch'), array('name'=>'generate'));
 	echo CHtml::endForm();
 	?>
 </fieldset>
 </div>
+<?}?>
 
 <?
 $printPageBreak = false;
@@ -84,13 +87,15 @@ foreach ($libraries as $library)
 
 		<table width="100%">
 			<tr>
-				<th width="33%">Středisko</th>
-				<th width="33%">Evidenční číslo</th>
-				<th width="33%">Kontaktní místo</th>
+				<th width="25%">Středisko</th>
+				<th width="25%">Evidenční číslo</th>
+				<th width="25%">Doklad</th>
+				<th width="25%">Kontaktní místo</th>
 			</tr>
 			<tr>
 				<td align="center"><?echo $library->libraryName?></td>
 				<td align="center"><?echo $library->number?></td>
+				<td align="center"><?if ($despatch) echo $despatch->id?></td>
 				<td align="center"><?echo implode(', ', $library->contact_place->fullAddress)?></td>
 			<tr>
 		</table>

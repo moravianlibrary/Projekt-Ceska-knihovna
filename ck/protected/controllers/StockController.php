@@ -160,6 +160,7 @@ class StockController extends Controller
 		$this->layout = '//layouts/blank';
 
 		$dataProviders = array();
+		$despatch = null;
 
 		$criteria=new CDbCriteria;
 		if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
@@ -196,12 +197,44 @@ class StockController extends Controller
 
 		$libraries = Library::model()->with(array('contact_place', 'orders'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities'=>array('joinType'=>'INNER JOIN'), 'orders.stock_activities.stock', 'orders.stock_activities.stock.book', 'orders.stock_activities.stock.book.publisher', 'orders.stock_activities.stock.book.publisher.organisation'=>array('alias'=>'pub_org'), 'organisation'=>array('alias'=>'lib_org'), 'contact_place.organisation'=>array('alias'=>'cont_org')))->together()->findAll($criteria);
 
+		if (isset($_GET['generate']) && $_GET['generate'] == t('Generate Despatch'))
+		{
+			$despatch = new Despatch;
+			if (isset($_GET['library_id']) && is_numeric($_GET['library_id']))
+				$despatch->library_id = $_GET['library_id'];
+			if (isset($_GET['contact_place_id']) && is_numeric($_GET['contact_place_id']))
+				$despatch->contact_place_id = $_GET['contact_place_id'];
+			$despatch->date_from = DT::toLoc($dateFrom);
+			$despatch->date_to = DT::toLoc($dateTo);
+			$despatch->bill_count = $billCount;
+			$despatch->print_address = ($printAddress ? 1 : 0);
+
+			ylog($despatch->attributes);
+
+			$despatch->save();
+
+			foreach ($libraries as $library)
+			{
+				foreach ($library->orders as $order)
+				{
+					foreach ($order->stock_activities as $stockActivity)
+					{
+						$dhsa = new DespatchHasStockActivity;
+						$dhsa->despatch_id = $despatch->id;
+						$dhsa->stock_activity_id = $stockActivity->id;
+						$dhsa->save();
+					}
+				}
+			}
+		}
+
 		$this->render('billOfDelivery',array(
 			'libraries'=>$libraries,
 			'dateFrom'=>$dateFrom,
 			'dateTo'=>$dateTo,
 			'billCount'=>$billCount,
 			'printAddress'=>$printAddress,
+			'despatch'=>$despatch,
 		));
 	}
 
