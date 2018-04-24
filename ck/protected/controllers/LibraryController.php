@@ -164,6 +164,13 @@ class LibraryController extends Controller
 
 	public function actionAdmin()
 	{
+		if (user()->checkAccess('PublisherRole')) {
+			$publisher = Publisher::model()->my()->find();
+			if (!$publisher->confirmation) {
+				user()->setFlash('error.updateorg', t('Nejdříve prosím vyplňte Žádost o poskytnutí dotace z projektu Česká knihovna.'));
+				$this->redirect(array('/publisher/clientUpdate'));
+			}
+		}
 		$this->setGridViewParams();
 
 		$model=new Library('search');
@@ -288,7 +295,6 @@ class LibraryController extends Controller
 		$model=$this->loadModel($id);
 		$model->order_placed = 0;
 		$model->save();
-
 		$this->redirect(array('admin'));
 	}
 

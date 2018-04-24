@@ -45,8 +45,9 @@
 					<form name='f_book_basic_<?echo $data->id?>'>
 					<?echo CHtml::hiddenField('LibOrder[book_id]', $data->id)?>
 					<?echo CHtml::hiddenField('LibOrder[type]', 'B')?>
-					<?php echo CHtml::encode($data->basic->count); ?> <?echo CHtml::textField('LibOrder[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?>
-					<?echo CHtml::link(($data->basic->count ? t('Change Order') : t('Add To Order')), array('saveSheet', 'id'=>$data->basic->id), array('class'=>'button libOrder', 'id'=>'submit_book_basic_'.$data->id, 'rel'=>$data->id));?>
+					<?php echo isset($data->basic) ? CHtml::encode($data->basic->count) : 0; ?>
+					<?echo CHtml::textField('LibOrder[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?>
+					<?echo CHtml::link((isset($data->basic) && $data->basic->count ? t('Change Order') : t('Add To Order')), array('saveSheet', 'id'=> isset($data->basic) ? $data->basic->id : null), array('class'=>'button libOrder', 'id'=>'submit_book_basic_'.$data->id, 'rel'=>$data->id));?>
 					</form>
 					<?
 				}
@@ -67,8 +68,8 @@
 					<form name='f_book_reserve_<?echo $data->id?>'>
 					<?echo CHtml::hiddenField('LibOrder[book_id]', $data->id)?>
 					<?echo CHtml::hiddenField('LibOrder[type]', 'R')?>
-					<?php echo CHtml::encode($data->reserve->count); ?> <?echo CHtml::textField('LibOrder[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?>
-					<?echo CHtml::link(($data->reserve->count ? t('Change Order') : t('Add To Order')), array('saveSheet', 'id'=>$data->reserve->id), array('class'=>'button libOrder', 'id'=>'submit_book_reserve_'.$data->id, 'rel'=>$data->id));?>
+					<?php echo isset($data->reserve) ? CHtml::encode($data->reserve->count) : 0; ?> <?echo CHtml::textField('LibOrder[count]', '', array('size'=>'5')); ?> <?echo t('pcs')?>
+					<?echo CHtml::link((isset($data->reserve) && $data->reserve->count ? t('Change Order') : t('Add To Order')), array('saveSheet', 'id'=> isset($data->reserve) ? $data->reserve->id : null), array('class'=>'button libOrder', 'id'=>'submit_book_reserve_'.$data->id, 'rel'=>$data->id));?>
 					</form>
 					<?
 				}

@@ -147,7 +147,7 @@ class LibOrderController extends Controller
 		if (user()->library_id)
 		{
 			$library = Library::model()->my()->find();
-			if ($library->organisation->city == '')
+			if ($library->organisation->city == '' || $library->private_data == false)
 			{
 				user()->setFlash('error.updateorg', t('Nejdříve prosím vyplňte Žádost o poskytnutí dotace z projektu Česká knihovna.'));
 				$this->redirect(array('/library/clientUpdate'));
@@ -165,7 +165,7 @@ class LibOrderController extends Controller
 		$dataProvider=new CActiveDataProvider('Book', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
-				'defaultOrder'=>'organisation.name, t.title',
+				'defaultOrder'=>'organisation.name, t.author, t.title', // t.title
 				'attributes'=>array(
 					'*',
 					'name'=>array(
@@ -242,7 +242,11 @@ class LibOrderController extends Controller
 			$library = Library::model()->my()->find();
 			
 			$this->ajaxEditFormNoScript();
-			echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_sheet_item', array('data'=>$model), true, true), 'model'=>array(), 'msg'=>$msg, 'total'=>$this->renderPartial('_order_total', array('basicPrice'=>$library->basicPrice, 'reserveCount'=>$library->reserveCount), true)));
+			$total = $this->renderPartial('_order_total', array('basicPrice'=>$library->basicPrice, 'reserveCount'=>$library->reserveCount), true);
+			if ($status == 'OK' && $msg == '') {
+				$msg = $total;
+			}
+			echo CJSON::encode(array('status'=>$status, 'val'=>$this->renderPartial('_sheet_item', array('data'=>$model), true, true), 'model'=>array(), 'msg'=>$msg, 'total'=>$total));
 			Yii::app()->end();
 		}
 		else
@@ -297,6 +301,41 @@ class LibOrderController extends Controller
 		));
 	}
 	
+	public function actionPreviewOrder()
+	{
+		$this->layout = '//layouts/blank';
+
+		$criteria=new CDbCriteria;
+		$criteria->with = array('book', 'book.publisher', 'book.publisher.organisation');
+		$criteria->together = true;
+		
+		$library = Library::model()->with(array('organisation'))->my()->find();
+		
+		$b = new LibOrder;
+		$basicProvider=new CActiveDataProvider($b->my()->basic(), array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'book.selected_order',
+				),
+			'pagination'=>false,
+		));
+
+		$r = new LibOrder;
+		$reserveProvider=new CActiveDataProvider($r->my()->reserve(), array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'book.selected_order',
+				),
+			'pagination'=>false,
+		));
+
+		$this->render('order_preview',array(
+			'model'=>$library,
+			'basicProvider'=>$basicProvider,
+			'reserveProvider'=>$reserveProvider,
+		));
+	}
+	
 	public function actionGetBasics()
 	{
 		$items = LibOrder::getSumOrders(LibOrder::BASIC);
@@ -323,6 +362,21 @@ class LibOrderController extends Controller
 
 		$this->render('getOrders',array(
 			'title'=>Yii::t('app', 'Reserves'),
+			'items'=>$items,
+		));
+	}
+	
+	public function actionGetReservesAndBasics()
+	{
+		$items = LibOrder::getSumOrdersAll();
+		foreach ($items as $k=>$v)
+		{
+			$items[$k]['delivered'] = PubOrder::getTotalDelivered(PubOrder::RESERVE, $v["book_id"]);
+			$items[$k]['remaining'] = PubOrder::getTotalRemaining(PubOrder::RESERVE, $v["book_id"]);
+		}
+
+		$this->render('getOrders',array(
+			'title'=>Yii::t('app', 'Reserve and Basic Orders'),
 			'items'=>$items,
 		));
 	}

@@ -96,11 +96,11 @@ class VotingController extends Controller
 	{
 		$model=new Voting('search');
 		$model->unsetAttributes();
-		if(isset($_GET['Voting']))
+		if(isset($_GET['Voting'])) {
 			$model->attributes=$_GET['Voting'];
-
-		$this->render('admin',array(
-			'model'=>$model,
+		}
+		$this->render('admin', array(
+			'model'=>$model
 		));
 	}
 
@@ -210,7 +210,8 @@ class VotingController extends Controller
 	
 	public function actionRatingResults()
 	{
-		$this->layout = '//layouts/column1';
+		//$this->layout = '//layouts/column1';
+		$this->layout = '//layouts/blank';
 
 		$dataProvider=new CActiveDataProvider(Book::model()->thisYear()->accepted()->with(array('publisher', 'publisher.organisation'))->together(), array(
 			'sort'=>array(
@@ -303,5 +304,65 @@ class VotingController extends Controller
 	public function actionFindBook()
 	{
 		$this->autoCompleteFind('Book', 'title');
-	}	
+	}
+
+	public function actionScoringResult()
+	{
+		                $connection = Yii::app()->db;
+                $sql = "
+  SELECT 0 id, u.username, o.name publisher, b.author, b.title, v.points points
+  FROM yii_book b
+    JOIN yii_publisher p ON p.id = b.publisher_id
+    JOIN yii_organisation o ON o.id = p.organisation_id
+    JOIN yii_voting v ON v.book_id = b.id
+    JOIN yii_user u ON v.user_id = u.id
+  WHERE b.status = 0 AND b.selected IS NULL
+  ORDER BY b.author, b.title, u.username";
+                $dataProvider = new CSqlDataProvider($sql, array('pagination' => false));
+                $this->layout = '//layouts/blank';
+                $this->render('unscored', array(
+                        'dataProvider'=>$dataProvider,
+                ));
+
+	}
+
+	public function actionUnscored()
+	{
+		$connection = Yii::app()->db;
+		$sql = "
+SELECT id, username, publisher, author, title, points FROM (
+  SELECT 0 id, u.username, o.name publisher, b.author, b.title, '-' points
+  FROM yii_book b
+    JOIN yii_publisher p ON p.id = b.publisher_id
+    JOIN yii_organisation o ON o.id = p.organisation_id
+    CROSS JOIN yii_user u
+  WHERE b.status = 0 AND b.selected IS NULL
+    AND EXISTS(SELECT 1 FROM yii_auth_assignment a WHERE a.userid = u.id AND a.itemname = 'CouncilRole')
+    AND NOT EXISTS(SELECT 1 FROM yii_voting v WHERE v.user_id = u.id AND v.book_id = b.id AND v.type = 'R' AND v.points IS NOT NULL)
+  UNION
+  SELECT 0 id, u.username, o.name publisher, b.author, b.title, 'N' points
+  FROM yii_book b
+    JOIN yii_publisher p ON p.id = b.publisher_id
+    JOIN yii_organisation o ON o.id = p.organisation_id
+    JOIN yii_voting v ON v.book_id = b.id AND v.type = 'R'
+    JOIN yii_user u ON u.id = v.user_id
+  WHERE b.status = 0 AND b.selected IS NULL
+    AND v.points IS NULL
+  UNION
+  SELECT 0 id, u.username, o.name publisher, b.author, b.title, '0' points
+  FROM yii_book b
+    JOIN yii_publisher p ON p.id = b.publisher_id
+    JOIN yii_organisation o ON o.id = p.organisation_id
+    JOIN yii_voting v ON v.book_id = b.id AND v.type = 'R'
+    JOIN yii_user u ON u.id = v.user_id
+  WHERE b.status = 0 AND b.selected IS NULL
+    AND v.points = 0
+) t ORDER BY username";
+		$dataProvider = new CSqlDataProvider($sql, array('pagination' => false));
+		$this->layout = '//layouts/blank';
+		$this->render('unscored', array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
 }

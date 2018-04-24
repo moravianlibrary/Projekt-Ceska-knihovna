@@ -10,7 +10,7 @@
 
 	<?if (user()->checkAccess('BackOffice')) $this->renderPartial('_admin_form', array('model'=>$model, 'form'=>$form));?>
 	
-	<?$this->renderPartial('_form_fields', array('model'=>$model, 'form'=>$form));?>
+	<?$this->renderPartial('_form_fields', array('model'=>$model, 'form'=>$form, 'admin'=>true));?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')); ?>

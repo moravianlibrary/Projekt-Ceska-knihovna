@@ -1,3 +1,12 @@
+<?
+global $order_number;
+if (!isset($order_number)) {
+   $order_number = 1;
+} else {
+   $order_number+=1;
+}
+?>
+
 <table width="100%" class="nomargin">
 	<tr>
 		<td width="60%">&nbsp;</td>
@@ -7,7 +16,7 @@
 
 <br /><br />
 
-<strong>Věc: Objednávka č. <input class="nomargin b" size="50" value="<?echo $number.'/'.param('projectYear'); if ($type == 'R') echo "-REZERVA"?>" /></strong>
+<strong>Věc: Objednávka č. <input class="nomargin b" size="50" value="<?echo $number.'/'.param('projectYear'); /*if ($type == 'R') echo "-REZERVA"*/?>" /></strong>
 
 <br /><br />
 
@@ -15,28 +24,29 @@
 	<tr>
 		<td width="33%" style="vertical-align: top;">
 			<strong>Fakturujte na:</strong><br />
-			Moravská zemská knihovna<br />
-			(Česká knihovna)<br />
+			Moravská zemská knihovna v Brně<br />
+			Česká knihovna<br />
 			Kounicova 65a<br />
 			601 87 &nbsp; Brno<br />
 			IČ: 00094943<br />
 			DIČ: CZ00094943<br />
-			banka: Komerční banka Brno-město<br />
-			č. účtu: 98832-621/0100
+			banka: Česká národní banka<br />
+			č. účtu:<br />
+                        197638621/0710
 		</td>
 		<td width="34%" style="vertical-align: top;">
 			<strong>Příjemce zboží:</strong><br />
 			Moravská zemská knihovna<br />
-			Technické ústředí knihoven<br />
+			Česká knihovna<br />
 			Kounicova 65a<br />
 			601 87 &nbsp; Brno
 		</td>
 		<td width="33%" style="vertical-align: top;">
 			<strong>Vyřizuje:</strong><br />
-			D. Perstická<br />
+			Z. Machková<br />
 			tel/fax: 541 646 301/300<br />
-			e-mail: tuk@mzk.cz<br /><br />
-			Dne: <?echo DT::locToday()?>
+			e-mail: ceskaknihovna@mzk.cz<br /><br />
+			Dne: <?echo param('printOrderDate')?> <!-- <?echo DT::locToday()?> -->
 		</td>
 	</tr>
 </table>
@@ -51,10 +61,11 @@ Objednáváme u vás:
 	<tr>
 		<th><?echo t('Order nr.')?></th>
 		<th><?echo t('Author')?></th>
-		<th><?echo t('Book')?></th>
-		<th><?echo t('Count')?></th>
-		<th><?echo t('Price').'/'.t('pcs')?></th>
-		<th><?echo t('Price')?></th>
+		<th><?echo t('Název')?></th>
+		<th><?echo t('ISBN')?></th>
+		<th><?echo t('Počet kusů')?></th>
+		<th><?echo t('Cena za kus vč. DPH')?></th>
+		<th><?echo t('Cena celkem vč. DPH')?></th>
 	</tr>
 	<?php $this->widget('zii.widgets.CListView', array(
 		'id'=>'order-list',
@@ -69,7 +80,7 @@ Objednáváme u vás:
 		$total += $order->total_price;
 	?>
 	<tr>
-		<td colspan="5"><strong>Celkem:</strong></td>
+		<td colspan="6"><strong>Celkem:</strong></td>
 		<td><strong><?php echo CHtml::encode(currf($total)); ?></strong></td>
 	</tr>
 </table>

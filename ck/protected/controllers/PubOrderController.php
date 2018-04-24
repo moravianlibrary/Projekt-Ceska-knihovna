@@ -155,6 +155,39 @@ class PubOrderController extends Controller
 		$this->redirect(array('admin'));
 	}
 
+	public function actionPlaceOrderReserves()
+	{
+		$sp = Yii::app()->getStatePersister();
+		$state = $sp->load();
+		if (@$state['puborder_reserves_generated'])
+		{
+			user()->setFlash('error.generate_puborder', 'Objednávky byly již dříve vygenerovány.');
+		}
+		else
+		{
+			$books = Book::model()->selected()->findAll(); // ->thisYear()
+			foreach ($books as $book)
+			{
+				$reserves = $book->sumLibReserves;
+				if ($reserves > 0)
+				{
+					$pubOrder = new PubOrder();
+					$pubOrder->user_id = user()->id;
+					$pubOrder->book_id = $book->id;
+					$pubOrder->date = DT::locToday();
+					$pubOrder->count = $reserves;
+					$pubOrder->price = $book->project_price;
+					$pubOrder->type = PubOrder::RESERVE;
+					$pubOrder->save();
+				}
+			}
+			user()->setFlash('success.generate_puborder', 'Objednávky byly úspěšně vygenerovány.');
+			$state['puborder_reserves_generated'] = true;
+			$sp->save($state);
+		}
+		$this->redirect(array('admin'));
+	}
+
 	public function actionPrintOrder()
 	{
 		$this->layout = '//layouts/blank';
@@ -166,7 +199,7 @@ class PubOrderController extends Controller
 			$criteria->compare('t.id', $_GET['publisher_id']);
 		$criteria->order = 'organisation.name';
 
-		$models = Publisher::model()->with(array('organisation'))->orderPlaced()->findAll($criteria);
+		$models = Publisher::model()->with(array('organisation'))->orderPlaced()->findAll($criteria, array('order'=>'name'));
 
 		foreach ($models as $publisher)
 		{

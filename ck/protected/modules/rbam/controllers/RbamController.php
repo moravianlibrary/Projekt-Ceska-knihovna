@@ -24,6 +24,7 @@ class RbamController extends CController {
 	
 	protected function beforeAction()
 	{
+		global $action;
 		$this->menu = new Menu($this->route);
 		return parent::beforeAction($action);
 	}

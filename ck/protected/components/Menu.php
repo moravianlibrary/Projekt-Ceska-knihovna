@@ -39,6 +39,7 @@ class Menu
 
 		$accessParams = array();
 		$accessParams['Book:Create'] = array('enable'=>(!user()->checkAccess('PublisherRole') || (!user()->publisher_offer_id && param('pubBookDate') >= DT::isoToday())));
+		$accessParams['Book:Download'] = array('enable'=>(user()->checkAccess('PublisherRole') || user()->checkAccess('BackOffice')) || user()->checkAccess('CouncilRole'));
 		/*
 		$accessParams['Book:Update'] = array('can_change'=>(user()->checkAccess('BackOffice') || param('pubBookDate') >= DT::isoToday()));
 		$accessParams['Book:Delete'] = array('can_change'=>(user()->checkAccess('BackOffice') || param('pubBookDate') >= DT::isoToday()));
@@ -61,10 +62,11 @@ class Menu
 
 		if (user()->checkAccess('CouncilRole'))
 		{
-			if (!@$state['poll_generated'])
+			if (!@$state['poll_generated']) {
 				$this->insertItem('Voting:Rating', '_main', 'rating', 'Rating');
-			else
+			} else {
 				$this->insertItem('Voting:RatingResults', '_main', 'ratingResults', 'Rating Results');
+			}
 		}
 		if (user()->checkAccess('LibraryRole'))
 		{
@@ -92,9 +94,10 @@ class Menu
 			$this->_items[$this->controllerId] = array();
 			if (user()->checkAccess(ucfirst($this->controllerId)) || user()->checkAccess(ucfirst($this->controllerId).':Index'))
 			{
-				foreach ($actions as $actionId=>$actionName)
+				foreach ($actions as $actionId => $actionName)
 				{
-					if ($actionId != $this->actionId && user()->checkAccess(ucfirst($this->controllerId).':'.ucfirst($actionId), $accessParams[ucfirst($this->controllerId).':'.ucfirst($actionId)]))
+					$accessParamsKey = ucfirst($this->controllerId) . ':' . ucfirst($actionId);
+					if ($actionId != $this->actionId && isset($accessParams[$accessParamsKey]) && user()->checkAccess($accessParamsKey, $accessParams[$accessParamsKey]))
 					{
 						switch ($actionId)
 						{
@@ -118,9 +121,11 @@ class Menu
 		}
 
 		$this->insertItem('Book:PrintIndex', 'book_print', '/book/printIndex', 'Print Book List', array('target'=>'_blank'));
+		$this->insertItem('Book:PrintIndex', 'book_print', '/book/printIndexForCounsel', 'Print Book List For Counsel', array('target'=>'_blank'));
 
 		if (user()->checkAccess('LibraryRole'))
 		{
+			$this->insertItem('LibOrder:PreviewOrder', 'libOrder', '/libOrder/PreviewOrder', 'Order preview', array('target'=>'_blank'));
 			$this->insertItem('LibOrder:PlaceOrder', 'libOrder', '/libOrder/placeOrder', 'Place Order', array('confirm'=>t('Po vygenerování objednávky již nebude možné provádět v objednávce bez asistence pracovníků MZK žádné úpravy. Přejete si pokračovat?')), array('order_placed'=>user()->library_order_placed));
 			$this->insertItem('LibOrder:PrintOrder', 'libOrder_print', '/libOrder/printOrder', 'Order', array('target'=>'_blank'), array('order_placed'=>user()->library_order_placed));
 		}
@@ -144,11 +149,14 @@ class Menu
 			$this->insertItem('Book:GenerateSelectedOrder', 'book', '/book/generateSelectedOrder', 'Generovat pořad. č. vybraných');
 
 		$this->insertItem('Voting:RatingResults', 'voting', 'ratingResults', 'Rating Results');
+                $this->insertItem('Voting:Unscored', 'voting', 'unscored', 'Unscored Result');
+                $this->insertItem('Voting:ScoringResult', 'voting', 'scoringResult', 'Scoring Result');
 		$this->insertItem('Voting:RatingOrder', 'voting', 'ratingOrder', 'Rating Order', array('target'=>'_blank'));
 		$this->insertItem('Book:Poll', 'voting', 'poll', 'Voting');
 
 		$this->insertItem('LibOrder:GetBasics', 'libOrder', '/libOrder/GetBasics', 'Basic Orders');
 		$this->insertItem('LibOrder:GetReserves', 'libOrder', '/libOrder/getReserves', 'Reserves');
+		$this->insertItem('LibOrder:GetReservesAndBasics', 'libOrder', '/libOrder/getReservesAndBasics', 'Reserve and Basic Orders');
 
 		if (!@$state['puborder_generated'])
 			$this->insertItem('PubOrder:PlaceOrder', 'pubOrder', '/pubOrder/placeOrder', 'Place Orders');
@@ -158,6 +166,13 @@ class Menu
 			$this->insertItem('PubOrder:PrintOrder', 'pubOrder_print', '/pubOrder/printOrder', 'Orders', array('target'=>'_blank'));
 		}
 
+		if (!@$state['puborder_reserves_generated'])
+		{
+			$this->insertItem('PubOrder:PlaceOrderReserves', 'pubOrder', '/pubOrder/placeOrderReserves', 'Place Orders Reserves');
+		}
+
+		$this->insertItem('Stock:Admin', 'stock', '/stock/admin', 'Manage Stocks');
+		$this->insertItem('Stock:Admin', 'stock', '/stock/index', 'View Stocks');
 		$this->insertItem('StockActivity:PubActivity', 'stock', '/stockActivity/pubActivity', 'Pub Orders');
 		$this->insertItem('StockActivity:LibActivity', 'stock', '/stockActivity/libActivity', 'Lib Orders');
 		$this->insertItem('Stock:BillOfDelivery', 'stock', '/stock/billOfDelivery', 'Bills of Delivery', array('target'=>'_blank'));

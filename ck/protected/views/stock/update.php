@@ -31,13 +31,13 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Update Stock');
 		array(
 			'header'=>Yii::t('app', 'Library'),
 			'name'=>'lib_order.library.name',
-			'value'=>'CHtml::link(CHtml::encode($data->lib_order->library->name), \'#\', array(\'onclick\'=>CHtml::ajax(array(\'url\'=>url(\'library/view\',array(\'id\'=>$data->lib_order->library_id)), \'success\'=>\'function(data){$("#library-juidialog-content").html(data);$("#library-juidialog").dialog("option", "modal", false).dialog("open");return false;}\'))));',
+			'value'=>'CHtml::encode(isset($data->lib_order)? $data->lib_order->library()->name : \'\')',
 			'type'=>'raw',
 		),
 		array(
 			'header'=>Yii::t('app', 'Publisher'),
 			'name'=>'pub_order.book.publisher.name',
-			'value'=>'CHtml::link(CHtml::encode($data->pub_order->book->publisher->name), \'#\', array(\'onclick\'=>CHtml::ajax(array(\'url\'=>url(\'publisher/view\',array(\'id\'=>$data->pub_order->book->publisher_id)), \'success\'=>\'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}\'))));',
+			'value'=>'CHtml::encode(isset($data->pub_order)? $data->pub_order->book()->publisher()->name: \'\');',
 			'type'=>'raw',
 		),
 		'invoice',

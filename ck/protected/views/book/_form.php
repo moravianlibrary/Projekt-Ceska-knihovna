@@ -2,6 +2,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'book-form',
+	'htmlOptions'=>array('enctype'=>'multipart/form-data')
 )); ?>
 
 	<p class="note"><?php echo Yii::t('app', 'Fields with <span class="required">*</span> are required.'); ?></p>
@@ -62,6 +63,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'epilogue'); ?>
 		<?php echo $form->textField($model,'epilogue',array('size'=>60,'maxlength'=>255)); ?>
+                <br /><span class="red">Pozn: pokud kniha nemá doslov, prosím napište doslov není.</span>
 		<?php echo $form->error($model,'epilogue'); ?>
 	</div>
 
@@ -74,6 +76,12 @@
 		?>
 		<?php echo $form->error($model,'issue_year'); ?>
 	</div>
+
+        <div class="row">
+		<?php echo $form->labelEx($model,'issue_order'); ?>
+                <?php echo $form->textField($model,'issue_order', array('size'=>4,'maxlength'=>4)); ?>
+		<?php echo $form->error($model,'issue_order'); ?>
+        </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'available'); ?>
@@ -135,6 +143,14 @@
 		<?php echo $form->textArea($model,'comment',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'comment'); ?>
 	</div>
+	
+	<?php if (user()->checkAccess('PublisherRole')):?>
+		<div class="row">
+			<?php echo $form->labelEx($model,'manuscript'); ?>
+			<?php echo CHtml::activeFileField($model, 'manuscript'); ?>
+			<?php echo $form->error($model,'manuscript'); ?>
+		</div>
+	<?php endif; ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')); ?>

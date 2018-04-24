@@ -21,7 +21,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Voting');
 </div>
 
 <?php Yii::app()->getClientScript()->registerScript('bookVotes_submit', '
-	jQuery(document).off("click", ".bookVotes").on("click", ".bookVotes", function() {
+	jQuery(document).on("click", ".bookVotes", function() {
 		var book_id = jQuery(this).attr("rel");
 		var url = jQuery(this).attr("href");
 		jQuery.ajax({

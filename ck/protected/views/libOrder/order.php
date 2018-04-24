@@ -11,7 +11,7 @@ $this->renderPartial('/library/request', array('model'=>$model))
 		<td width="60%">&nbsp;</td>
 		<td width="40%">
 			Moravská zemská knihovna<br />
-			Technické ústředí knihoven<br />
+			Česká knihovna<br />
 			Kounicova 65a<br />
 			601 87 &nbsp; Brno
 		</td>

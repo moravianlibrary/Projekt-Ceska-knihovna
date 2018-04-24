@@ -25,5 +25,7 @@ foreach ($publishers as $publisher_id=>$publisher)
 		'number'=>(($type == 'R') ? '' : $number++),
 		'type'=>$type,
 	));
+
+	$this->renderPartial('legal_notice');
 }
 ?>

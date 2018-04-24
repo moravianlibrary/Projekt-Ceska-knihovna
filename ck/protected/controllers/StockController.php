@@ -209,7 +209,7 @@ class StockController extends Controller
 			$despatch->bill_count = $billCount;
 			$despatch->print_address = ($printAddress ? 1 : 0);
 
-			ylog($despatch->attributes);
+			//ylog($despatch->attributes);
 
 			$despatch->save();
 

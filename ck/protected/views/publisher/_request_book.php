@@ -1,10 +1,3 @@
-<div class="right"><?
-//$this->widget('ext.EBarcode.EBarcode', array('code'=>'1-'.$offerID.'-'.($index+2), 'mode'=>'div', 'encoding'=>'39', 'height'=>40, 'htmlOptions'=>array('alt'=>'Ev. č.: 1-'.$offerID.'-'.($index+2))));
-$this->widget('ext.EBarcode.EBarcode', array('code'=>'1-'.$offerID.'-'.($index+2), 'mode'=>$barcode, 'encoding'=>'39', 'height'=>40));
-?></div>
-
-Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
-
 <div class="clear"></div>
 
 <h2>Nabídka titulu</h2>
@@ -17,6 +10,7 @@ Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
 <strong><?echo t('Preamble')?>:</strong> <?echo $data->preamble?><br />
 <strong><?echo t('Epilogue')?>:</strong> <?echo $data->epilogue?><br />
 <strong><?echo t('Issue Year')?>:</strong> <?echo $data->issue_year?><br />
+<strong><?echo t('Issue Order')?>:</strong> <?echo $data->issue_order?><br />
 <strong><?echo t('Publisher')?>:</strong> <?echo $publisher->name?><br />
 
 <br />
@@ -32,20 +26,9 @@ Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
 <strong><?echo t('Binding')?>:</strong> <?echo $data->binding?><br />
 <strong><?echo t('Retail Price')?>:</strong> <?echo currf($data->retail_price)?><br />
 <strong><?echo t('Offer Price')?>:</strong> <?echo currf($data->offer_price)?><br />
+<strong><?echo t('Redactors')?>:</strong> <?echo $data->redactors?><br />
+<strong><?echo t('Reviewer')?>:</strong> <?echo $data->reviewer?><br />
 
 <br />
 <strong><?echo t('Annotation')?>:</strong><br />
 <?echo $data->annotation?>
-
-<br /><br />
-
-Prohlašuji, že tento titul splňuje podmínky pro přijetí do projektu Česká knihovna.
-
-<br /><br /><br /><br />
-
-<table width="100%" class="nomargin">
-	<tr>
-		<td width="60%">Dne <?echo DT::locToday()?></td>
-		<td width="40%" style="text-align: center;">...............................................................<br />podpis statutárního zástupce<br />nebo fyzické osoby</td>
-	</tr>
-</table>

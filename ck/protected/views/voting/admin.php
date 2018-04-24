@@ -32,7 +32,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Manage Votings');
 		),
 		array(
 			'name'=>'type',
-			'value'=>'$data->type_c',
+			'value'=> '$data->type_c',
 			'type'=>'raw',
 			'filter'=>DropDownItem::items('Voting.type'),
 		),

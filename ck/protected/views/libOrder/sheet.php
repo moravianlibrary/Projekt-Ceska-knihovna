@@ -17,6 +17,9 @@ if (user()->library_order_placed)
 }
 ?>
 
+<div>Anotace a informace ke knihám jsou převzaty z aplikace pro nakladatele.</div>
+<br />
+
 <?php $this->renderPartial('_order_total', array('basicPrice'=>$basicPrice, 'reserveCount'=>$reserveCount)); ?>
 
 <div class="form">
@@ -26,11 +29,6 @@ if (user()->library_order_placed)
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_sheet_item',
 	'template'=>"{pager}\n{summary}\n{sorter}\n{items}\n{pager}",
-	'sortableAttributes'=>array(
-        'name',
-        'title',
-        'author',
-    ),
 )); ?>
 
 </div>

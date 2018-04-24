@@ -14,7 +14,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Update Publisher');
 
 	<?php echo $form->errorSummary(array($organisation, $publisher)); ?>
 
-	<?php echo $this->renderPartial('/organisation/_form_fields', array('model'=>$organisation, 'form'=>$form)); ?>
+	<?php echo $this->renderPartial('/organisation/_form_fields', array('model'=>$organisation, 'form'=>$form, 'admin'=>false)); ?>
 
 	<?php echo $this->renderPartial('_form_fields', array('model'=>$publisher, 'form'=>$form)); ?>
 	

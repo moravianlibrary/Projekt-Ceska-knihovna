@@ -6,12 +6,12 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Request');
 	<tr>
 		<td width="60%" style="vertical-align: top;"><strong>Název poskytovatele dotace: Ministerstvo kultury<br /><br />Číslo tematického okruhu : 5  Česká knihovna</strong></td>
 		<td width="15" style="vertical-align: top;" align="right">
-			<strong>Evidenční číslo:</strong><br />
+			<strong>Evidenční číslo: <?echo $offerID?></strong><br />
 		</td>
 		<td width="25%" style="vertical-align: top;" align="right">
 			<?
 			//$this->widget('ext.EBarcode.EBarcode', array('code'=>'1-'.$offerID.'-1', 'mode'=>'inline', 'encoding'=>'39', 'height'=>40));
-			$this->widget('ext.EBarcode.EBarcode', array('code'=>'1-'.$offerID.'-1', 'mode'=>$barcode, 'encoding'=>'39', 'height'=>40));
+			//$this->widget('ext.EBarcode.EBarcode', array('code'=>'1-'.$offerID.'-1', 'mode'=>$barcode, 'encoding'=>'39', 'height'=>40));
 			?>
 		</td>
 	</tr>
@@ -26,7 +26,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Request');
 
 <strong>Žadatel:</strong><br />
 Název a kontaktní adresa nakladatelství, hlavního realizátora projektu:<br />
-<?echo $publisher->name?><br />
+<?echo $publisher->organisation->original_name?><br />
 <?echo $publisher->organisation->address?><br />
 <br />
 <?echo t('Publisher Code')?>: <?echo $publisher->code?><br />
@@ -45,7 +45,7 @@ Název a kontaktní adresa nakladatelství, hlavního realizátora projektu:<br 
 
 <h2>Nabídka vydavatele</h2>
 
-Počet přihlášených titulů z produkce r. <?echo param('projectYear') - 1?> (pouze tituly nepřihlášené v loňském roce): <?echo $publisher->count_last_year_books?><br />
+Počet přihlášených titulů z produkce r. <?echo param('projectYear') - 1?>: <?echo $publisher->count_last_year_books?><br />
 Počet přihlášených titulů z produkce r.  <?echo param('projectYear')?>: <?echo $publisher->count_this_year_books?><br />
 <?echo t('Worker Name')?>: <?echo $publisher->organisation->worker_name?><br />
 <?echo t('Telephone')?>: <?echo $publisher->organisation->worker_telephone?><br />
@@ -54,13 +54,49 @@ Počet přihlášených titulů z produkce r.  <?echo param('projectYear')?>: <?
 
 <br />
 
+Přílohy k žádosti:
+<ol>
+	<li>Nabídka titulů</li>
+	<li>Fotokopie dokladu o právní subjektivitě</li>
+</ol>
+
+<div class="clear"></div>
+<div class="break"></div>
+
+Příloha č. 1 k žádosti o zařazení do projektu Česká knihovna
+
+<h2>Nabídka titulu</h2>
+
+<table>
+	<tr>
+		<th><?echo t('Author')?></th>
+		<th><?echo t('Title')?></th>
+		<th><?echo t('Issue Year')?></th>
+	</tr>
+	<?php $this->widget('zii.widgets.CListView', array(
+		'id'=>'book-list',
+		'dataProvider'=>$bookProvider,
+		'itemView'=>'_request_book_row',
+		'emptyText'=>'',
+		'template'=>'{items}',
+		'viewData'=>array(
+			'offerID'=>$offerID,
+			'barcode'=>$barcode,
+			'publisher'=>$publisher,
+		),
+	));
+	?>
+</table>
+
+<p><strong>Prohlašuji, že přihlášené tituly splňují podmínky pro přijetí do projektu Česká knihovna.</strong></p>
 <p><strong>Žadatel o dotaci potvrzuje správnost uvedených údajů a prohlašuje, že nemá žádné nevyrovnané závazky vůči státnímu rozpočtu.</strong></p>
+
 
 <br />
 
 <?echo $publisher->organisation->city?>, <?echo DT::locToday()?>
 
-<br /><br /><br /><br />
+<br /><br />
 
 <table width="100%" class="nomargin">
 	<tr>
@@ -68,26 +104,3 @@ Počet přihlášených titulů z produkce r.  <?echo param('projectYear')?>: <?
 		<td width="40%" style="text-align: center;">...............................................................<br />podpis statutárního zástupce<br />nebo fyzické osoby</td>
 	</tr>
 </table>
-
-Přílohy k žádosti:
-<ol>
-	<li>Nabídka titulů</li>
-	<li>Fotokopie dokladu o právní subjektivitě</li>
-</ol>
-
-<div class="break"></div>
-
-<?php $this->widget('zii.widgets.CListView', array(
-	'id'=>'book-list',
-	'dataProvider'=>$bookProvider,
-	'itemView'=>'_request_book',
-	'emptyText'=>'',
-	'template'=>'{items}',
-	'separator'=>'<div class="break"></div>',
-	'viewData'=>array(
-		'offerID'=>$offerID,
-		'barcode'=>$barcode,
-		'publisher'=>$publisher,
-	),
-));
-?>

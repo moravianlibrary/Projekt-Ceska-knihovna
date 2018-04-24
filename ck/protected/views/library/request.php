@@ -4,7 +4,12 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Request');
 
 <h1>Projekt Česká knihovna</h1>
 
-<p>Moravská zemská knihovna v Brně z pověření Oddělení literatury a knihoven Ministerstva kultury ČR vyhlašuje <strong>pro rok <?echo param('projectYear')?> projekt na podporu nákupu</strong> nekomerčních titulů uměleckých <strong>děl české literatury</strong>, děl literární vědy a kritiky <strong>pro profesionální veřejné knihovny a knihovny vysokých škol literárního zaměření evidovaných dle zákona č. 257/2001 Sb., o knihovnách a podmínkách provozování  veřejných knihovnických a informačních služeb (knihovní zákon).</strong></p>
+<p>
+Moravská zemská knihovna v Brně z pověření Ministerstva kultury ČR vyhlašuje <strong>pro rok <?echo param('projectYear')?> projekt na podporu nákupu</strong>
+nekomerčních titulů uměleckých <strong>děl české literatury</strong>, české ilustrované beletrie pro děti a mládež, vědy o literatuře <strong>pro profesionální
+veřejné knihovny a knihovny vybraných vysokých škol evidovaných dle zákona č. 257/2001 Sb., o knihovnách a podmínkách provozování
+veřejných knihovnických a informačních služeb (knihovní zákon).</strong>
+</p>
 
 <h2>Ž Á D O S T<br />o poskytnutí dotace z projektu Česká knihovna</h2>
 
@@ -58,7 +63,7 @@ E-mail: <?echo $model->organisation->worker_email?>
 <?echo $model->getAttributeLabel('budget_czech')?>: <?echo currf($model->budget_czech)?><br />
 <br /><br />
 
-<p><strong>Potvrzuji, že údaje uvedené v žádosti jsou správné a pravdivé.</strong></p>
+<p><strong>Potvrzuji, že údaje uvedené v žádosti jsou správné, pravdivé a jsme profesionální veřejnou knihovnou.</strong></p>
 
 <br /><br />
 

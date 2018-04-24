@@ -4,6 +4,7 @@ class Book extends ActiveRecord
 {
 	protected $_name = null;
 	protected $_prevTitle = null;
+	public $manuscript = null;
 	public $isbnPart = '';
 
 	public static function model($className=__CLASS__)
@@ -44,13 +45,14 @@ class Book extends ActiveRecord
 	{
 		$rules = array(
 			array('author, title, editor, redactors, reviewer, illustrator, isbn, isbnPart, preamble, epilogue, binding, annotation, comment', 'filter', 'filter'=>'strip_tags'),
-			array('author, title', 'required'),
+			array('author, title, issue_order', 'required'),
 			array('isbnPart', 'isbnValid'),
 			array('isbnPart', 'isbnLength'),
 			array('isbn', 'filter', 'filter'=>array($this, 'createISBN')),
-			array('format_height, format_width, binding, available, pages_printed, pages_other, issue_year, retail_price, offer_price, annotation', 'required'),
+			array('format_height, format_width, binding, available, pages_printed, pages_other, issue_year, retail_price, offer_price, annotation, epilogue', 'required'),
 			array('available, pages_printed, pages_other', 'numerical', 'integerOnly'=>true),
 			array('issue_year', 'numerical', 'integerOnly'=>true, 'min'=>(param('projectYear')-1), 'max'=>param('projectYear')),
+			array('issue_order', 'numerical', 'integerOnly'=>true, 'min'=>0),
 			array('format_height, format_width', 'numerical', 'integerOnly'=>true, 'min'=>1, 'max'=>999),
 			array('retail_price, offer_price', 'filter', 'filter'=>array($this, 'numerize')),
 			array('retail_price, offer_price', 'numerical', 'integerOnly'=>true),
@@ -58,6 +60,7 @@ class Book extends ActiveRecord
 			array('author, title, editor, redactors, reviewer, illustrator, preamble, epilogue, binding', 'length', 'max'=>255),
 			array('annotation', 'length', 'max'=>2000),
 			array('comment', 'safe'),
+			array('manuscript', 'file', 'allowEmpty'=>true, 'safe' => false, 'maxSize'=> 10 * 1024 * 1024),
 		);
 
 		if (user()->checkAccess('BackOffice'))
@@ -183,6 +186,7 @@ class Book extends ActiveRecord
 			'preamble' =>  Yii::t('app', 'Preamble'),
 			'epilogue' =>  Yii::t('app', 'Epilogue'),
 			'issue_year' =>  Yii::t('app', 'Issue Year'),
+			'issue_order' => Yii::t('app', 'Issue Order'),
 			'available' =>  Yii::t('app', 'Available'),
 			'pages_printed' =>  Yii::t('app', 'Pages Printed'),
 			'pages_other' =>  Yii::t('app', 'Pages Other'),
@@ -206,6 +210,7 @@ class Book extends ActiveRecord
 			'selected' =>  Yii::t('app', 'Selected'),
 			'selected_order' =>  Yii::t('app', 'Order nr.'),
 			'name' =>  Yii::t('app', 'Publisher'),
+			'manuscript' =>  Yii::t('app', 'Manuscript'),
 		);
 	}
 

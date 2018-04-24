@@ -33,7 +33,9 @@ $this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'User Login');
 
 <br />
 
+<!--
 <?php echo t('You can register ')?> <?php echo CHtml::link(t('here'), array('/user/registration'))?>.<br />
+-->
 
 <br /><hr /><br />
 

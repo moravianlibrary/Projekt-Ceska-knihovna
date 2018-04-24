@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Rating Order');
+$this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Scoring Result');
 ?>
 
 <?php $this->insertDialog(); ?>
@@ -9,7 +9,7 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Rating Order');
 <span class="noprint"><button id="poll-hide-button">Skrýt sloupce s hlasováním</button><br /><br /></span>
 
 <table>
-	<tr>
+	<tr>		
 		<th>Poř. č.</th>
 		<th>Nakladatelství</th>
 		<th>Autor</th>
@@ -30,11 +30,3 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Rating Order');
 		'template'=>'{items}',
 	)); ?>
 </table>
-
-<?php 
-Yii::app()->getClientScript()->registerScript('poll-hide-button', '
-	jQuery("#poll-hide-button").click(function() {
-		$(".voting").toggle();
-	});', CClientScript::POS_READY
-);
-?>

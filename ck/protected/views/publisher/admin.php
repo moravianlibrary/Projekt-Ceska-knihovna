@@ -14,10 +14,18 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Manage Publishers');
 		array(
 			'header'=>Yii::t('app', 'Actions'),
 			'class'=>'ButtonColumn',
+			'template'=>'{view} {update} {delete} {request}',
 			'buttons'=>array(
 				'delete'=>array(
 					'visible'=>'$data->canDelete',
 				),
+				'request'=>array(
+					'label'=>t('Request'),
+					'imageUrl'=>Yii::app()->request->baseUrl.'/images/basic.png',
+					'url'=>'Yii::app()->createUrl("publisher/printBooks", array("id"=>$data->id))',
+					'visible'=>'$data->offer_id',
+					//'visible'=>'true',
+                                ),
 			),
 		),
 		array(

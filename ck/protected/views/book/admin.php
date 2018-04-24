@@ -60,6 +60,12 @@ if (!user()->publisher_id)
 			'type'=>'raw',
 			'filter'=> $statusFilter,
 		),
+		array(
+			'name'=>'manuscript',
+			'value'=>'($data->manuscript != null) ? "ano" : "ne"',
+			'type'=>'raw',
+			'filter'=>false,
+		)
 	);
 else
 	$columns = array(

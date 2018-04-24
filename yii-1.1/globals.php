@@ -100,7 +100,8 @@ function ylog($target)
 
 function currf($val, $cur = 'CZK')
 {
-    return Yii::app()->numberFormatter->formatCurrency($val, $cur);
+	return number_format($val, 2, '.', ' ') . " Kč";
+	//return Yii::app()->numberFormatter->formatCurrency($val, $cur);
 }
 
 function datef($val, $df = 'medium', $tf = null)

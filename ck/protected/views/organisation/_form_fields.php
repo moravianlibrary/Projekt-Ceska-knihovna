@@ -1,7 +1,15 @@
+	<?php if (user()->checkAccess('BackOffice')): ?>
 	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'name'); ?>
+		<?php echo $form->labelEx($model, 'name'); ?>
+		<?php echo $form->textField($model, 'name', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model, 'name'); ?>
+	</div>
+	<?php endif; ?>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model, 'original_name'); ?>
+		<?php echo $form->textField($model, 'original_name', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model, 'original_name'); ?>
 	</div>
 
 	<div class="row">
@@ -49,6 +57,14 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'vat_id_number'); ?>
 		<?php echo $form->textField($model,'vat_id_number',array('size'=>12,'maxlength'=>12)); ?>
+		<?php
+			/*$this->widget('CMaskedTextField',array(
+				'model'=>$model,
+				'attribute'=>'vat_id_number',
+				'mask'=>'CZ99999999',
+				'htmlOptions'=>array('size'=>12),
+			));*/
+		?>
 		<?php echo $form->error($model,'vat_id_number'); ?>
 	</div>
 

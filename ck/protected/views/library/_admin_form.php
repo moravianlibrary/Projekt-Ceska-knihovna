@@ -17,7 +17,7 @@
 			'sourceUrl'=>array('findOrganisation'), 
 			'relName'=>'organisation',
 			'displayAttr'=>'name',
-			'autoCompleteLength'=>60,
+			'autoCompleteLength'=>255,
 			'options'=>array(
 				'minLength'=>3, 
 			),

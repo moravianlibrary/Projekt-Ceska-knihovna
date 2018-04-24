@@ -34,6 +34,7 @@ class UserIdentity extends CUserIdentity
 						$this->setState('publisher_id', $publisher->id);
 						$this->setState('publisher_offer_id', (int) $publisher->offer_id);
 						$this->setState('publisher_order_placed', $publisher->order_placed);
+						$this->setState('publisher_confirmation', $publisher->confirmation);
 					}
 				}
 					

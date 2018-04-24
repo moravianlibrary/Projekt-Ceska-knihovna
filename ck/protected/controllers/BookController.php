@@ -98,9 +98,23 @@ class BookController extends Controller
 			{
 				$model->attributes=$_POST['Book'];
 				if($model->save())
+				{
+					if (user()->checkAccess('PublisherRole'))
+					{
+						$model->manuscript = $_POST['Book']['manuscript'];
+						$model->manuscript = CUploadedFile::getInstance($model, 'manuscript');
+						if ($model->manuscript != null)
+						{
+							$model->manuscript->saveAs('files/manuscript/' . $model->id);
+						}
+						$model->save();
+					}
 					$this->redirect(array('create'));
+				}
 				else
+				{
 					$model->viewAttributes();
+				}
 			}
 
 			$this->render('create',array(
@@ -112,6 +126,7 @@ class BookController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$oldManuscript = $model->manuscript;
 		
 		if(isset($_POST['Book']))
 		{
@@ -123,6 +138,17 @@ class BookController extends Controller
 			else
 			{
 				$model->project_price = $_POST['Book']['offer_price'];
+			}
+			if (user()->checkAccess('PublisherRole')) {
+				$model->manuscript = $_POST['Book']['manuscript'];
+				$model->manuscript = CUploadedFile::getInstance($model, 'manuscript');
+				if ($model->manuscript != null)
+				{
+					$model->manuscript->saveAs('files/manuscript/' . $id);
+				}
+			} else
+			{
+				$model->manuscript = $oldManuscript;
 			}
 		}
 
@@ -194,10 +220,15 @@ class BookController extends Controller
 		if(isset($_GET['Book']))
 			$model->attributes=$_GET['Book'];
 			
-		if (user()->publisher_id)
+		if (user()->publisher_id) {
 			$publisher = Publisher::model()->findByPk(user()->publisher_id);
-		else 
+			if (!$publisher->confirmation) {
+				user()->setFlash('error.updatebook', t('Před vložením nových titulů musíte nejprve aktualizovat své údaje v části Nakladatel.'));
+				$this->redirect(array('/publisher/clientUpdate'));
+			}
+		} else { 
 			$publisher = null;
+		}
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -415,7 +446,7 @@ class BookController extends Controller
 		}
 		else
 		{
-			$books = Book::model()->with('publisher', 'publisher.organisation')->thisYear()->accepted()->selected()->findAll(array('order'=>'organisation.name, author'));
+			$books = Book::model()->with('publisher', 'publisher.organisation')->thisYear()->accepted()->selected()->findAll(array('order'=>'organisation.name, author, title'));
 			$i = 1;
 			foreach ($books as $book)
 				$book->updateByPk($book->id, array('selected_order'=>$i++));
@@ -463,10 +494,47 @@ class BookController extends Controller
 			'separator'=>'<hr />',
 		));
 	}
+	
+	public function actionPrintIndexForCounsel()
+	{
+		$this->layout = '//layouts/blank';
 
+		$criteria=new CDbCriteria;
+		$criteria->with = array('publisher','publisher.organisation');
+		$criteria->compare('t.status', '0');
+		$criteria->compare('t.project_year', param('projectYear'));
+		$criteria->together = true;
+		
+		$dataProvider=new CActiveDataProvider(Book::model()->my(), array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'organisation.name ASC, t.title ASC',
+				'attributes'=>array(
+					'*',
+					),
+				),
+			'pagination'=>false,
+		));
+		
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+			'separator'=>'<hr />',
+		));
+	}
 	
 	public function actionFindPublisher()
 	{
 		$this->autoCompleteFind('Publisher', 'name', null, array('with'=>array('organisation')));
 	}
+
+	public function actionDownload($id)
+	{
+		$model = $this->loadModel($id);
+		if (user()->checkAccess('BackOffice') || user()->checkAccess('CouncilRole')
+			|| ((user()->checkAccess('PublisherRole') && user()->id == $model->user_id))) {
+			$model = $this->loadModel($id);
+			return Yii::app()->getRequest()->sendFile($model->manuscript, @file_get_contents('files/manuscript/' . $id));
+		}
+	}
+
 }

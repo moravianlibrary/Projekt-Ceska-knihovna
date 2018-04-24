@@ -48,6 +48,10 @@
 	<?php echo CHtml::encode($data->issue_year); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('issue_order')); ?>:</b>
+        <?php echo CHtml::encode($data->issue_order); ?>
+        <br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('available')); ?>:</b>
 	<?php echo CHtml::encode($data->available); ?>
 	<br />

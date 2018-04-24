@@ -3,6 +3,7 @@
 class Publisher extends ActiveRecord
 {
 	private $_name = null;
+	private $_original_name = null;
 
 	public static function model($className=__CLASS__)
 	{
@@ -25,6 +26,9 @@ class Publisher extends ActiveRecord
 			),
 			'orderPlaced'=>array(
 				'condition'=>'order_placed=1',
+			),
+			'confirmed'=>array(
+				'condition'=>'confirmation=1',
 			),
 		));
 	}

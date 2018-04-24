@@ -8,15 +8,19 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo CHtml::label(t('Publisher'), 'publisher_name'); ?>
-		<?php echo CHtml::link(CHtml::encode($model->pub_order->book->publisher->name), '#', array('id'=>'publisher_name', 'onclick'=>CHtml::ajax(array('url'=>url('publisher/view',array('id'=>$model->pub_order->book->publisher_id)), 'success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("open");return false;}')))); ?>
-	</div>
+	<? if (isset($model->pub_order)): ?>
+		<div class="row">
+			<?php echo CHtml::label(t('Publisher'), 'publisher_name'); ?>
+			<?php echo CHtml::link(CHtml::encode($model->pub_order->book->publisher->name), '#', array('id'=>'publisher_name', 'onclick'=>CHtml::ajax(array('url'=>url('publisher/view',array('id'=>$model->pub_order->book->publisher_id)), 'success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("open");return false;}')))); ?>
+		</div>
+	<? endif; ?>
 
-	<div class="row">
-		<?php echo CHtml::label(t('Library'), 'library_name'); ?>
-		<?php echo CHtml::link(CHtml::encode($model->lib_order->library->name), '#', array('id'=>'library_name', 'onclick'=>CHtml::ajax(array('url'=>url('library/view',array('id'=>$model->lib_order->library_id)), 'success'=>'function(data){$("#library-juidialog-content").html(data);$("#library-juidialog").dialog("open");return false;}')))); ?>
-	</div>
+	<? if (isset($model->lib_order)): ?>
+		<div class="row">
+			<?php echo CHtml::label(t('Library'), 'library_name'); ?>
+			<?php echo CHtml::link(CHtml::encode($model->lib_order->library->name), '#', array('id'=>'library_name', 'onclick'=>CHtml::ajax(array('url'=>url('library/view',array('id'=>$model->lib_order->library_id)), 'success'=>'function(data){$("#library-juidialog-content").html(data);$("#library-juidialog").dialog("open");return false;}')))); ?>
+		</div>
+	<? endif; ?>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'date'); ?>

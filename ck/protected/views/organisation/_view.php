@@ -3,6 +3,7 @@
 	'formatter'=>new Formatter,
 	'attributes'=>array(
 		'name',
+		'original_name',
 		'street',
 		'land_registry_number',
 		'house_number',

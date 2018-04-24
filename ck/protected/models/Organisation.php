@@ -3,6 +3,7 @@
 class Organisation extends ActiveRecord
 {
 	private $_email = null;
+	public $www = 'www.';
 
 	public static function model($className=__CLASS__)
 	{
@@ -17,8 +18,8 @@ class Organisation extends ActiveRecord
 	public function rules()
 	{
 		$rules = array(
-			array('name, street, house_number, city, vat_id_number, representative, telephone, fax, bank_account_number, revenue_authority, worker_name, worker_telephone, worker_fax', 'filter', 'filter'=>'strip_tags'),		
-			array('name, street, postal_code, city, region, representative, telephone, worker_name, worker_telephone, worker_email', 'required'),
+			array('name, street, house_number, city, vat_id_number, representative, telephone, fax, bank_account_number, revenue_authority, worker_name, worker_telephone, worker_fax', 'filter', 'filter'=>'strip_tags'),
+			array('original_name, street, postal_code, city, region, representative, telephone, worker_name, worker_telephone, worker_email', 'required'),
 			array('bank_account_number,  revenue_authority, telephone, company_id_number, vat_id_number', 'required', 'on'=>'publisher'),
 			array('land_registry_number, postal_code, company_id_number', 'numerical', 'integerOnly'=>true),
 			array('name, street, city, representative, telephone, fax, www, bank_account_number, worker_name, worker_telephone, worker_fax, worker_email', 'length', 'max'=>255),
@@ -71,7 +72,7 @@ class Organisation extends ActiveRecord
 			'modify_time' =>  Yii::t('app', 'Modify Time'),
 			'ip_address' =>  Yii::t('app', 'Ip Address'),
 			'user_id' =>  Yii::t('app', 'User'),
-			'name' =>  Yii::t('app', 'Applicant Name'),
+			'name' =>  Yii::t('app', 'Applicant Working Name'),
 			'street' =>  Yii::t('app', 'Street'),
 			'land_registry_number' =>  Yii::t('app', 'Land Registry Number'),
 			'house_number' =>  Yii::t('app', 'House Number'),
@@ -92,6 +93,7 @@ class Organisation extends ActiveRecord
 			'worker_fax' =>  Yii::t('app', 'Fax'),
 			'worker_email' =>  Yii::t('app', 'E-mail'),
 			'email' =>  Yii::t('app', 'E-mail'),
+			'original_name' => Yii::t('app', 'Applicant Name'),
 		);
 	}
 
@@ -191,9 +193,18 @@ class Organisation extends ActiveRecord
 	{
 		return DropDownItem::item('Organisation.region', $this->region);
 	}
-	
+
 	public function getCanDelete()
 	{
 		return (user()->checkAccess('Organisation'));
 	}
+	
+	protected function beforeSave() {
+		$execute = parent::beforeSave();
+		if($execute && $this->name == null) {
+			$this->name = $this->original_name;
+		}
+		return $execute;
+	}
+
 }

@@ -12,7 +12,7 @@ class Voting extends ActiveRecord
 	
 	public static $_types = array(self::POLL, self::RATING);
 	public static $pollOptions = array('-1'=>'-1', '0'=>'0', '1'=>'1');
-	public static $ratingOptions = array('0'=>'0 - nedoporučuji', '1'=>'1 - spíše nedoporučuji', '2'=>'2 - spíše doporučuji', '3'=>'3 - doporučuji s výhradami', '4'=>'4 - rozhodně doporučuji');	
+	public static $ratingOptions = array(null => 'N - nehlasováno', '0'=>'0 - nedoporučuji', '1'=>'1 - spíše nedoporučuji', '2'=>'2 - spíše doporučuji', '3'=>'3 - doporučuji s výhradami', '4'=>'4 - rozhodně doporučuji');	
 	
 	public static function model($className=__CLASS__)
 	{

@@ -10,6 +10,8 @@ $globals=dirname(__FILE__).'/../yii-1.1/globals.php';
 // specify how many levels of call stack should be shown in each log message
 // defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
+ini_set('sendmail_path', '/usr/bin/msmtp -C /opt/msmtp/config -t');
+
 require_once($globals);
 require_once($yii);
 Yii::createWebApplication($config)->run();

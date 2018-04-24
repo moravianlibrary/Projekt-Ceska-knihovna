@@ -21,6 +21,14 @@ class PublisherController extends Controller
 				if (user()->publisher_offer_id)
 					$params['enable'] = false;
 				break;
+			case 'printRequest':
+				$publisher = Publisher::model()->my()->find();
+				if (!$publisher->confirmation) {
+					user()->setFlash('error.updatebook', t('Musíte souhlasit s podmínkami žádosti v záložce Nakladatel.'));
+					$this->redirect(array('admin'));
+					Yii::app()->end();
+				}
+				break;
 			case 'view':
 				if (user()->publisher_id)
 				{
@@ -382,7 +390,7 @@ class PublisherController extends Controller
 			$bookProviders[$publisher->id]=new CActiveDataProvider('Book', array(
 				'criteria'=>$criteria,
 				'sort'=>array(
-					'defaultOrder'=>'t.author, t.title',
+					'defaultOrder'=>'t.selected_order',
 					),
 				'pagination'=>false,
 			));
@@ -403,7 +411,7 @@ class PublisherController extends Controller
 		if (isset($_GET['publisher_id']) && is_numeric($_GET['publisher_id']))
 			$attributes = array('id'=>$_GET['publisher_id']);
 		
-		$models = Publisher::model()->with(array('organisation'))->unSelected()->findAllByAttributes($attributes);
+		$models = Publisher::model()->with(array('organisation'))->unSelected()->confirmed()->findAllByAttributes($attributes);
 		
 		foreach ($models as $publisher)
 		{
@@ -416,10 +424,35 @@ class PublisherController extends Controller
 			'publishers'=>$publishers,
 			'selected'=>$selected,
 		));
-	}	
+	}
 
 	public function actionFindOrganisation()
 	{
 		$this->autoCompleteFind('Organisation', 'name');
-	}	
+	}
+	
+		
+	public function actionPrintBooks($id)
+	{
+		$this->layout = '//layouts/blank';
+
+		$criteria = new CDbCriteria;
+		$criteria->compare('t.publisher_id', $id);
+		$criteria->with = array('publisher');
+		$bookProvider = new CActiveDataProvider('Book', array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'t.author, t.title',
+			),
+			'pagination'=>false,
+		));
+		
+		$publisher = Publisher::model()->findByPk($id);
+		
+		$this->render('books', array(
+			'bookProvider' => $bookProvider,
+			'publisher' => $publisher,
+		));
+	}
+
 }

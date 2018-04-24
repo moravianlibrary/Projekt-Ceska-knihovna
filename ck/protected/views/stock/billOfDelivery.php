@@ -58,6 +58,10 @@ foreach ($libraries as $library)
 	{
 		foreach ($order->stock_activities as $stockActivity)
 		{
+			if (!array_key_exists($stockActivity->stock_id, $bills)) {
+				$bills[$stockActivity->stock_id] = array();
+				$bills[$stockActivity->stock_id]['count'] = 0;
+			}
 			$bills[$stockActivity->stock_id]['selected_order'] = $stockActivity->stock->book->selected_order;
 			$bills[$stockActivity->stock_id]['title'] = $stockActivity->stock->book->title;
 			$bills[$stockActivity->stock_id]['author'] = $stockActivity->stock->book->author;
@@ -94,7 +98,7 @@ foreach ($libraries as $library)
 			</tr>
 			<tr>
 				<td align="center"><?echo $library->libraryName?></td>
-				<td align="center"><?echo $library->number?></td>
+				<td align="center"><?echo $library->internal_number?></td>
 				<td align="center"><?if ($despatch) echo $despatch->id?></td>
 				<td align="center"><?echo implode(', ', $library->contact_place->fullAddress)?></td>
 			<tr>

@@ -10,6 +10,7 @@ $this->pageTitle = Yii::app()->name.' - '.$title;
 
 <table class='border'>
 	<tr>
+		<th><?php echo t('Book Order'); ?></th>
 		<th><?php echo t('Title'); ?></th>
 		<th><?php echo t('Author'); ?></th>
 		<th><?php echo t('Publisher'); ?></th>
@@ -27,11 +28,11 @@ $this->pageTitle = Yii::app()->name.' - '.$title;
 		$totalDelivered += $item["delivered"];
 		$totalRemaining += $item["remaining"];
 
-		echo "<tr><td>".CHtml::ajaxLink($item["title"], array('book/view', 'id'=>$item['book_id']), array('success'=>'function(data){$("#book-juidialog-content").html(data);$("#book-juidialog").dialog("option", "modal", false).dialog("open");return false;}'))."</td><td>{$item["author"]}</td><td>".CHtml::ajaxLink($item["name"], array('publisher/view', 'id'=>$item['publisher_id']), array('success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}'))."</td><td>{$item["sum_count"]}</td><td>".currf($item["total_price"])."</td><td>{$item["delivered"]}</td><td>{$item["remaining"]}</td></tr>";
+		echo "<tr>" . "<td>{$item['selected_order']}</td>" ."<td>".CHtml::ajaxLink($item["title"], array('book/view', 'id'=>$item['book_id']), array('success'=>'function(data){$("#book-juidialog-content").html(data);$("#book-juidialog").dialog("option", "modal", false).dialog("open");return false;}'))."</td><td>{$item["author"]}</td><td>".CHtml::ajaxLink($item["name"], array('publisher/view', 'id'=>$item['publisher_id']), array('success'=>'function(data){$("#publisher-juidialog-content").html(data);$("#publisher-juidialog").dialog("option", "modal", false).dialog("open");return false;}'))."</td><td>{$item["sum_count"]}</td><td>".currf($item["total_price"])."</td><td>{$item["delivered"]}</td><td>{$item["remaining"]}</td></tr>";
 	}
 	?>
 	<tr>
-		<td colspan="3"><?php echo t('Total'); ?></td>
+		<td colspan="4"><?php echo t('Total'); ?></td>
 		<td><?php echo $totalCount; ?></td>
 		<td><?php echo currf($totalPrice); ?></td>
 		<td><?php echo $item["delivered"]; ?></td>

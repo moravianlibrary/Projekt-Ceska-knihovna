@@ -39,7 +39,8 @@ $this->pageTitle = Yii::app()->name.' - '.Yii::t('app', 'Manage Pub Orders');
 		),
 		array(
 			'header'=>t('Order'),
-			'value'=>'($data->remaining > 0 ? CHtml::link(\'<img src="/images/list.png">\',  array(\'printOrder\', \'publisher_id\'=>$data->book->publisher_id, \'puborder_id\'=>$data->id, \'puborder_type\'=>$data->type), array(\'target\'=>\'_blank\')) : \'\')',
+			//'value'=>'($data->remaining > 0 ? CHtml::link(\'<img src="/images/list.png">\',  array(\'printOrder\', \'publisher_id\'=>$data->book->publisher_id, \'puborder_id\'=>$data->id, \'puborder_type\'=>$data->type), array(\'target\'=>\'_blank\')) : \'\')',
+			'value'=>'($data->remaining > 0 ? CHtml::link(\'<img src="/images/list.png">\',  array(\'printOrder\', \'publisher_id\'=>$data->book->publisher_id, \'puborder_type\'=>$data->type), array(\'target\'=>\'_blank\')) : \'\')',
 			'type'=>'raw',
 			'filter'=>false,
 			'htmlOptions'=>array('style'=>'text-align: center;'),

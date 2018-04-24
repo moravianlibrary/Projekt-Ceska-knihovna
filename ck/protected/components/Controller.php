@@ -166,9 +166,10 @@ class Controller extends CController
 			else return ($aip[3] + $aip[2] * 256 + $aip[1] * 256 * 256 + $aip[0] * 256 * 256 * 256);
 		}
 	}	
-	
+
 	public static function IpAddressToText($ip)
 	{
+		$ret = null;
 		if (!$ip) return '0.0.0.0';
 		else 
 		{
@@ -182,7 +183,7 @@ class Controller extends CController
 			return substr($ret, 0, -1);
 		}
 	}
-	
+
 	protected function pluralize($name)
 	{
 		$rules=array(

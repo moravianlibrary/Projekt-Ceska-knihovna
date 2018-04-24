@@ -35,8 +35,7 @@ class LibOrder extends ActiveRecord
 	{
 		$rules = array(
 			array('book_id, date, count, type', 'required'),
-			array('book_id', 'numerical', 'integerOnly'=>true),
-			array('count', 'numerical', 'integerOnly'=>true, 'min'=>1),
+			array('book_id, count', 'numerical', 'integerOnly'=>true),
 			array('date', 'date', 'format'=>Yii::app()->locale->dateFormat),
 			array('count', 'countValid'),
 			array('type', 'in', 'range'=>array_keys(DropDownItem::items('LibOrder.type'))),
@@ -57,7 +56,13 @@ class LibOrder extends ActiveRecord
 
 	public function countValid($attribute, $params)
 	{
-		if ($this->id) $extraCrit = ' AND {{lib_order}}.id!='.$this->id;
+		if ($this->count < 0) {
+			$this->addError($attribute, Yii::t('app','Total count must not be less than zero.'));
+		}
+		$extraCrit = '';  
+		if ($this->id) {
+			$extraCrit = ' AND {{lib_order}}.id!='.$this->id;
+		}
 		switch ($this->type)
 		{
 			case self::BASIC:
@@ -210,6 +215,12 @@ class LibOrder extends ActiveRecord
 
 	public static function getSumOrders($type)
 	{
-		return db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name FROM (((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{lib_order}}.type='${type}' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00' GROUP BY book_id ORDER BY sum_count DESC")->queryAll();
+		return db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, selected_order, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name FROM (((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{lib_order}}.type='${type}' AND {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00' GROUP BY book_id ORDER BY sum_count DESC")->queryAll();
+	}
+	
+	public static function getSumOrdersAll() {
+		return db()->createCommand("SELECT SUM({{lib_order}}.count) AS sum_count, selected_order, book_id, title, author, SUM({{lib_order}}.count)*project_price AS total_price, publisher_id, name 
+FROM 
+(((({{lib_order}} LEFT JOIN {{library}} ON {{lib_order}}.library_id={{library}}.id) LEFT JOIN {{book}} ON {{lib_order}}.book_id={{book}}.id) LEFT JOIN {{publisher}} ON {{book}}.publisher_id={{publisher}}.id) LEFT JOIN {{organisation}} ON {{publisher}}.organisation_id={{organisation}}.id) WHERE {{library}}.order_placed=1 AND {{library}}.order_date>'0000-00-00' GROUP BY book_id ORDER BY sum_count DESC")->queryAll();
 	}
 }
