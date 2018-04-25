@@ -20,6 +20,10 @@
 	<span><?php echo CHtml::encode($data->issue_year); ?></span>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('isbn')); ?>:</b>
+	<?php echo CHtml::encode($data->isbn); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('project_price')); ?>:</b>
 	<span><?php echo currf(CHtml::encode($data->project_price)); ?></span>
 	<br />
@@ -28,7 +32,7 @@
 	<span><?php echo CHtml::encode($data->annotation); ?></span>
 	<br />
 	<br />
-	
+
 	<b><?php echo t('Order'); ?>:</b>
 	<table>
 		<tr>
@@ -39,7 +43,7 @@
 				{
 					echo ($data->basic ? $data->basic->count : '0').' '.t('pcs');
 				}
-				else 
+				else
 				{
 					?>
 					<form name='f_book_basic_<?echo $data->id?>'>
@@ -62,7 +66,7 @@
 				{
 					echo ($data->reserve ? $data->reserve->count : '0').' '.t('pcs');
 				}
-				else 
+				else
 				{
 					?>
 					<form name='f_book_reserve_<?echo $data->id?>'>
@@ -77,5 +81,5 @@
 			</td>
 		</tr>
 	</table>
-	
+
 </div>
