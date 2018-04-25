@@ -136,7 +136,7 @@ return array(
 		// 'pointsMinLimit'=>6, // počet bodů pro přijetí publikací bez hlasování
 		'councilDate'=>'2018-03-22', // datum zasedání literární rady (tisk vybraným/nevybraným nakladatelům)
 		'letterDate'=>'2018-04-24', // dopis vybraným/nevybraným nakladatelům
-		'libBasicLimit'=>6500, // maximální cena základní objednávky
+		'libBasicLimit'=>6300, // maximální cena základní objednávky
 		'libReserveLimit'=>20, // maximální počet svazků do rezervy
 		'isbnPrefix'=>'978-80-', // prefix automaticky přidávaný před ISBN
 		'printOrderDate' => '23. 6. 2018',
