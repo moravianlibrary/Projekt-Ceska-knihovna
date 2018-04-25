@@ -39,21 +39,14 @@ $this->renderPartial('/library/request', array('model'=>$model))
 <br />
 <br />
 
-<?echo $model->organisation->city?>, <?echo DT::locToday()?>
+<?echo $model->organisation->city?> <?echo DT::locToday()?>
 
 <br /><br /><br /><br />
 
 <table width="100%" class="nomargin">
 	<tr>
 		<td width="60%">&nbsp;</td>
-		<td width="40%" style="text-align: center;">........................................<br />podpis statutárního zástupce<br />nebo fyzické osoby
-		</td>
-	</tr>
-	<tr>
-		<td width="60%">&nbsp;</td>
-		<td width="40%">
-			<br /><br />
-			<?echo implode('<br />', $model->organisation->fullAddress)?>
+		<td width="40%" style="text-align: center;">........................................<br />podpis pracovníka<br />odpovídajícího za projekt v knihovně
 		</td>
 	</tr>
 </table>

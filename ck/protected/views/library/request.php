@@ -33,7 +33,7 @@ veřejných knihovnických a informačních služeb (knihovní zákon).</strong>
 <br /><br />
 
 <?
-if ($model->libname != null) 
+if ($model->libname != null)
 {
 	echo "<strong>4. Název a adresa  knihovny, která se přihlašuje do projektu Česká knihovna ".param('projectYear').":</strong><br />";
 	echo implode('<br />', $model->fullAddress);
@@ -67,14 +67,14 @@ E-mail: <?echo $model->organisation->worker_email?>
 
 <br /><br />
 
-<?echo $model->organisation->city?>, <?echo DT::locToday()?>
+<?echo $model->organisation->city?> <?echo DT::locToday()?>
 
 <br /><br /><br /><br />
 
 <table width="100%" class="nomargin">
 	<tr>
 		<td width="60%">&nbsp;</td>
-		<td width="40%" align="center">........................................<br />Podpis statutárního zástupce<br />žádajícího subjektu</td>
+		<td width="40%" align="center">........................................<br />Podpis statutárního zástupce a razítko<br />žádajícího subjektu</td>
 	</tr>
 </table>
-        
+
