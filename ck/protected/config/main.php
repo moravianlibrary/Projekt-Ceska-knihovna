@@ -134,7 +134,7 @@ return array(
 		'pubFinalDate'=>'2018-11-30', // dodání objednaných knih i faktur (tisk Objednávky)
 		// 'selectedLimit'=>2, // celkový počet vybraných publikací
 		// 'pointsMinLimit'=>6, // počet bodů pro přijetí publikací bez hlasování
-		'councilDate'=>'2018-03-30', // datum zasedání literární rady (tisk vybraným/nevybraným nakladatelům)
+		'councilDate'=>'2018-03-22', // datum zasedání literární rady (tisk vybraným/nevybraným nakladatelům)
 		'letterDate'=>'2018-04-24', // dopis vybraným/nevybraným nakladatelům
 		'libBasicLimit'=>6500, // maximální cena základní objednávky
 		'libReserveLimit'=>20, // maximální počet svazků do rezervy
