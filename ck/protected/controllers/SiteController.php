@@ -3,7 +3,7 @@
 class SiteController extends Controller
 {
 	public $defaultAction = 'login';
-	
+
 	public function actions()
 	{
 		return array(
@@ -39,10 +39,10 @@ class SiteController extends Controller
 				$this->redirect(array('/book/admin'));
 			elseif (am()->checkAccess('LibraryRole', user()->id))
 				$this->redirect(array('/libOrder/sheet'));
-			else 
-				$this->redirect(array('/site/page', 'view'=>'about'));			
+			else
+				$this->redirect(array('/site/page', 'view'=>'about'));
 		}
-		
+
 		$this->layout = '//layouts/column1';
 
 		$model=new LoginForm;
@@ -69,6 +69,10 @@ class SiteController extends Controller
 				//elseif (am()->checkAccess('LibraryRole', user()->id))
 				elseif (user()->library_id)
 					{
+                        if (!empty(param('libraryLoginDisabledFrom')) && (date('Y-m-d') >= param('libraryLoginDisabledFrom'))) {
+                            user()->setFlash('error.liblogin', t('Přihlášení již není možné.'));
+                            $this->redirect(array('/site/logout'));
+                        }
 						$library = Library::model()->my()->find();
 						if ($library->organisation->city == '')
 						{
@@ -78,7 +82,7 @@ class SiteController extends Controller
 						else
 							$this->redirect(array('/libOrder/sheet'));
 					}
-					else 
+					else
 						$this->redirect(array('/site/page', 'view'=>'about'));
 			}
 		}
@@ -90,7 +94,7 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-	
+
 	public function actionResetPassword()
 	{
 		user()->logout(false);
@@ -103,7 +107,7 @@ class SiteController extends Controller
 			$newPass = uniqid();
 			$model->password = $newPass;
 			$model->save();
-			
+
 			$headers  = "MIME-Version: 1.0\n";
 			$headers .= "Content-type: text/plain; charset=utf-8\n";
 			$headers .= "X-Priority: 3\n";
@@ -114,7 +118,7 @@ class SiteController extends Controller
 			$headers .= "Reply-To: ".param('adminEmail')."\n";
 
 			mail($_POST['resetmail'], '=?utf-8?b?'.base64_encode(Yii::t('app', 'Czech Library new password')).'?=', Yii::t('app', 'Hello, your new password to log into Czech Library system is: ').$newPass, $headers, "-f".param('adminEmail'));
-			
+
 			user()->setFlash('success.resetpass', Yii::t('app', 'New password has been sent to your e-mail address.'));
 			$this->redirect(array('login'));
 		}

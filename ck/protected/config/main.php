@@ -141,6 +141,7 @@ return array(
 		'isbnPrefix'=>'978-80-', // prefix automaticky přidávaný před ISBN
 		'printOrderDate' => '23. 6. 2018',
 		'registerAs'=>'', //(date('Y-m-d') < '2015-03-01' ? 'publisher' : (date('Y-m-d') > '2015-04-01' ? 'library' : '')),
+        'libraryLoginDisabledFrom' => '', // datum zablokování přihlášení knihoven
 	),
 );
 
